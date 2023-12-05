@@ -1,0 +1,76 @@
+{
+  "kind": "collectionType",
+  "collectionName": "products",
+  "info": {
+    "singularName": "product",
+    "pluralName": "products",
+    "displayName": "Product",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "Description": {
+      "type": "richtext"
+    },
+    "originalPrice": {
+      "type": "integer",
+      "required": true
+    },
+    "discountPrice": {
+      "type": "integer"
+    },
+    "thumbnail": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "Images": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name"
+    },
+    "main_category": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::main-category.main-category",
+      "inversedBy": "products"
+    },
+    "footer_category": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::footer-category.footer-category",
+      "inversedBy": "products"
+    },
+    "categories": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::category.category",
+      "inversedBy": "products"
+    },
+    "Stock": {
+      "type": "integer"
+    },
+    "size": {
+      "type": "json"
+    }
+  }
+}

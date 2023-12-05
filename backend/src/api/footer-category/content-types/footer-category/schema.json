@@ -1,0 +1,42 @@
+{
+  "kind": "collectionType",
+  "collectionName": "footer_categories",
+  "info": {
+    "singularName": "footer-category",
+    "pluralName": "footer-categories",
+    "displayName": "FooterCategory",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "Desc": {
+      "type": "richtext",
+      "required": true
+    },
+    "img": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "products": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::product.product",
+      "mappedBy": "footer_category"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name"
+    }
+  }
+}
