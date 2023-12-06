@@ -20,16 +20,16 @@ const Navbar = () => {
 
           <div className="">
             <ul className="flex lg:flex md:hidden">
-              <li className="mr-4 cursor-pointer text-[16px] text-slate-950">
+              <li className="mr-4 cursor-pointer text-[16px] text-slate-950 hover:text-red-600 transition-all duration-300">
                 Home
               </li>
-              <li className="mx-4 cursor-pointer text-[16px] text-slate-950">
+              <li className="mx-4 cursor-pointer text-[16px] text-slate-950 hover:text-red-600 transition-all duration-300">
                 Contact
               </li>
-              <li className="mx-4 cursor-pointer text-[16px] text-slate-950">
+              <li className="mx-4 cursor-pointer text-[16px] text-slate-950 hover:text-red-600 transition-all duration-300">
                 About Us
               </li>
-              <li className="ml-4 cursor-pointer text-[16px] text-slate-950">
+              <li className="ml-4 cursor-pointer text-[16px] text-slate-950 hover:text-red-600 transition-all duration-300">
                 Socials
               </li>
             </ul>

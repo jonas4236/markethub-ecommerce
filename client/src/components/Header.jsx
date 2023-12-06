@@ -9,18 +9,23 @@ import { Link } from "react-router-dom";
 const data = [
   {
     img: "https://res.cloudinary.com/jonasdev/image/upload/v1698158479/6973xUBZFtvYeDmTUtuviF_y7pux5.jpg",
+    link: "/products/nike",
   },
   {
     img: "https://res.cloudinary.com/jonasdev/image/upload/v1698158479/6973xUBZFtvYeDmTUtuviF_y7pux5.jpg",
+    link: "/products/nike2",
   },
   {
     img: "https://res.cloudinary.com/jonasdev/image/upload/v1698158479/6973xUBZFtvYeDmTUtuviF_y7pux5.jpg",
+    link: "/products/nike3",
   },
   {
     img: "https://res.cloudinary.com/jonasdev/image/upload/v1698158479/6973xUBZFtvYeDmTUtuviF_y7pux5.jpg",
+    link: "/products/nike4",
   },
   {
     img: "https://res.cloudinary.com/jonasdev/image/upload/v1698158479/6973xUBZFtvYeDmTUtuviF_y7pux5.jpg",
+    link: "/products/nike5",
   },
 ];
 
@@ -120,13 +125,15 @@ const Header = () => {
               customDot={<CustomDot />}
             >
               {data.map((item, idx) => (
-                <div className="w-auto h-full" key={idx}>
-                  <img
-                    className="flex flex-wrap object-contain rounded-lg"
-                    src={item.img}
-                    alt={`Image ${idx}`}
-                  />
-                </div>
+                <Link to={item.link}>
+                  <div className="w-auto h-full" key={idx}>
+                    <img
+                      className="flex flex-wrap object-contain rounded-lg"
+                      src={item.img}
+                      alt={`Image ${idx}`}
+                    />
+                  </div>
+                </Link>
               ))}
             </Carousel>
           </div>

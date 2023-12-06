@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "header_promotes",
+  "info": {
+    "singularName": "header-promote",
+    "pluralName": "header-promotes",
+    "displayName": "HeaderPromote"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "image": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false,
+      "required": true
+    },
+    "name": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name"
+    }
+  }
+}

@@ -57,7 +57,7 @@ const Month = () => {
 
         <div className="flex justify-between h-full">
           <div className="flex">
-            <span className="text-3xl font-semibold mt-[20px] flex items-end">
+            <span className="text-3xl font-semibold mt-[20px] flex items-end text-[#DB4444]">
               Best Selling Products
             </span>
           </div>

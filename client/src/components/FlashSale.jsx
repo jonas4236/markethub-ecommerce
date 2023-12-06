@@ -1,10 +1,11 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import Countdown from "react-countdown";
 import {
   BsFillArrowLeftCircleFill,
   BsFillArrowRightCircleFill,
 } from "react-icons/bs";
 import FlashSaleProducts from "./FlashSaleProducts";
+import { BsFillLightningFill } from "react-icons/bs";
 
 import Slider from "react-slick";
 
@@ -13,44 +14,50 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 const FlashSale = () => {
-  const Completionist = () => <span className="text-3xl">Out of time!</span>;
+  const [targetTimes, setTargetTimes] = useState(
+    Date.now() + 1 * 60 * 60 * 1000
+  );
+  const Completionist = () => (
+    <span className="text-3xl text-red-600 font-medium">Out of time!</span>
+  );
 
   const renderer = ({ days, hours, minutes, seconds, completed }) => {
     if (completed) {
-      // Render a complete state
-      return <Completionist />;
+      location.reload(true);
+      setTargetTimes(Date.now() + 1 * 60 * 60 * 1000);
+      return null;
     } else {
       // Render a countdown
       return (
         <div className="flex h-full items-center">
-          <div className="flex flex-col">
+          <div className="flex flex-col mr-4">
             <span className="text-md text-[#DB4444] font-semibold">Days</span>
-            <span className="text-3xl font-base">
+            <span className="text-3xl font-base text-black-500">
               {days}{" "}
               <span className="mx-2 text-[#DB4444] font-semibold">:</span>
             </span>
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col mr-4">
             <span className="text-md text-[#DB4444] font-semibold">Hours</span>
-            <span className="text-3xl font-base">
+            <span className="text-3xl font-base text-black-500">
               {hours}{" "}
               <span className="mx-2 text-[#DB4444] font-semibold">:</span>
             </span>
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col mr-4">
             <span className="text-md text-[#DB4444] font-semibold">
               Minutes
             </span>
-            <span className="text-3xl font-base">
+            <span className="text-3xl font-base text-black-500">
               {minutes}{" "}
               <span className="mx-2 text-[#DB4444] font-semibold">:</span>
             </span>
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col mr-4">
             <span className="text-md text-[#DB4444] font-semibold">
               Seconds
             </span>
-            <span className="text-3xl font-base">
+            <span className="text-3xl font-base text-black-500">
               {seconds}{" "}
               <span className="mx-2 text-[#DB4444] font-semibold"></span>
             </span>
@@ -60,7 +67,7 @@ const FlashSale = () => {
     }
   };
 
-  const targetTime = Date.now() + 24 * 60 * 60 * 1000;
+  const targetTime = Date.now() + 1 * 60 * 60 * 1000;
 
   const sliderRef = useRef(null);
 
@@ -106,11 +113,11 @@ const FlashSale = () => {
 
         <div className="flex justify-between h-full">
           <div className="flex">
-            <span className="text-3xl font-semibold flex items-end">
-              Flash Sales
+            <span className="text-3xl font-semibold flex items-end text-[#DB4444]">
+              Flash Sales<span className="text-[#DB4444] ml-2 mb-1"><BsFillLightningFill /></span>
             </span>
             <div className="ml-16">
-              <Countdown date={targetTime} renderer={renderer} />
+              <Countdown date={targetTimes} renderer={renderer} />
             </div>
           </div>
           <div className="">
@@ -148,9 +155,11 @@ const FlashSale = () => {
           </Slider>
         </div>
         <div className="w-full flex justify-center">
-          <button className="my-[60px]  bg-[#DB4444] py-[14px] px-[34px] text-white rounded-md font-semibold">View All Products</button>
+          <button className="my-[60px]  bg-[#DB4444] py-[14px] px-[34px] text-white rounded-md font-semibold">
+            View All Products
+          </button>
         </div>
-          <div className="border-b-[1px]"></div>
+        <div className="border-b-[1px]"></div>
       </div>
     </>
   );

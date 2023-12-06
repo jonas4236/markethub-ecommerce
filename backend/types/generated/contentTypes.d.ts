@@ -754,6 +754,38 @@ export interface ApiFooterCategoryFooterCategory extends Schema.CollectionType {
   };
 }
 
+export interface ApiHeaderPromoteHeaderPromote extends Schema.CollectionType {
+  collectionName: 'header_promotes';
+  info: {
+    singularName: 'header-promote';
+    pluralName: 'header-promotes';
+    displayName: 'HeaderPromote';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    image: Attribute.Media & Attribute.Required;
+    name: Attribute.String;
+    slug: Attribute.UID<'api::header-promote.header-promote', 'name'>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::header-promote.header-promote',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::header-promote.header-promote',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiMainCategoryMainCategory extends Schema.CollectionType {
   collectionName: 'main_categories';
   info: {
@@ -898,6 +930,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::category.category': ApiCategoryCategory;
       'api::footer-category.footer-category': ApiFooterCategoryFooterCategory;
+      'api::header-promote.header-promote': ApiHeaderPromoteHeaderPromote;
       'api::main-category.main-category': ApiMainCategoryMainCategory;
       'api::product.product': ApiProductProduct;
       'api::review.review': ApiReviewReview;

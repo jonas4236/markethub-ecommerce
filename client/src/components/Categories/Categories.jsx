@@ -69,7 +69,7 @@ const Categories = () => {
 
         <div className="flex justify-between h-full">
           <div className="flex">
-            <span className="text-3xl mt-[20px] font-semibold flex items-end">
+            <span className="text-3xl mt-[20px] font-semibold flex items-end text-[#DB4444]">
               Browse By Category
             </span>
           </div>
