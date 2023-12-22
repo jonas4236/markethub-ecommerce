@@ -52,7 +52,7 @@ const Products = () => {
             </div>
           </div>
           <div className="flex-[4]">
-            <div className="mt-4">
+            <div className="mt-8">
               <span className="text-black text-2xl">
                 Result Of{" "}
                 <span className="text-[#DB4444] font-medium capitalize">
@@ -60,7 +60,7 @@ const Products = () => {
                   {products.meta?.pagination?.total})
                 </span>
               </span>
-              <div className="grid grid-cols-4 h-full">
+              <div className="grid grid-cols-4 h-full mt-8">
                 {products.data?.map((data) => (
                   <div className="" key={data.id}>
                     <ListItems data={data} slug={slug} />

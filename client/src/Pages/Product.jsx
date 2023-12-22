@@ -36,7 +36,7 @@ const Product = () => {
   // const pro = product.data?.[0]?.attributes;
   const Categorys = test?.[0]?.attributes.Images.data;
 
-  console.log("TEST: ",size)
+  // console.log("TEST: ",size)
 
   useEffect(() => {
     const fetchRelated = async () => {

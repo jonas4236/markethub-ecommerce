@@ -13,23 +13,27 @@ const Navbar = () => {
       <div className="h-full w-[1200px] mx-auto">
         <div className=" flex justify-between h-full items-center">
           <Link to={"/"}>
-            <h1 className="text-3xl font-lobs text-blackcursor-pointer">
-              MarketHub
-            </h1>
+            <div className="h-full">
+              <img
+                className="w-[160px] object-contain"
+                src="https://res.cloudinary.com/jonasdev/image/upload/v1703149091/markethub-removebg-preview_edt4nt.png"
+                alt="LOGO"
+              />
+            </div>
           </Link>
 
           <div className="">
             <ul className="flex lg:flex md:hidden">
-              <li className="mr-4 cursor-pointer text-[16px] text-slate-950 hover:text-red-600 transition-all duration-300">
+              <li className="mr-4 cursor-pointer text-[16px] font-medium text-slate-950 hover:text-red-600 transition-all duration-300">
                 Home
               </li>
-              <li className="mx-4 cursor-pointer text-[16px] text-slate-950 hover:text-red-600 transition-all duration-300">
+              <li className="mx-4 cursor-pointer text-[16px] font-medium text-slate-950 hover:text-red-600 transition-all duration-300">
                 Contact
               </li>
-              <li className="mx-4 cursor-pointer text-[16px] text-slate-950 hover:text-red-600 transition-all duration-300">
+              <li className="mx-4 cursor-pointer text-[16px] font-medium text-slate-950 hover:text-red-600 transition-all duration-300">
                 About Us
               </li>
-              <li className="ml-4 cursor-pointer text-[16px] text-slate-950 hover:text-red-600 transition-all duration-300">
+              <li className="ml-4 cursor-pointer text-[16px] font-medium text-slate-950 hover:text-red-600 transition-all duration-300">
                 Socials
               </li>
             </ul>

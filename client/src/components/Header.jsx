@@ -46,6 +46,7 @@ const CustomDot = ({ onClick, active }) => (
 
 const Header = () => {
   const [dataCate, setDataCate] = useState([]);
+  const [dataPromote, setDataPromote] = useState([]);
 
   const responsive = {
     superLargeDesktop: {
@@ -83,7 +84,23 @@ const Header = () => {
     fetchMainCategories();
   }, []);
 
-  // console.log("info: ", dataCate);
+  useEffect(() => {
+    const fetchHeaderPromote = async () => {
+      try {
+        const promo = await axios.get(
+          "http://localhost:1337/api/header-promotes?populate=*"
+        );
+
+        setDataPromote(promo.data.data);
+      } catch (err) {
+        console.log("error: ", err);
+      }
+    };
+
+    fetchHeaderPromote();
+  }, []);
+
+  // console.log("info: ", dataPromote);
 
   return (
     <>
@@ -101,13 +118,6 @@ const Header = () => {
                   </li>
                 </Link>
               ))}
-              {/* <li className="my-[20px] flex items-center">Men's Fashion</li>
-              <li className="my-[20px] flex items-center">Electronics</li>
-              <li className="my-[20px] flex items-center">Home & Lifestyle</li>
-              <li className="my-[20px] flex items-center">Medicine</li>
-              <li className="my-[20px] flex items-center">Sports & Outdoor</li>
-              <li className="my-[20px] flex items-center">Baby's & Toys</li>
-              <li className="my-[20px] flex items-center">Groceries & Pets</li> */}
             </ul>
           </div>
         </div>
@@ -124,12 +134,12 @@ const Header = () => {
               arrows={false}
               customDot={<CustomDot />}
             >
-              {data.map((item, idx) => (
-                <Link to={item.link}>
-                  <div className="w-auto h-full" key={idx}>
+              {dataPromote.map((item, idx) => (
+                <Link  key={idx} to={`/product/${item?.attributes.slug}`}>
+                  <div className="w-auto h-full">
                     <img
-                      className="flex flex-wrap object-contain rounded-lg"
-                      src={item.img}
+                      className="flex flex-wrap h-full object-contain rounded-lg"
+                      src={item.attributes.image.data.attributes.url}
                       alt={`Image ${idx}`}
                     />
                   </div>

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Countdown from "react-countdown";
 import {
   BsFillArrowLeftCircleFill,
@@ -6,6 +6,7 @@ import {
 } from "react-icons/bs";
 import FlashSaleProducts from "./FlashSaleProducts";
 import { BsFillLightningFill } from "react-icons/bs";
+import axios from "axios";
 
 import Slider from "react-slick";
 
@@ -15,19 +16,75 @@ import "slick-carousel/slick/slick-theme.css";
 
 const FlashSale = () => {
   const [targetTimes, setTargetTimes] = useState(
-    Date.now() + 1 * 60 * 60 * 1000
+    Date.now() + 3 * 60 * 60 * 1000
   );
-  const Completionist = () => (
-    <span className="text-3xl text-red-600 font-medium">Out of time!</span>
+  const [flashProducts, setFlashProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [numberOfCate, setNumberOfCate] = useState(
+    parseInt(localStorage.getItem("numberOfCate")) || 1
   );
+  const [slugCate, setSlugCate] = useState(null);
+
+  // console.log("flashsale: ",targetTimes)
+
+  useEffect(() => {
+    localStorage.setItem("numberOfCate", numberOfCate.toString());
+  }, [numberOfCate]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const res = await axios.get(
+        `http://localhost:1337/api/categories?populate=*&filters[id][$eq]=${numberOfCate}`
+      );
+
+      setCategories(res.data);
+    };
+
+    fetchCategories();
+  }, []);
+
+  // console.log("categories: ", categories);
+  // console.log("numberOfCate:", numberOfCate);
+  // console.log("categories slug: ", categories?.data?.[0]?.attributes.slug);
+  const slug = categories?.data?.[0]?.attributes.slug;
+
+  useEffect(() => {
+    setSlugCate(slug);
+  }, [slug]);
+
+  // console.log("slugCate: ", slugCate);
+  // console.log("time: ", targetTimes);
+
+  useEffect(() => {
+    const fetchFlashSale = async () => {
+      const res = await axios.get(
+        `http://localhost:1337/api/products?populate=*&filters[categories][slug][$eq]=${slugCate}&filters[discountPrice][$gt]=1`
+      );
+
+      setFlashProducts(res.data);
+    };
+
+    fetchFlashSale();
+  }, [slugCate]);
+
+  // console.log("flashProducts: ", flashProducts);
+
+  // const Completionist = () => {
+  //   location.reload(true);
+  //   setNumberOfCate(numberOfCate + 1);
+  //   return null;
+  // };
 
   const renderer = ({ days, hours, minutes, seconds, completed }) => {
     if (completed) {
+      setTargetTimes(Date.now() + 3 * 60 * 60 * 1000);
+      setNumberOfCate((prevNumber) => prevNumber + 0.25);
       location.reload(true);
-      setTargetTimes(Date.now() + 1 * 60 * 60 * 1000);
+      if (numberOfCate > 8) {
+        setNumberOfCate(1);
+      }
       return null;
     } else {
-      // Render a countdown
       return (
         <div className="flex h-full items-center">
           <div className="flex flex-col mr-4">
@@ -67,7 +124,7 @@ const FlashSale = () => {
     }
   };
 
-  const targetTime = Date.now() + 1 * 60 * 60 * 1000;
+  // const targetTime = Date.now() + 1 * 60 * 60 * 1000;
 
   const sliderRef = useRef(null);
 
@@ -114,7 +171,10 @@ const FlashSale = () => {
         <div className="flex justify-between h-full">
           <div className="flex">
             <span className="text-3xl font-semibold flex items-end text-[#DB4444]">
-              Flash Sales<span className="text-[#DB4444] ml-2 mb-1"><BsFillLightningFill /></span>
+              Flash Sales
+              <span className="text-[#DB4444] ml-2 mb-1">
+                <BsFillLightningFill />
+              </span>
             </span>
             <div className="ml-16">
               <Countdown date={targetTimes} renderer={renderer} />
@@ -140,18 +200,16 @@ const FlashSale = () => {
           </div>
         </div>
         {/* -----------------End FlashSale ----------------------- */}
-        <div className="w-full h-full [40px] mt-[40px]">
+        <div className="w-full h-full mt-[40px]">
           <Slider
             {...settings}
-            className="gap-4 w-[1200px]"
+            className="gap-4 h-[406px] w-[1200px]"
             arrows={false}
             ref={sliderRef}
           >
-            <FlashSaleProducts />
-            <FlashSaleProducts />
-            <FlashSaleProducts />
-            <FlashSaleProducts />
-            <FlashSaleProducts />
+            {flashProducts?.data?.map((data) => (
+              <FlashSaleProducts flash={data} cate={slugCate} key={data.id} />
+            ))}
           </Slider>
         </div>
         <div className="w-full flex justify-center">
