@@ -1,7 +1,32 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../components/Context/AuthContext";
+
+const initialUser = { password: "", identifier: "" };
 
 const Login = () => {
+  const [user, setUser] = useState(initialUser);
+  const navigate = useNavigate();
+
+  const { login } = useContext(AuthContext);
+
+  const handleChange = ({ target }) => {
+    const { name, value } = target;
+    setUser((currentUser) => ({
+      ...currentUser,
+      [name]: value,
+    }));
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    await login(user).then((user) => {
+      if (user?.length > 2) {
+        navigate("/");
+      }
+    });
+  };
+
   return (
     <>
       <div className="w-[1305px] h-[80vh] mb-[140px] mx-auto mt-16 flex">
@@ -23,16 +48,27 @@ const Login = () => {
               </span>
             </div>
 
-            <div className="flex flex-col gap-4 mt-[48px] w-[371px] mx-auto">
+            <form
+              onSubmit={handleLogin}
+              className="flex flex-col gap-4 mt-[48px] w-[371px] mx-auto"
+            >
               <input
                 className="mx-4 py-2 px-4 outline-none border-gray border-b-[2px] focus:border-slate-950"
-                type="text"
+                type="email"
                 placeholder="Email or Phone Number"
+                name="identifier"
+                onChange={handleChange}
+                value={user.identifier}
+                required
               />
               <input
                 className="mx-4 py-2 px-4 outline-none border-gray border-b-[2px] focus:border-slate-950"
                 type="password"
+                name="password"
+                value={user.password}
+                onChange={handleChange}
                 placeholder="password"
+                required
               />
               <div className=""></div>
               <button className="text-white bg-[#DB4444] py-4 rounded-lg mt-4 mx-4">
@@ -46,7 +82,7 @@ const Login = () => {
                   </button>
                 </Link>
               </span>
-            </div>
+            </form>
           </div>
         </div>
       </div>

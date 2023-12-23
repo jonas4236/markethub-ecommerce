@@ -11,6 +11,7 @@ import Login from "./Pages/Login";
 import Product from "./Pages/Product";
 import Cart from "./components/Cart";
 import Wishlist from "./components/wishlist/Wishlist";
+import Manage from "./components/manage-account/manage";
 
 const Layout = () => {
   return (
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
       {
         path: "/wishlist",
         element: <Wishlist />,
+      },
+      {
+        path: "/manage-account",
+        element: <Manage />,
       },
       {
         path: "/register",

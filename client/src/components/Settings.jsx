@@ -1,9 +1,11 @@
 import { Menu, Transition } from "@headlessui/react";
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useContext, useEffect, useRef, useState } from "react";
 import { BiUser, BiLink, BiDoorOpen, BiLogInCircle } from "react-icons/bi";
 import { Link } from "react-router-dom";
+import { AuthContext } from "./Context/AuthContext";
 
 export default function Settings() {
+  const { username, infoUser, logout } = useContext(AuthContext);
   return (
     <div className="text-right">
       <Menu as="div" className="relative inline-block text-left">
@@ -33,7 +35,7 @@ export default function Settings() {
                     className={`${
                       active
                         ? "bg-[#DB4444] text-white font-medium"
-                        : "text-gray-900"
+                        : "text-[#DB4444]"
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                   >
                     {active ? (
@@ -47,40 +49,78 @@ export default function Settings() {
                         aria-hidden="true"
                       />
                     )}
-                    <span className="line-clamp-1 text-left">GUEST</span>
-                  </button>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    className={`${
-                      active
-                        ? "bg-gray-100 text-black/[0.5] font-medium cursor-not-allowed"
-                        : "text-black/[0.5]"
-                    } group flex w-full items-center rounded-md px-2 py-2 text-sm font-medium bg-gray-100 mt-1`}
-                  >
-                    {active ? (
-                      <BiLink
-                        className="mr-2 h-5 w-5 text-white font-bold"
-                        aria-hidden="true"
-                      />
+                    {username ? (
+                      <span className="line-clamp-1 text-left font-medium">
+                        {username}
+                      </span>
                     ) : (
-                      <BiLink
-                        className="mr-2 h-5 w-5 text-white font-bold"
-                        aria-hidden="true"
-                      />
+                      <span className="line-clamp-1 text-left">Guest</span>
                     )}
-                    <span>Manage My Account</span>
                   </button>
                 )}
               </Menu.Item>
+              {infoUser ? (
+                <>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <Link to={"/manage-account"}>
+                      <button
+                        className={`${
+                          active
+                            ? "bg-[#DB4444] text-white font-medium"
+                            : "text-[#DB4444]"
+                        } group flex w-full items-center rounded-md px-2 py-2 text-sm mt-1.5`}
+                      >
+                        {active ? (
+                          <BiLink
+                            className="mr-2 h-5 w-5 text-white font-bold"
+                            aria-hidden="true"
+                          />
+                        ) : (
+                          <BiLink
+                            className="mr-2 h-5 w-5 text-DB4444 font-bold"
+                            aria-hidden="true"
+                          />
+                        )}
+                        <span className="font-medium">Manage My Account</span>
+                      </button>
+                      </Link>
+                    )}
+                  </Menu.Item>
+                </>
+              ) : (
+                <Menu.Item>
+                  {({ active }) => (
+                    <button
+                      className={`${
+                        active
+                          ? "bg-gray-100 text-black/[0.5] font-medium cursor-not-allowed"
+                          : "text-black/[0.5]"
+                      } group flex w-full items-center rounded-md px-2 py-2 text-sm font-medium bg-gray-100 mt-1`}
+                    >
+                      {active ? (
+                        <BiLink
+                          className="mr-2 h-5 w-5 text-white font-bold"
+                          aria-hidden="true"
+                        />
+                      ) : (
+                        <BiLink
+                          className="mr-2 h-5 w-5 text-white font-bold"
+                          aria-hidden="true"
+                        />
+                      )}
+                      <span>Manage My Account</span>
+                    </button>
+                  )}
+                </Menu.Item>
+              )}
             </div>
             <div className="px-1 py-1">
-              <Menu.Item>
-                {({ active }) => (
-                  <Link to={"/register"}>
+              {infoUser ? (
+                <Menu.Item>
+                  {({ active }) => (
                     <button
+                      onClick={logout}
                       className={`${
                         active
                           ? "bg-[#DB4444] text-white font-medium"
@@ -98,11 +138,38 @@ export default function Settings() {
                           aria-hidden="true"
                         />
                       )}
-                      <span>Register / Login</span>
+                      <span className="font-medium">Logout</span>
                     </button>
-                  </Link>
-                )}
-              </Menu.Item>
+                  )}
+                </Menu.Item>
+              ) : (
+                <Menu.Item>
+                  {({ active }) => (
+                    <Link to={"/login"}>
+                      <button
+                        className={`${
+                          active
+                            ? "bg-[#DB4444] text-white font-medium"
+                            : "text-[#DB4444]"
+                        } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                      >
+                        {active ? (
+                          <BiLogInCircle
+                            className="mr-2 h-5 w-5 text-white font-bold"
+                            aria-hidden="true"
+                          />
+                        ) : (
+                          <BiLogInCircle
+                            className="mr-2 h-5 w-5 text-[#DB4444] font-bold"
+                            aria-hidden="true"
+                          />
+                        )}
+                        <span>Register / Login</span>
+                      </button>
+                    </Link>
+                  )}
+                </Menu.Item>
+              )}
             </div>
           </Menu.Items>
         </Transition>
