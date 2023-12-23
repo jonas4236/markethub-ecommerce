@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../components/Context/AuthContext";
+import { useEffect } from "react";
 
 const initialUser = { password: "", identifier: "" };
 
@@ -8,7 +9,7 @@ const Login = () => {
   const [user, setUser] = useState(initialUser);
   const navigate = useNavigate();
 
-  const { login } = useContext(AuthContext);
+  const { login, infoUser } = useContext(AuthContext);
 
   const handleChange = ({ target }) => {
     const { name, value } = target;
@@ -20,12 +21,23 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    await login(user).then((user) => {
-      if (user?.length > 2) {
+
+    try {
+      await login(user);
+
+      if (infoUser) {
         navigate("/");
       }
-    });
+    } catch (error) {
+      console.error("Login error:", error);
+    }
   };
+
+  useEffect(() => {
+    if (infoUser) {
+      navigate("/");
+    }
+  }, [infoUser, navigate]);
 
   return (
     <>
