@@ -44,6 +44,40 @@ export const AuthContextProvider = ({ children }) => {
     }
   };
 
+  const register = async (username, email, password) => {
+    const url = "http://localhost:1337/api/auth/local/register";
+
+    try {
+      const { data } = await axios.post(url, {
+        username: username,
+        email: email,
+        password: password,
+      });
+
+      if (data.jwt) {
+        setInfoUser(data);
+        setUsername(data.user.username);
+        Swal.fire({
+          title: "Register Successfully!",
+          text: `Welcome to MarketHub! If you love shopping we are family!`,
+          icon: "success",
+        });
+      } else {
+        setInfoUser(null);
+        setUsername(null);
+      }
+    } catch (err) {
+      setInfoUser(null);
+      setUsername(null);
+      console.log("err can't not register: ", err);
+      Swal.fire({
+        title: "Register Failed!",
+        text: `Have something went wrong!`,
+        icon: "error",
+      });
+    }
+  };
+
   const logout = async () => {
     setInfoUser(null);
     setUsername(null);
@@ -67,7 +101,9 @@ export const AuthContextProvider = ({ children }) => {
   // console.log("Username: ", username);
 
   return (
-    <AuthContext.Provider value={{ login, infoUser, username, logout }}>
+    <AuthContext.Provider
+      value={{ login, infoUser, username, logout, register }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -64,26 +64,26 @@ export default function Settings() {
                   <Menu.Item>
                     {({ active }) => (
                       <Link to={"/manage-account"}>
-                      <button
-                        className={`${
-                          active
-                            ? "bg-[#DB4444] text-white font-medium"
-                            : "text-[#DB4444]"
-                        } group flex w-full items-center rounded-md px-2 py-2 text-sm mt-1.5`}
-                      >
-                        {active ? (
-                          <BiLink
-                            className="mr-2 h-5 w-5 text-white font-bold"
-                            aria-hidden="true"
-                          />
-                        ) : (
-                          <BiLink
-                            className="mr-2 h-5 w-5 text-DB4444 font-bold"
-                            aria-hidden="true"
-                          />
-                        )}
-                        <span className="font-medium">Manage My Account</span>
-                      </button>
+                        <button
+                          className={`${
+                            active
+                              ? "bg-[#DB4444] text-white font-medium"
+                              : "text-[#DB4444]"
+                          } group flex w-full items-center rounded-md px-2 py-2 text-sm mt-1.5`}
+                        >
+                          {active ? (
+                            <BiLink
+                              className="mr-2 h-5 w-5 text-white font-bold"
+                              aria-hidden="true"
+                            />
+                          ) : (
+                            <BiLink
+                              className="mr-2 h-5 w-5 text-DB4444 font-bold"
+                              aria-hidden="true"
+                            />
+                          )}
+                          <span className="font-medium">Manage My Account</span>
+                        </button>
                       </Link>
                     )}
                   </Menu.Item>
@@ -164,7 +164,7 @@ export default function Settings() {
                             aria-hidden="true"
                           />
                         )}
-                        <span>Register / Login</span>
+                        <span>Login / Register</span>
                       </button>
                     </Link>
                   )}
