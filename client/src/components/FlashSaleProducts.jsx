@@ -9,9 +9,7 @@ const FlashSaleProducts = ({ flash, cate }) => {
 
   // console.log("data: ", flash);
   return (
-    <Link
-      to={`/product/${cate}/${flash?.attributes.slug}`}
-    >
+    <Link to={`/product/${cate}/${flash?.attributes.slug}`}>
       <div className="hover:scale-110 transition-all mt-[20px] ml-[15px] w-max">
         <div
           className="relative"
@@ -44,34 +42,34 @@ const FlashSaleProducts = ({ flash, cate }) => {
         </div>
         <div className="p-[16px_16px_16px_0] w-[270px]">
           <span className="font-semibold">{flash?.attributes.name}</span>
-          <div className="w-full h-full py-1">
+          <div className="flex w-full h-full py-1">
             <span className="text-[#DB4444] mr-[8px] text-base font-semibold">
               THB: ${flash?.attributes.originalPrice}
             </span>
             <span className="line-through text-gray-500 text-sm font-semibold">
               {flash?.attributes.discountPrice}
             </span>
-            <div className="flex gap-[4px] items-center pt-[4px]">
-              <span className="text-[#FFAD33]">
-                <BiSolidStar />
-              </span>
-              <span className="text-[#FFAD33]">
-                <BiSolidStar />
-              </span>
-              <span className="text-[#FFAD33]">
-                <BiSolidStar />
-              </span>
-              <span className="text-[#FFAD33]">
-                <BiSolidStar />
-              </span>
-              <span className="text-[#FFAD33]">
-                <BiSolidStar />
-              </span>
+          </div>
+          <div className="flex gap-[4px] items-center pt-[4px]">
+            <span className="text-[#FFAD33]">
+              <BiSolidStar />
+            </span>
+            <span className="text-[#FFAD33]">
+              <BiSolidStar />
+            </span>
+            <span className="text-[#FFAD33]">
+              <BiSolidStar />
+            </span>
+            <span className="text-[#FFAD33]">
+              <BiSolidStar />
+            </span>
+            <span className="text-[#FFAD33]">
+              <BiSolidStar />
+            </span>
 
-              <span className="ml-2 text-slate-600 font-semibold text-sm">
-                (86)
-              </span>
-            </div>
+            <span className="ml-2 text-slate-600 font-semibold text-sm">
+              (86)
+            </span>
           </div>
         </div>
       </div>

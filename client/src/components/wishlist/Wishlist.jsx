@@ -7,9 +7,7 @@ import {
 import Slider from "react-slick";
 import { useSelector, useDispatch } from "react-redux";
 
-import { getWishlistTotal } from "../../Redux/wishlistSlice";
-
-import { removeWishlist } from "../../Redux/wishlistSlice";
+import { getWishlistTotal, removeWishlist } from "../../Redux/wishlistSlice";
 
 // Import css files
 import "slick-carousel/slick/slick.css";
@@ -21,7 +19,6 @@ const Wishlist = () => {
 
   const { wishlist, totalQuantity } = useSelector((state) => state.allWishlist);
 
-  const wishlistItem = useSelector((state) => state.allWishlist.wishlist);
 
   useEffect(() => {
     dispatch(getWishlistTotal());
@@ -29,7 +26,7 @@ const Wishlist = () => {
 
   const dispatch = useDispatch();
 
-  console.log("wl:", wishlistItem);
+  // console.log("wl:", wishlist);
 
   const settings = {
     infinite: false,
@@ -119,7 +116,7 @@ const Wishlist = () => {
                 arrows={false}
                 ref={sliderRef}
               >
-                {wishlistItem.map((item) => (
+                {wishlist.map((item) => (
                   <WishlistProduct key={item.id} item={item} />
                 ))}
               </Slider>
