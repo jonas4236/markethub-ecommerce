@@ -91,7 +91,7 @@ const RelatedItems = ({ product, slug }) => {
             ref={sliderRef}
           >
             {product.data?.map((data) => (
-              <div className="ml-4">
+              <div key={data.id} className="ml-4">
                 <ProductCard key={data.id} product={data} slug={slug} />
               </div>
             ))}

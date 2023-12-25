@@ -1,12 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { RiShoppingCart2Line } from "react-icons/ri";
 import { FaCircleUser } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import Settings from "../Settings";
 
+import { useSelector, useDispatch } from "react-redux";
+
+import { getWishlistTotal } from "../../Redux/wishlistSlice";
+
 const Navbar = () => {
   const [openNav, setOpenNav] = useState(false);
+  const { wishlist, totalQuantity } = useSelector((state) => state.allWishlist);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getWishlistTotal());
+  }, [wishlist]);
 
   return (
     <div className="w-full h-[90px] items-center border-b-[1px] sticky top-[-10px] z-[99] bg-white">
@@ -44,9 +55,11 @@ const Navbar = () => {
               <Link to={"/wishlist"}>
                 <div className="mr-4 cursor-pointer text-gray-700 lg:flex md:hidden relative h-full flex items-center">
                   <MdOutlineFavoriteBorder size={25} />
-                  <span className="absolute top-[-9px] right-[-7px] w-[20px] h-[20px] rounded-full items-center flex justify-center  bg-red-800 text-white text-[14px]">
-                    0
-                  </span>
+                  {totalQuantity && (
+                    <span className="absolute top-[-9px] right-[-7px] w-[20px] h-[20px] rounded-full items-center flex justify-center  bg-red-800 text-white text-[14px]">
+                      {totalQuantity}
+                    </span>
+                  )}
                 </div>
               </Link>
               <Link to={"/cart"}>
