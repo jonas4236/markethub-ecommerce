@@ -1,18 +1,25 @@
 import React, { useState } from "react";
-import { BiSolidStar, BiStar } from "react-icons/bi";
+import { BiSolidStar, BiStar, BiHeart, BiSolidHeart } from "react-icons/bi";
 import SetColours from "./Colours/setColours";
 import SizeSelected from "./SizeSelected";
-import { BiHeart } from "react-icons/bi";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { removeWishlist } from "../Redux/wishlistSlice";
 
 import { addToWishlist, getWishlistTotal } from "../Redux/wishlistSlice";
 
 const ProductDetails = ({ product, size }) => {
-  const [quantity, setQuantity] = useState(1);
+  const [productQuantity, setProductQuantity] = useState(1);
 
   const pd = product.data;
+  const singleProductId = product.data?.[0]?.id;
 
-  console.log("product: ", product);
+  const wishlistItem = useSelector((state) => state.allWishlist.wishlist);
+
+  // find where "id" in redux toolkit equal with id in "singleProductId"
+  const isProductInWishlist = wishlistItem.find(
+    (item) => item.id === singleProductId
+  );
+
   const productThumbnail = pd?.map(
     (item) => item.attributes.thumbnail.data.attributes.url
   );
@@ -21,24 +28,32 @@ const ProductDetails = ({ product, size }) => {
     (item) => item.attributes.categories.data[0].attributes.slug
   );
 
-  // console.log("fetch: ", pd);
-  console.log("fetch2:", productSlug);
-  console.log("fetch2:", productCate);
-
   const dispatch = useDispatch();
+
+  // console.log("idP:", singleProductId);
+  // console.log("id: ", isProductInWishlist);
+  // console.log("wishlistItem: ", wishlistItem);
+  // console.log("wishlistItemId: ", wishlistItemId);
+
+  // console.log("fetch: ", pd);
+  // console.log("fetch2:", productSlug);
+  // console.log("fetch2:", productCate);
 
   // const DataProduct = product.data?.[0]?.attributes;
   // console.log("Details: ", DataProduct);
 
   const itemWishlist = {
-    wlId: product.data?.[0]?.attributes.id,
+    wlId: singleProductId,
     title: product.data?.[0]?.attributes.name,
     image: productThumbnail,
     slug: productSlug,
     category: productCate,
     PricePerPiece: product.data?.[0]?.attributes.originalPrice,
     discount: product.data?.[0]?.attributes.discountPrice || "",
-    quantity: quantity,
+  };
+
+  const handleRemoveWishlist = () => {
+    dispatch(removeWishlist(singleProductId));
   };
 
   return (
@@ -113,18 +128,18 @@ const ProductDetails = ({ product, size }) => {
                     <button
                       className="mr-2  border-r-[1px] border-black h-10 w-10 flex items-center justify-center text-black text-2xl"
                       onClick={() => {
-                        const newQuantity = itemWishlist.quantity - 1;
-                        setQuantity(newQuantity < 1 ? 1 : newQuantity);
+                        const newQuantity = productQuantity - 1;
+                        setProductQuantity(newQuantity < 1 ? 1 : newQuantity);
                       }}
                     >
                       -
                     </button>
                     <span className="flex items-center mx-4 font-medium">
-                      {quantity}
+                      {productQuantity}
                     </span>
                     <button
                       className="ml-2 bg-[#DB4444] h-10 w-10 flex items-center justify-center rounded-[0_6px_6px_0] text-white text-2xl"
-                      onClick={() => setQuantity(itemWishlist.quantity + 1)}
+                      onClick={() => setProductQuantity(productQuantity + 1)}
                     >
                       +
                     </button>
@@ -139,21 +154,30 @@ const ProductDetails = ({ product, size }) => {
                   </button>
                 </div>
                 <div className="">
-                  <button
-                    onClick={() => {
-                      dispatch(
-                        addToWishlist({
-                          id: DataProduct?.id,
-                          ...itemWishlist,
-                          quantity: quantity,
-                        })
-                      );
-                      dispatch(getWishlistTotal());
-                    }}
-                    className="w-12 h-full focus:border-[#DB4444] flex justify-center items-center rounded-md border-[1px] border-slate-400"
-                  >
-                    <BiHeart className="text-[#DB4444]" size={25} />
-                  </button>
+                  {isProductInWishlist ? (
+                    <button
+                      onClick={handleRemoveWishlist}
+                      className="w-12 h-full border-[#DB4444] flex justify-center items-center rounded-md border-[1px]"
+                    >
+                      <BiSolidHeart className="text-[#DB4444]" size={25} />
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        dispatch(
+                          addToWishlist({
+                            id: DataProduct?.id,
+                            ...itemWishlist,
+                            quantity: 1,
+                          })
+                        );
+                        dispatch(getWishlistTotal());
+                      }}
+                      className="w-12 h-full border-gray-400 flex justify-center items-center rounded-md border-[1px]"
+                    >
+                      <BiHeart className="text-gray-400" size={25} />
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

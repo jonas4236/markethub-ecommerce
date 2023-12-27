@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { BiSolidStar, BiSolidStarHalf, BiStar } from "react-icons/bi";
 import AddToCart from "./AddToCart";
 import { Link } from "react-router-dom";
 import { getDiscountedPricePercentage } from "./discount";
-import axios from "axios";
 
 const ProductCard = ({ product, slug }) => {
   const [isHover, setIsHover] = useState(false);
@@ -14,6 +13,25 @@ const ProductCard = ({ product, slug }) => {
 
   // console.log("product: ", product);
   // console.log("slug: ", slug);
+
+  const formattedText = (name) => {
+    if (name.length <= 25) {
+      return name;
+    } else {
+      return name.substring(0, 25) + "...";
+    }
+  };
+
+  const itemWishlist = {
+    wlId: product.id,
+    title: product.attributes.name,
+    image: img.url,
+    slug: product.attributes.slug,
+    category: slug,
+    PricePerPiece: product.attributes.originalPrice,
+    discount: product.attributes.discountPrice || "",
+  };
+
   return (
     <>
       <Link to={`/product/${slug}/${product.attributes.slug}`}>
@@ -34,43 +52,52 @@ const ProductCard = ({ product, slug }) => {
               </span>
             )}
             {isHover && (
-              <span className="transition-all">
-                <AddToCart />
-              </span>
+              <Link>
+                <span className="transition-all">
+                  <AddToCart
+                    thumbnail={img.url}
+                    name={product.attributes.name}
+                    itemWishlist={itemWishlist}
+                    id={product.id}
+                  />
+                </span>
+              </Link>
             )}
           </div>
           <div className="p-[16px_16px_16px_0] w-[270px]">
-            <span className="font-semibold">{product.attributes.name}</span>
-            <div className="w-full h-full py-1">
+            <span className="font-semibold">
+              {formattedText(product.attributes.name)}
+            </span>
+            <div className="flex w-full h-full py-1">
               <span className="text-[#DB4444] mr-[8px] text-base font-semibold">
-                THB {product.attributes.originalPrice}
+                THB: {product.attributes.originalPrice}
               </span>
               {discounted && (
                 <span className="line-through text-gray-500 text-sm font-semibold">
                   THB {product.attributes.discountPrice}
                 </span>
               )}
-              <div className="flex gap-[4px] items-center pt-[4px]">
-                <span className="text-[#FFAD33]">
-                  <BiSolidStar />
-                </span>
-                <span className="text-[#FFAD33]">
-                  <BiSolidStar />
-                </span>
-                <span className="text-[#FFAD33]">
-                  <BiSolidStar />
-                </span>
-                <span className="text-[#FFAD33]">
-                  <BiSolidStar />
-                </span>
-                <span className="text-[#FFAD33]">
-                  <BiSolidStar />
-                </span>
+            </div>
+            <div className="flex gap-[4px] items-center">
+              <span className="text-[#FFAD33]">
+                <BiSolidStar />
+              </span>
+              <span className="text-[#FFAD33]">
+                <BiSolidStar />
+              </span>
+              <span className="text-[#FFAD33]">
+                <BiSolidStar />
+              </span>
+              <span className="text-[#FFAD33]">
+                <BiSolidStar />
+              </span>
+              <span className="text-[#FFAD33]">
+                <BiSolidStar />
+              </span>
 
-                <span className="ml-2 text-slate-600 font-semibold text-sm">
-                  (86)
-                </span>
-              </div>
+              <span className="ml-2 text-slate-600 font-semibold text-sm">
+                (86)
+              </span>
             </div>
           </div>
         </div>

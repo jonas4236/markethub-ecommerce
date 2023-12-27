@@ -50,7 +50,7 @@ const FlashSaleProducts = ({ flash, cate }) => {
               {flash?.attributes.discountPrice}
             </span>
           </div>
-          <div className="flex gap-[4px] items-center pt-[4px]">
+          <div className="flex gap-[4px] items-center">
             <span className="text-[#FFAD33]">
               <BiSolidStar />
             </span>

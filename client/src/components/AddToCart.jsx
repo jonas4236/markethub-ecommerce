@@ -10,12 +10,32 @@ import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Captions from "yet-another-react-lightbox/plugins/captions";
 import "yet-another-react-lightbox/plugins/captions.css";
 
-const AddToCart = ({ thumbnail, name }) => {
+import { useDispatch } from "react-redux";
+
+import { addToWishlist, getWishlistTotal } from "../Redux/wishlistSlice";
+
+const AddToCart = ({ id, quantity, itemWishlist, thumbnail, name }) => {
   const [open, setOpen] = React.useState(false);
+
+  const dispatch = useDispatch();
+
+  // const handdleAddToWishlist = () => {
+  //   dispatch(
+  //     addToWishlist({
+  //       id: id,
+  //       ...itemWishlist,
+  //       quantity: 1,
+  //     })
+  //   );
+  //   dispatch(getWishlistTotal());
+  // };
 
   return (
     <>
-      <span className="absolute bg-white hover:bg-black hover:text-white top-[15px] p-[8px] rounded-full right-[24px]">
+      <span
+        // onClick={handdleAddToWishlist}
+        className="absolute bg-white hover:bg-black hover:text-white top-[15px] p-[8px] rounded-full right-[24px]"
+      >
         <BsBagHeart />
       </span>
       <span

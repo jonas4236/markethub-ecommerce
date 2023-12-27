@@ -23,9 +23,9 @@ const Register = () => {
     await register(username, email, password);
   };
 
-  console.log("email: ", email);
-  console.log("username: ", username);
-  console.log("password: ", password);
+  // console.log("email: ", email);
+  // console.log("username: ", username);
+  // console.log("password: ", password);
 
   return (
     <>

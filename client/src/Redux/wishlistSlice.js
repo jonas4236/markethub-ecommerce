@@ -38,6 +38,8 @@ const wishlistSlice = createSlice({
         (total, itemWishlist) => total + itemWishlist.quantity,
         0
       );
+
+      state.totalQuantity = state.totalQuantity <= 0 ? "" : Number(state.totalQuantity);
     },
   },
 });

@@ -15,9 +15,17 @@ const WishlistProduct = ({ item }) => {
 
   useEffect(() => {
     dispatch(getWishlistTotal());
-  }, [wishlist]);
+  }, []);
 
   // console.log("data:", item);
+
+  const formattedText = (name) => {
+    if (name.length <= 23) {
+      return name;
+    } else {
+      return name.substring(0, 23) + "...";
+    }
+  };
 
   return (
     <div className="">
@@ -52,7 +60,7 @@ const WishlistProduct = ({ item }) => {
             )}
           </div>
           <div className="p-[16px_16px_16px_0] w-[270px]">
-            <span className="font-semibold">{item.title}</span>
+            <span className="font-semibold">{formattedText(item.title)}</span>
             <div className="flex w-full h-full py-1">
               <span className="text-[#DB4444] mr-[8px] text-base font-semibold">
                 THB: {item.PricePerPiece}
