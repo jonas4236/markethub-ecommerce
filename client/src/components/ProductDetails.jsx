@@ -2,10 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import { BiSolidStar, BiStar, BiHeart, BiSolidHeart } from "react-icons/bi";
 import SetColours from "./Colours/setColours";
 import SizeSelected from "./SizeSelected";
-import { useDispatch, useSelector } from "react-redux";
-import { removeWishlist } from "../Redux/wishlistSlice";
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
-import { addToWishlist, getWishlistTotal } from "../Redux/wishlistSlice";
 import { AuthContext } from "./Context/AuthContext";
 
 const ProductDetails = ({ product, size }) => {
@@ -23,7 +22,6 @@ const ProductDetails = ({ product, size }) => {
 
   // const pd = product.data;
   // const singleProductId = product.data?.[0]?.id;
-  const dispatch = useDispatch();
   // console.log("product:", pd);
 
   // const wishlistItem = useSelector((state) => state.allWishlist.wishlist);
@@ -158,9 +156,9 @@ const ProductDetails = ({ product, size }) => {
                 )}
               </div>
               <div className="mt-4">
-                <span className="text-[16px]">
+                <Markdown remarkPlugins={[remarkGfm]} className="text-[16px]">
                   {DataProduct.attributes.Description}
-                </span>
+                </Markdown>
               </div>
               <div className="w-[full] h-[2px] bg-black mt-4 rounded-full"></div>
               <div className="flex mt-4">
@@ -206,9 +204,7 @@ const ProductDetails = ({ product, size }) => {
                 </div>
                 <div className="">
                   {wishlist ? (
-                    <button
-                      className="w-12 h-full border-[#DB4444] flex justify-center items-center rounded-md border-[1px]"
-                    >
+                    <button className="w-12 h-full border-[#DB4444] flex justify-center items-center rounded-md border-[1px]">
                       <BiSolidHeart className="text-[#DB4444]" size={25} />
                     </button>
                   ) : (

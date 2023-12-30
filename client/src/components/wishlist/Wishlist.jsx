@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
   BsFillArrowLeftCircleFill,
   BsFillArrowRightCircleFill,
@@ -14,18 +14,13 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import WishlistProduct from "./WishlistProduct";
 import { AuthContext } from "../Context/AuthContext";
+import axios from "axios";
 
 const Wishlist = () => {
   const sliderRef = useRef(null);
+  const [dataWishlist, setDataWishlist] = useState([]);
 
-  const { wishlist, totalQuantity } = useSelector((state) => state.allWishlist);
   const { username } = useContext(AuthContext);
-
-  useEffect(() => {
-    dispatch(getWishlistTotal());
-  }, [wishlist]);
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
     if (username) {
@@ -35,8 +30,27 @@ const Wishlist = () => {
     window.location.href = "/login";
   }, [username]);
 
-  // console.log("wl:", wishlist);
+  useEffect(() => {
+    const fetchWishlist = async () => {
+      try {
+        const urlWishlists = `http://localhost:1337/api/wishlists?&filters[username]=${username}`;
+        const res = await axios.get(urlWishlists);
 
+        setDataWishlist(res.data);
+      } catch (error) {
+        console.log("error cannot get data wishlist: ", error);
+      }
+    };
+
+    fetchWishlist();
+  }, [username]);
+
+  
+  const mapdata = dataWishlist?.data?.map((item) => item.name)
+  console.log("wl:", mapdata);
+  console.log("---------------------------------")
+  console.log("dataWishlist:", dataWishlist.data);
+  
   const settings = {
     infinite: false,
     speed: 500,
@@ -91,7 +105,7 @@ const Wishlist = () => {
               <div className="flex justify-center items-center">
                 <div className="w-[20px] h-[40px] rounded-md bg-red-600 mr-2"></div>
                 <span className="text-[#DB4444] font-semibold">
-                  Wishlist ({totalQuantity})
+                  Wishlist ({dataWishlist.meta?.pagination.total})
                 </span>
               </div>
 
@@ -125,9 +139,9 @@ const Wishlist = () => {
                 arrows={false}
                 ref={sliderRef}
               >
-                {wishlist.map((item) => (
+                {/* {dataWishlist.map((item) => (
                   <WishlistProduct key={item.wlId} item={item} />
-                ))}
+                ))} */}
               </Slider>
             </div>
           </div>

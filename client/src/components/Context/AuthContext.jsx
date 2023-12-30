@@ -77,6 +77,7 @@ export const AuthContextProvider = ({ children }) => {
     } catch (err) {
       setInfoUser(null);
       setUsername(null);
+      setWishlist(null);
       console.log("err can't not register: ", err);
       Swal.fire({
         title: "Register Failed!",
