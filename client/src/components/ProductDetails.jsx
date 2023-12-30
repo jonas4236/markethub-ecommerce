@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BiSolidStar, BiStar, BiHeart, BiSolidHeart } from "react-icons/bi";
 import SetColours from "./Colours/setColours";
 import SizeSelected from "./SizeSelected";
@@ -6,54 +6,105 @@ import { useDispatch, useSelector } from "react-redux";
 import { removeWishlist } from "../Redux/wishlistSlice";
 
 import { addToWishlist, getWishlistTotal } from "../Redux/wishlistSlice";
+import { AuthContext } from "./Context/AuthContext";
 
 const ProductDetails = ({ product, size }) => {
   const [productQuantity, setProductQuantity] = useState(1);
 
-  const pd = product.data;
-  const singleProductId = product.data?.[0]?.id;
+  const [wlId, SetWlId] = useState(null);
+  const [title, SetTitle] = useState(null);
+  const [slug, SetSlug] = useState(null);
+  const [category, SetCategory] = useState(null);
+  const [priceperpiece, SetPricePerPiece] = useState(null);
+  const [discount, SetDiscount] = useState(null);
+  const [image, SetImage] = useState(null);
 
-  const wishlistItem = useSelector((state) => state.allWishlist.wishlist);
+  const { username, addWishlist, wishlist } = useContext(AuthContext);
 
-  // find where "id" in redux toolkit equal with id in "singleProductId"
-  const isProductInWishlist = wishlistItem.find(
-    (item) => item.id === singleProductId
-  );
-
-  const productThumbnail = pd?.map(
-    (item) => item.attributes.thumbnail.data.attributes.url
-  );
-  const productSlug = pd?.map((item) => item.attributes.slug);
-  const productCate = pd?.map(
-    (item) => item.attributes.categories.data[0].attributes.slug
-  );
-
+  // const pd = product.data;
+  // const singleProductId = product.data?.[0]?.id;
   const dispatch = useDispatch();
+  // console.log("product:", pd);
 
-  // console.log("idP:", singleProductId);
-  // console.log("id: ", isProductInWishlist);
-  // console.log("wishlistItem: ", wishlistItem);
-  // console.log("wishlistItemId: ", wishlistItemId);
+  // const wishlistItem = useSelector((state) => state.allWishlist.wishlist);
 
-  // console.log("fetch: ", pd);
-  // console.log("fetch2:", productSlug);
-  // console.log("fetch2:", productCate);
+  // // find where "id" in redux toolkit equal with id in "singleProductId"
+  // const isProductInWishlist = wishlistItem.find(
+  //   (item) => item.wlId === singleProductId
+  // );
 
-  // const DataProduct = product.data?.[0]?.attributes;
-  // console.log("Details: ", DataProduct);
+  // const productThumbnail = pd?.map(
+  //   (item) => item.attributes.thumbnail.data.attributes.url
+  // );
+  // const productSlug = pd?.map((item) => item.attributes.slug);
+  // const productCate = pd?.map(
+  //   (item) => item.attributes.categories.data?.[0]?.attributes.slug
+  // );
 
-  const itemWishlist = {
-    wlId: singleProductId,
-    title: product.data?.[0]?.attributes.name,
-    image: productThumbnail,
-    slug: productSlug,
-    category: productCate,
-    PricePerPiece: product.data?.[0]?.attributes.originalPrice,
-    discount: product.data?.[0]?.attributes.discountPrice || "",
-  };
+  useEffect(() => {
+    if (product) {
+      const pd = product.data;
+      const singleProductId = String(pd?.[0]?.id);
 
-  const handleRemoveWishlist = () => {
-    dispatch(removeWishlist(singleProductId));
+      const productThumbnail =
+        pd?.[0]?.attributes.thumbnail.data.attributes.url;
+      const productSlug = pd?.[0]?.attributes.slug;
+      const productCate =
+        pd?.[0]?.attributes.categories.data?.[0]?.attributes.slug;
+
+      SetWlId(singleProductId);
+      SetTitle(pd?.[0]?.attributes.name);
+      SetSlug(productSlug);
+      SetCategory(productCate);
+      SetPricePerPiece(pd?.[0]?.attributes.originalPrice);
+      SetDiscount(pd?.[0]?.attributes.discountPrice || "");
+      SetImage(productThumbnail);
+    }
+  }, [product.data]);
+
+  // console.log("type of username frontend:", typeof username);
+  // console.log("username frontend:", username);
+
+  // console.log("wlId:", wlId);
+  // console.log("title:", title);
+  // console.log("slug:", slug);
+  // console.log("category:", category);
+  // console.log("priceperpiece:", priceperpiece);
+  // console.log("discount:", discount);
+  // console.log("image:", image);
+
+  // const itemWishlist = {
+  //   wlId,
+  //   username,
+  //   title,
+  //   slug,
+  //   category,
+  //   priceperpiece,
+  //   discount,
+  //   image,
+  // };
+
+  const handleAddedWishlist = async (event) => {
+    event.preventDefault();
+
+    if (!username) {
+      console.error("Username is undefined or null.");
+      return;
+    } else {
+      console.log("handle have a username: ", username);
+      console.log("type of username is:", typeof username);
+    }
+
+    await addWishlist({
+      wlId,
+      username,
+      title,
+      slug,
+      category,
+      priceperpiece,
+      discount,
+      image,
+    });
   };
 
   return (
@@ -154,9 +205,8 @@ const ProductDetails = ({ product, size }) => {
                   </button>
                 </div>
                 <div className="">
-                  {isProductInWishlist ? (
+                  {wishlist ? (
                     <button
-                      onClick={handleRemoveWishlist}
                       className="w-12 h-full border-[#DB4444] flex justify-center items-center rounded-md border-[1px]"
                     >
                       <BiSolidHeart className="text-[#DB4444]" size={25} />
@@ -164,14 +214,12 @@ const ProductDetails = ({ product, size }) => {
                   ) : (
                     <button
                       onClick={() => {
-                        dispatch(
-                          addToWishlist({
-                            id: DataProduct?.id,
-                            ...itemWishlist,
-                            quantity: 1,
-                          })
-                        );
-                        dispatch(getWishlistTotal());
+                        if (!username) {
+                          window.location.href = "/login";
+                        } else {
+                          handleAddedWishlist(event);
+                        }
+                        // dispatch(getWishlistTotal());
                       }}
                       className="w-12 h-full border-gray-400 flex justify-center items-center rounded-md border-[1px]"
                     >

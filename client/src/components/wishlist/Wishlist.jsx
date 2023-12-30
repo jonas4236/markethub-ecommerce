@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import {
   BsFillArrowLeftCircleFill,
   BsFillArrowRightCircleFill,
@@ -7,24 +7,33 @@ import {
 import Slider from "react-slick";
 import { useSelector, useDispatch } from "react-redux";
 
-import { getWishlistTotal, removeWishlist } from "../../Redux/wishlistSlice";
+import { getWishlistTotal } from "../../Redux/wishlistSlice";
 
 // Import css files
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import WishlistProduct from "./WishlistProduct";
+import { AuthContext } from "../Context/AuthContext";
 
 const Wishlist = () => {
   const sliderRef = useRef(null);
 
   const { wishlist, totalQuantity } = useSelector((state) => state.allWishlist);
-
+  const { username } = useContext(AuthContext);
 
   useEffect(() => {
     dispatch(getWishlistTotal());
   }, [wishlist]);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (username) {
+      return;
+    }
+
+    window.location.href = "/login";
+  }, [username]);
 
   // console.log("wl:", wishlist);
 
@@ -117,7 +126,7 @@ const Wishlist = () => {
                 ref={sliderRef}
               >
                 {wishlist.map((item) => (
-                  <WishlistProduct key={item.id} item={item} />
+                  <WishlistProduct key={item.wlId} item={item} />
                 ))}
               </Slider>
             </div>

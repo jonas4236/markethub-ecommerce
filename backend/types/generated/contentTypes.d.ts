@@ -1002,6 +1002,44 @@ export interface ApiReviewReview extends Schema.CollectionType {
   };
 }
 
+export interface ApiWishlistWishlist extends Schema.CollectionType {
+  collectionName: 'wishlists';
+  info: {
+    singularName: 'wishlist';
+    pluralName: 'wishlists';
+    displayName: 'Wishlist';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    wlId: Attribute.String;
+    username: Attribute.String;
+    title: Attribute.String;
+    slug: Attribute.String;
+    category: Attribute.String;
+    PricePerPiece: Attribute.Integer;
+    discount: Attribute.Integer;
+    image: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::wishlist.wishlist',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::wishlist.wishlist',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -1026,6 +1064,7 @@ declare module '@strapi/types' {
       'api::main-category.main-category': ApiMainCategoryMainCategory;
       'api::product.product': ApiProductProduct;
       'api::review.review': ApiReviewReview;
+      'api::wishlist.wishlist': ApiWishlistWishlist;
     }
   }
 }

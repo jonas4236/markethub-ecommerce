@@ -14,6 +14,10 @@ export const AuthContextProvider = ({ children }) => {
     JSON.parse(localStorage.getItem("username") || null)
   );
 
+  const [wishlist, setWishlist] = useState(
+    JSON.parse(localStorage.getItem("wishlist") || null)
+  );
+
   const login = async (user) => {
     const url = "http://localhost:1337/api/auth/local";
 
@@ -24,9 +28,10 @@ export const AuthContextProvider = ({ children }) => {
         if (data.jwt) {
           setInfoUser(data);
           setUsername(data.user.username);
+          localStorage.setItem("username", JSON.stringify(username));
           Swal.fire({
             title: "Login Successfully!",
-            text: `Welcome to MarketHub! If you love shopping we are family!`,
+            text: `Welcome ${data.user.username} to MarketHub! If you love shopping we are family!`,
             icon: "success",
           });
         } else {
@@ -47,19 +52,22 @@ export const AuthContextProvider = ({ children }) => {
   const register = async (username, email, password) => {
     const url = "http://localhost:1337/api/auth/local/register";
 
+    const regis = {
+      username: username,
+      email: email,
+      password: password,
+    };
+
     try {
-      const { data } = await axios.post(url, {
-        username: username,
-        email: email,
-        password: password,
-      });
+      const { data } = await axios.post(url, regis);
 
       if (data.jwt) {
         setInfoUser(data);
         setUsername(data.user.username);
+        localStorage.setItem("username", JSON.stringify(username));
         Swal.fire({
           title: "Register Successfully!",
-          text: `Welcome to MarketHub! If you love shopping we are family!`,
+          text: `Welcome ${username} to MarketHub! If you love shopping we are family!`,
           icon: "success",
         });
       } else {
@@ -78,9 +86,55 @@ export const AuthContextProvider = ({ children }) => {
     }
   };
 
+  const addWishlist = async (wishlistData) => {
+    const urlWishlist = "http://localhost:1337/api/wishlists";
+
+    // console.log("Type of username backend:", typeof username);
+    // console.log("Value of username backend:", username);
+
+    const stringWlId = String(wishlistData.wlId);
+
+    const wishlistItems = {
+      data: {
+        wlId: stringWlId,
+        username: wishlistData.username,
+        title: wishlistData.title,
+        slug: wishlistData.slug,
+        category: wishlistData.category,
+        PricePerPiece: wishlistData.priceperpiece,
+        discount: wishlistData.discount,
+        image: wishlistData.image,
+      },
+    };
+
+    try {
+      const { data } = await axios.post(urlWishlist, wishlistItems);
+
+      if (data) {
+        setWishlist(data);
+        console.log("Wishlist item added successfully:", data);
+        Swal.fire({
+          title: "Added to Wishlist!",
+          text: "Item has been added to your wishlist.",
+          icon: "success",
+        });
+      }
+    } catch (error) {
+      console.error("Error adding to wishlist:", error);
+      Swal.fire({
+        title: "Error",
+        text: `There was an error adding the item to your wishlist: ${
+          error.response.data.error.message || error
+        }`,
+        icon: "error",
+      });
+    }
+  };
+
   const logout = async () => {
     setInfoUser(null);
     setUsername(null);
+    setWishlist(null);
     location.reload(true);
     try {
       // Additional logout logic if needed
@@ -97,12 +151,24 @@ export const AuthContextProvider = ({ children }) => {
     localStorage.setItem("username", JSON.stringify(username));
   }, [username]);
 
+  useEffect(() => {
+    localStorage.setItem("wishlist", JSON.stringify(wishlist));
+  }, [wishlist]);
+
   // console.log("infouser: ", infoUser);
   // console.log("Username: ", username);
 
   return (
     <AuthContext.Provider
-      value={{ login, infoUser, username, logout, register }}
+      value={{
+        login,
+        infoUser,
+        username,
+        wishlist,
+        addWishlist,
+        logout,
+        register,
+      }}
     >
       {children}
     </AuthContext.Provider>
