@@ -100,8 +100,6 @@ const Header = () => {
     fetchHeaderPromote();
   }, []);
 
-  // console.log("info: ", dataPromote);
-
   return (
     <>
       <div className="flex w-[1200px] gap-8 mx-auto">

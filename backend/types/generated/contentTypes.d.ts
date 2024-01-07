@@ -767,6 +767,37 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
+export interface ApiCartCart extends Schema.CollectionType {
+  collectionName: 'carts';
+  info: {
+    singularName: 'cart';
+    pluralName: 'carts';
+    displayName: 'Cart';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    pdId: Attribute.Integer;
+    title: Attribute.String;
+    image: Attribute.String;
+    price: Attribute.Integer;
+    quantity: Attribute.Integer;
+    stock: Attribute.Integer;
+    selectedSize: Attribute.String;
+    size: Attribute.JSON;
+    username: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::cart.cart', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::cart.cart', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
 export interface ApiCategoryCategory extends Schema.CollectionType {
   collectionName: 'categories';
   info: {
@@ -1020,8 +1051,8 @@ export interface ApiWishlistWishlist extends Schema.CollectionType {
     slug: Attribute.String;
     category: Attribute.String;
     PricePerPiece: Attribute.Integer;
-    discount: Attribute.Integer;
     image: Attribute.String;
+    discount: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1058,6 +1089,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
+      'api::cart.cart': ApiCartCart;
       'api::category.category': ApiCategoryCategory;
       'api::footer-category.footer-category': ApiFooterCategoryFooterCategory;
       'api::header-promote.header-promote': ApiHeaderPromoteHeaderPromote;

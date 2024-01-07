@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -10,7 +11,7 @@
   padding: 0;
   box-sizing: border-box;
   scroll-behavior: smooth;
-  font-family: "Roboto", sans-serif;
+  font-family: "Noto Sans Thai", sans-serif;
 }
 
 /* PRODUCT DETAILS CAROUSEL STYLING CUSTOMIZATION START */
@@ -55,7 +56,7 @@
 }
 .productCarousel.carousel-root .carousel .thumb.selected,
 .productCarousel.carousel-root .carousel .thumb:hover {
-  border: 2px solid #DB4444;
+  border: 2px solid #db4444;
   border-radius: 6px;
 }
 .productCarousel.carousel-root .carousel .thumb:hover:after,

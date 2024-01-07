@@ -1,15 +1,50 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BiSolidStar, BiSolidStarHalf, BiStar } from "react-icons/bi";
 import AddToCart from "./AddToCart";
 import { Link } from "react-router-dom";
 import { getDiscountedPricePercentage } from "./discount";
+import { AuthContext } from "./Context/AuthContext";
 
-const FlashSaleProducts = ({ flash, cate }) => {
+const FlashSaleProducts = ({ flash, slugCategory, wishlistData }) => {
   const [isHover, setIsHover] = useState(false);
 
-  // console.log("data: ", flash);
+  // console.log("dataFlashSale:", wishlistData?.data?.map((item) => item.attributes.wlId));
+
+  const { username } = useContext(AuthContext);
+
+  // console.log("flash:", flash);
+
+  const [wlId, SetWlId] = useState(null);
+  const [title, SetTitle] = useState(null);
+  const [slug, SetSlug] = useState(null);
+  const [category, SetCategory] = useState(null);
+  const [priceperpiece, SetPricePerPiece] = useState(null);
+  const [discount, SetDiscount] = useState(null);
+  const [image, SetImage] = useState(null);
+
+  useEffect(() => {
+    if (flash) {
+      SetWlId(flash?.id);
+      SetTitle(flash?.attributes.name);
+      SetSlug(flash?.attributes.slug);
+      SetCategory(slugCategory);
+      SetPricePerPiece(String(flash?.attributes.originalPrice));
+      SetDiscount(flash?.attributes.discountPrice || "");
+      SetImage(flash?.attributes.thumbnail.data.attributes.url);
+    }
+  }, [flash]);
+
+  const FlashId = flash?.id;
+  // console.log("FlashId:", FlashId);
+
+  const isProductInWishlist = wishlistData?.data?.find(
+    (item) => item.attributes.wlId == FlashId
+  );
+
+  // console.log("isProductInWishlist:", isProductInWishlist);
+
   return (
-    <Link to={`/product/${cate}/${flash?.attributes.slug}`}>
+    <Link to={`/product/${slugCategory}/${flash?.attributes.slug}`}>
       <div className="hover:scale-110 transition-all mt-[20px] ml-[15px] w-max">
         <div
           className="relative"
@@ -35,6 +70,15 @@ const FlashSaleProducts = ({ flash, cate }) => {
                 <AddToCart
                   thumbnail={flash?.attributes.thumbnail.data.attributes.url}
                   name={flash?.attributes.name}
+                  wlId={wlId}
+                  username={username}
+                  title={title}
+                  slug={slug}
+                  category={category}
+                  priceperpiece={priceperpiece}
+                  image={image}
+                  discount={discount}
+                  isExist={isProductInWishlist}
                 />
               </button>
             </Link>
@@ -44,7 +88,7 @@ const FlashSaleProducts = ({ flash, cate }) => {
           <span className="font-semibold">{flash?.attributes.name}</span>
           <div className="flex w-full h-full py-1">
             <span className="text-[#DB4444] mr-[8px] text-base font-semibold">
-              THB: ${flash?.attributes.originalPrice}
+              THB: {flash?.attributes.originalPrice}
             </span>
             <span className="line-through text-gray-500 text-sm font-semibold">
               {flash?.attributes.discountPrice}

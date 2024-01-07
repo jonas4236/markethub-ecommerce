@@ -3,21 +3,16 @@ import {
   BsFillArrowLeftCircleFill,
   BsFillArrowRightCircleFill,
 } from "react-icons/bs";
-import FlashSaleProducts from "./FlashSaleProducts";
 
 import Slider from "react-slick";
 
 // Import css files
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import axios from "axios";
 import ProductCard from "./ProductCard";
 
 const RelatedItems = ({ product, slug }) => {
   const sliderRef = useRef(null);
-
-  // console.log("slug: ", slug);
-  // console.log("slugProduct: ", slugRelated);
 
   const settings = {
     infinite: false,

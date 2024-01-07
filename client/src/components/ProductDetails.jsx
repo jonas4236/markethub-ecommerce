@@ -6,6 +6,7 @@ import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 import { AuthContext } from "./Context/AuthContext";
+import axios from "axios";
 
 const ProductDetails = ({ product, size }) => {
   const [productQuantity, setProductQuantity] = useState(1);
@@ -18,26 +19,37 @@ const ProductDetails = ({ product, size }) => {
   const [discount, SetDiscount] = useState(null);
   const [image, SetImage] = useState(null);
 
-  const { username, addWishlist, wishlist } = useContext(AuthContext);
+  const [wishlistData, setWishlistData] = useState([]);
+  const [selectedSize, setSelectedSize] = useState(null);
+  const [requireSize, setRequireSize] = useState(true);
+
+  const { username, addWishlist, removeWishlist } = useContext(AuthContext);
+
+  useEffect(() => {
+    const fetchFindData = async () => {
+      const urlFindData = `http://localhost:1337/api/wishlists?&filters[username]=${username}`;
+      try {
+        const res = await axios.get(urlFindData);
+
+        setWishlistData(res.data);
+      } catch (error) {
+        console.log("error cannot get data wishlistdata: ", error);
+      }
+    };
+
+    fetchFindData();
+  }, [username]);
 
   // const pd = product.data;
-  // const singleProductId = product.data?.[0]?.id;
-  // console.log("product:", pd);
+  const singleProductId = product.data?.[0]?.id;
+  // console.log("singleProductId:", singleProductId);
 
-  // const wishlistItem = useSelector((state) => state.allWishlist.wishlist);
+  const isProductInWishlist =
+    wishlistData.data &&
+    wishlistData.data.find((item) => item.attributes.wlId == singleProductId);
 
-  // // find where "id" in redux toolkit equal with id in "singleProductId"
-  // const isProductInWishlist = wishlistItem.find(
-  //   (item) => item.wlId === singleProductId
-  // );
-
-  // const productThumbnail = pd?.map(
-  //   (item) => item.attributes.thumbnail.data.attributes.url
-  // );
-  // const productSlug = pd?.map((item) => item.attributes.slug);
-  // const productCate = pd?.map(
-  //   (item) => item.attributes.categories.data?.[0]?.attributes.slug
-  // );
+  const id = isProductInWishlist?.id;
+  // console.log("id:",id)
 
   useEffect(() => {
     if (product) {
@@ -54,44 +66,16 @@ const ProductDetails = ({ product, size }) => {
       SetTitle(pd?.[0]?.attributes.name);
       SetSlug(productSlug);
       SetCategory(productCate);
-      SetPricePerPiece(pd?.[0]?.attributes.originalPrice);
+      SetPricePerPiece(String(pd?.[0]?.attributes.originalPrice));
       SetDiscount(pd?.[0]?.attributes.discountPrice || "");
       SetImage(productThumbnail);
     }
   }, [product.data]);
 
-  // console.log("type of username frontend:", typeof username);
-  // console.log("username frontend:", username);
-
-  // console.log("wlId:", wlId);
-  // console.log("title:", title);
-  // console.log("slug:", slug);
-  // console.log("category:", category);
-  // console.log("priceperpiece:", priceperpiece);
-  // console.log("discount:", discount);
-  // console.log("image:", image);
-
-  // const itemWishlist = {
-  //   wlId,
-  //   username,
-  //   title,
-  //   slug,
-  //   category,
-  //   priceperpiece,
-  //   discount,
-  //   image,
-  // };
+  // console.log("dataa:", product);
 
   const handleAddedWishlist = async (event) => {
     event.preventDefault();
-
-    if (!username) {
-      console.error("Username is undefined or null.");
-      return;
-    } else {
-      console.log("handle have a username: ", username);
-      console.log("type of username is:", typeof username);
-    }
 
     await addWishlist({
       wlId,
@@ -100,9 +84,15 @@ const ProductDetails = ({ product, size }) => {
       slug,
       category,
       priceperpiece,
-      discount,
       image,
+      discount,
     });
+  };
+
+  const handleRemovedWishlist = async (e) => {
+    e.preventDefault();
+
+    await removeWishlist(id);
   };
 
   return (
@@ -110,7 +100,7 @@ const ProductDetails = ({ product, size }) => {
       {product.data?.map((DataProduct) => (
         <div key={DataProduct.id}>
           <>
-            <div className="">
+            <div className="w-max">
               <span className="text-[26px] font-medium text-[#DB4444]">
                 {DataProduct.attributes.name}
               </span>
@@ -136,9 +126,15 @@ const ProductDetails = ({ product, size }) => {
                   (150 Reviews)
                 </span>
                 <span className="text-xl mr-2 text-gray-400">|</span>
-                <span className="text-[#00FF66] font-medium tracking-[.1rem]">
-                  In Stock
-                </span>
+                {DataProduct.attributes.Stock >= 1 ? (
+                  <span className="text-[#00FF66] font-semibold tracking-[.1rem]">
+                    In Stock ({DataProduct.attributes.Stock})
+                  </span>
+                ) : (
+                  <span className="text-[#DB4444] font-semibold tracking-[.1rem]">
+                    Out Of Stock
+                  </span>
+                )}
               </div>
               <div className="mt-2 flex">
                 <span className="text-red-500 text-[24px] font-medium mt-2">
@@ -150,7 +146,7 @@ const ProductDetails = ({ product, size }) => {
                 {DataProduct.attributes.discountPrice && (
                   <div className="mt-2 ml-2">
                     <span className="line-through text-[18px] text-gray-300 font-medium mt-2">
-                      THB {DataProduct.attributes.discountPrice}
+                      {DataProduct.attributes.discountPrice}
                     </span>
                   </div>
                 )}
@@ -161,16 +157,34 @@ const ProductDetails = ({ product, size }) => {
                 </Markdown>
               </div>
               <div className="w-[full] h-[2px] bg-black mt-4 rounded-full"></div>
-              <div className="flex mt-4">
+              {/* <div className="flex mt-4">
                 <span className="text-xl tracking-tighter">Colours:</span>
                 <span className="ml-2">
                   <SetColours />
                 </span>
-              </div>
-              <div className="mt-4">
-                <span className="text-xl tracking-tighter mr-2">Size:</span>
-                <SizeSelected size={size} />
-              </div>
+              </div> */}
+              {size && (
+                <div className="mt-4">
+                  <span className="text-xl tracking-tighter mr-2">
+                    Select Size :
+                  </span>
+                  <div className="mt-4">
+                    <SizeSelected
+                      size={size}
+                      selectedSize={selectedSize}
+                      setSelectedSize={setSelectedSize}
+                      setRequireSize={setRequireSize}
+                    />
+                  </div>
+                  {requireSize && (
+                    <div className="mt-2">
+                      <span className="text-[16px] text-[#DB4444] font-semibold">
+                        Select Size is Required!
+                      </span>
+                    </div>
+                  )}
+                </div>
+              )}
               <div className="flex w-[500px]  justify-between mt-4">
                 <div className="w-max">
                   <div className="flex h-full rounded-md border-black border-[1px]">
@@ -195,16 +209,32 @@ const ProductDetails = ({ product, size }) => {
                   </div>
                 </div>
                 <div className="flex">
-                  <button className="text-white bg-[#000] mr-4 py-2 px-6 h-full rounded-md">
-                    Add To Cart
-                  </button>
-                  <button className="text-white bg-[#DB4444] py-2 px-6 h-full rounded-md">
-                    Buy Now
-                  </button>
+                  {DataProduct.attributes.Stock >= 1 ? (
+                    <>
+                      <button className="text-white bg-[#000] mr-4 py-2 px-6 h-full rounded-md">
+                        Add To Cart
+                      </button>
+                      <button className="text-white bg-[#DB4444] py-2 px-6 h-full rounded-md">
+                        Buy Now
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button className="text-[#fff] bg-gray-300 cursor-not-allowed mr-4 py-2 px-6 h-full rounded-md">
+                        Sold Out
+                      </button>
+                      <button className="text-[#fff] bg-gray-300 cursor-not-allowed py-2 px-6 h-full rounded-md">
+                        Sold Out
+                      </button>
+                    </>
+                  )}
                 </div>
                 <div className="">
-                  {wishlist ? (
-                    <button className="w-12 h-full border-[#DB4444] flex justify-center items-center rounded-md border-[1px]">
+                  {isProductInWishlist ? (
+                    <button
+                      onClick={handleRemovedWishlist}
+                      className="w-12 h-full border-[#DB4444] flex justify-center items-center rounded-md border-[1px]"
+                    >
                       <BiSolidHeart className="text-[#DB4444]" size={25} />
                     </button>
                   ) : (

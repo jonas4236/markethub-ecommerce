@@ -23,10 +23,6 @@ const Register = () => {
     await register(username, email, password);
   };
 
-  // console.log("email: ", email);
-  // console.log("username: ", username);
-  // console.log("password: ", password);
-
   return (
     <>
       <div className="w-[1305px] h-[80vh] mb-[140px] mx-auto mt-16 flex">

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Countdown from "react-countdown";
 import {
   BsFillArrowLeftCircleFill,
@@ -13,6 +13,7 @@ import Slider from "react-slick";
 // Import css files
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { AuthContext } from "./Context/AuthContext";
 
 const FlashSale = () => {
   const [targetTimes, setTargetTimes] = useState(
@@ -24,8 +25,6 @@ const FlashSale = () => {
     parseInt(localStorage.getItem("numberOfCate")) || 1
   );
   const [slugCate, setSlugCate] = useState(null);
-
-  // console.log("flashsale: ",targetTimes)
 
   useEffect(() => {
     localStorage.setItem("numberOfCate", numberOfCate.toString());
@@ -43,17 +42,11 @@ const FlashSale = () => {
     fetchCategories();
   }, []);
 
-  // console.log("categories: ", categories);
-  // console.log("numberOfCate:", numberOfCate);
-  // console.log("categories slug: ", categories?.data?.[0]?.attributes.slug);
   const slug = categories?.data?.[0]?.attributes.slug;
 
   useEffect(() => {
     setSlugCate(slug);
   }, [slug]);
-
-  // console.log("slugCate: ", slugCate);
-  // console.log("time: ", targetTimes);
 
   useEffect(() => {
     const fetchFlashSale = async () => {
@@ -67,13 +60,25 @@ const FlashSale = () => {
     fetchFlashSale();
   }, [slugCate]);
 
-  // console.log("flashProducts: ", flashProducts);
+   const [wishlistData, setWishlistData] = useState([]);
+  const { username } = useContext(AuthContext);
 
-  // const Completionist = () => {
-  //   location.reload(true);
-  //   setNumberOfCate(numberOfCate + 1);
-  //   return null;
-  // };
+  useEffect(() => {
+    const fetchFindData = async () => {
+      const urlFindData = `http://localhost:1337/api/wishlists?&filters[username]=${username}`;
+      try {
+        const res = await axios.get(urlFindData);
+
+        setWishlistData(res.data);
+      } catch (error) {
+        console.log("error cannot get data wishlistdata: ", error);
+      }
+    };
+
+    fetchFindData();
+  }, [username]);
+
+  // console.log("wishlistData:", wishlistData);
 
   const renderer = ({ days, hours, minutes, seconds, completed }) => {
     if (completed) {
@@ -208,7 +213,12 @@ const FlashSale = () => {
             ref={sliderRef}
           >
             {flashProducts?.data?.map((data) => (
-              <FlashSaleProducts flash={data} cate={slugCate} key={data.id} />
+              <FlashSaleProducts
+                flash={data}
+                slugCategory={slugCate}
+                key={data.id}
+                wishlistData={wishlistData}
+              />
             ))}
           </Slider>
         </div>

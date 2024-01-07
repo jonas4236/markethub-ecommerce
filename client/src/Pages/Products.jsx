@@ -10,7 +10,6 @@ const Products = () => {
   const [products, setProducts] = useState([]);
 
   const { slug } = useParams();
-  // console.log("slug: ", slug);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,7 +18,6 @@ const Products = () => {
           `http://localhost:1337/api/products?populate=*&filters[categories][slug][$eq]=${slug}`
         );
 
-        // console.log("Response data: ", res.data);
         setProducts(res.data);
       } catch (error) {
         console.log("error: ", error);
@@ -28,8 +26,6 @@ const Products = () => {
 
     fetchData();
   }, [slug]);
-
-  // console.log("DATA: ", products);
 
   return (
     <>
@@ -63,7 +59,7 @@ const Products = () => {
               <div className="grid grid-cols-4 h-full mt-8">
                 {products.data?.map((data) => (
                   <div className="" key={data.id}>
-                    <ListItems data={data} slug={slug} />
+                    <ListItems data={data} slugCategory={slug} />
                   </div>
                 ))}
               </div>

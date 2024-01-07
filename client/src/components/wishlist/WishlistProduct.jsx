@@ -8,16 +8,7 @@ import { getWishlistTotal } from "../../Redux/wishlistSlice";
 
 const WishlistProduct = ({ item }) => {
   const [isHover, setIsHover] = useState(false);
-
-  const { wishlist } = useSelector((state) => state.allWishlist);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getWishlistTotal());
-  }, []);
-
-  // console.log("data:", item);
+  
 
   const formattedText = (name) => {
     if (name.length <= 23) {
@@ -27,9 +18,11 @@ const WishlistProduct = ({ item }) => {
     }
   };
 
+  // console.log("item:", item);
+  
   return (
     <div className="">
-      <Link to={`/product/${item.category}/${item.slug}`}>
+      <Link to={`/product/${item.attributes.category}/${item.attributes.slug}`}>
         <div className="hover:scale-110 transition-all mt-[20px] ml-[15px] w-max">
           <div
             className="relative"
@@ -38,15 +31,15 @@ const WishlistProduct = ({ item }) => {
           >
             <img
               className="w-[270px] h-[250px] bg-[#F5F5F5] rounded-md object-contain"
-              src={item.image}
+              src={item.attributes.image}
               alt=""
             />
-            {item.discount && (
+            {item.attributes.discount && (
               <span className="absolute top-[15px] left-[15px] py-[5px] px-[15px] text-sm bg-[#DB4444] text-white rounded-md">
                 -
                 {getDiscountedPricePercentage(
-                  item.discount,
-                  item.PricePerPiece
+                  item.attributes.discount,
+                  item.attributes.PricePerPiece
                 )}
                 %
               </span>
@@ -60,13 +53,15 @@ const WishlistProduct = ({ item }) => {
             )}
           </div>
           <div className="p-[16px_16px_16px_0] w-[270px]">
-            <span className="font-semibold">{formattedText(item.name)}</span>
+            <span className="font-semibold">
+              {formattedText(item.attributes.title)}
+            </span>
             <div className="flex w-full h-full py-1">
               <span className="text-[#DB4444] mr-[8px] text-base font-semibold">
-                THB: {item.PricePerPiece}
+                THB: {item.attributes.PricePerPiece}
               </span>
               <span className="line-through text-gray-500 text-sm font-semibold">
-                {item.discount}
+                {item.attributes.discount}
               </span>
             </div>
           </div>

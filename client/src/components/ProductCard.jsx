@@ -1,18 +1,53 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BiSolidStar, BiSolidStarHalf, BiStar } from "react-icons/bi";
 import AddToCart from "./AddToCart";
 import { Link } from "react-router-dom";
 import { getDiscountedPricePercentage } from "./discount";
+import { AuthContext } from "./Context/AuthContext";
+import axios from "axios";
 
-const ProductCard = ({ product, slug }) => {
+const ProductCard = ({ product, slugCategory }) => {
   const [isHover, setIsHover] = useState(false);
+  const [wishlistData, setWishlistData] = useState([]);
+
+  const { username } = useContext(AuthContext);
+
+  useEffect(() => {
+    const fetchFindData = async () => {
+      const urlFindData = `http://localhost:1337/api/wishlists?&filters[username]=${username}`;
+      try {
+        const res = await axios.get(urlFindData);
+
+        setWishlistData(res.data);
+      } catch (error) {
+        console.log("error cannot get data wishlistdata: ", error);
+      }
+    };
+
+    fetchFindData();
+  }, [username]);
+
+  // console.log("wishlistData:", wishlistData);
+  // console.log("product:", product);
 
   const img = product.attributes.thumbnail.data.attributes;
   const original = product.attributes.originalPrice;
   const discounted = product.attributes.discountPrice;
+  const ProductCardId = product.id;
 
-  // console.log("product: ", product);
-  // console.log("slug: ", slug);
+  const isProductInWishlist =
+    wishlistData.data &&
+    wishlistData.data.find((item) => item.attributes.wlId == ProductCardId);
+
+    // console.log("have a same product:", isProductInWishlist)
+
+  const [wlId, SetWlId] = useState(null);
+  const [title, SetTitle] = useState(null);
+  const [slug, SetSlug] = useState(null);
+  const [category, SetCategory] = useState(null);
+  const [priceperpiece, SetPricePerPiece] = useState(null);
+  const [discount, SetDiscount] = useState(null);
+  const [image, SetImage] = useState(null);
 
   const formattedText = (name) => {
     if (name.length <= 25) {
@@ -22,19 +57,27 @@ const ProductCard = ({ product, slug }) => {
     }
   };
 
-  const itemWishlist = {
-    wlId: product.id,
-    title: product.attributes.name,
-    image: img.url,
-    slug: product.attributes.slug,
-    category: slug,
-    PricePerPiece: product.attributes.originalPrice,
-    discount: product.attributes.discountPrice || "",
-  };
+  // console.log("slugPro:",product.attributes.slug)
+
+  useEffect(() => {
+    if (product) {
+      const img = product.attributes.thumbnail.data.attributes;
+      const original = product.attributes.originalPrice;
+      const discounted = product.attributes.discountPrice;
+
+      SetWlId(product.id);
+      SetTitle(product.attributes.name);
+      SetSlug(product.attributes.slug);
+      SetCategory(slugCategory);
+      SetPricePerPiece(String(original));
+      SetDiscount(discounted || "");
+      SetImage(img.url);
+    }
+  }, [product]);
 
   return (
     <>
-      <Link to={`/product/${slug}/${product.attributes.slug}`}>
+      <Link to={`/product/${slugCategory}/${product.attributes.slug}`}>
         <div className="hover:scale-110 transition-all mt-[20px] w-max">
           <div
             className="relative"
@@ -57,8 +100,15 @@ const ProductCard = ({ product, slug }) => {
                   <AddToCart
                     thumbnail={img.url}
                     name={product.attributes.name}
-                    itemWishlist={itemWishlist}
-                    id={product.id}
+                    wlId={wlId}
+                    username={username}
+                    title={title}
+                    slug={slug}
+                    category={category}
+                    priceperpiece={priceperpiece}
+                    image={image}
+                    discount={discount}
+                    isExist={isProductInWishlist}
                   />
                 </span>
               </Link>
@@ -74,7 +124,7 @@ const ProductCard = ({ product, slug }) => {
               </span>
               {discounted && (
                 <span className="line-through text-gray-500 text-sm font-semibold">
-                  THB {product.attributes.discountPrice}
+                  {product.attributes.discountPrice}
                 </span>
               )}
             </div>

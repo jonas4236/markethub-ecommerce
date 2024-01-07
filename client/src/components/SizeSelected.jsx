@@ -1,14 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 
-const SizeSelected = ({ size }) => {
-
-  // console.log("size:",size)
+const SizeSelected = ({
+  size,
+  setSelectedSize,
+  selectedSize,
+  setRequireSize,
+}) => {
   return (
     <>
-      <div className="grid grid-cols-6 gap-4">
+      <div className="grid grid-cols-3 gap-4">
         {size?.data?.map((sp, idx) => (
-          <div key={idx} className="">
-            <button className="w-16 h-16 mr-4 border-[1.5px] border-slate-600 hover:bg-[#DB4444] hover:border-none hover:text-white font-medium rounded-md focus:bg-[#DB4444] focus:text-white focus:border-none">
+          <div key={idx} className="flex w-full justify-center">
+            <button
+              onClick={() => {
+                setSelectedSize(sp.size);
+                setRequireSize(false);
+              }}
+              className={`w-full h-16 mr-4 border-[1.5px] border-slate-600 font-medium rounded-md ${
+                selectedSize === sp.size
+                  ? "bg-[#DB4444] text-white border-none"
+                  : ""
+              } ${
+                sp.enabled
+                  ? "hover:bg-[#DB4444] hover:border-none hover:text-white"
+                  : `cursor-not-allowed bg-black/[0.1] opacity-50 border-[1.5px]`
+              }`}
+              disabled={sp.disabled}
+            >
               {sp.size}
             </button>
           </div>

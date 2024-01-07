@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import CartItems from "./CartItems";
 
 const Cart = () => {
+  const [quantity, setQuantity] = useState(1)
   return (
     <>
       <div className="">
@@ -36,9 +37,9 @@ const Cart = () => {
             </div>
 
             <div className="">
-              <CartItems />
-              <CartItems />
-              <CartItems />
+              <CartItems quantity={quantity} setQuantity={setQuantity} />
+              <CartItems quantity={quantity} setQuantity={setQuantity} />
+              <CartItems quantity={quantity} setQuantity={setQuantity} />
             </div>
 
             <div className="flex gap-64 mt-8">

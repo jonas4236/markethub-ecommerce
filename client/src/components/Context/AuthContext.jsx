@@ -89,11 +89,9 @@ export const AuthContextProvider = ({ children }) => {
 
   const addWishlist = async (wishlistData) => {
     const urlWishlist = "http://localhost:1337/api/wishlists";
-
-    // console.log("Type of username backend:", typeof username);
-    // console.log("Value of username backend:", username);
-
     const stringWlId = String(wishlistData.wlId);
+    const stringPricePerPiece = String(wishlistData.priceperpiece);
+    const stringDiscount = String(wishlistData.discount);
 
     const wishlistItems = {
       data: {
@@ -102,9 +100,9 @@ export const AuthContextProvider = ({ children }) => {
         title: wishlistData.title,
         slug: wishlistData.slug,
         category: wishlistData.category,
-        PricePerPiece: wishlistData.priceperpiece,
-        discount: wishlistData.discount,
+        PricePerPiece: stringPricePerPiece,
         image: wishlistData.image,
+        discount: stringDiscount,
       },
     };
 
@@ -112,12 +110,12 @@ export const AuthContextProvider = ({ children }) => {
       const { data } = await axios.post(urlWishlist, wishlistItems);
 
       if (data) {
-        setWishlist(data);
-        console.log("Wishlist item added successfully:", data);
         Swal.fire({
           title: "Added to Wishlist!",
-          text: "Item has been added to your wishlist.",
+          text: `${wishlistData.title} has been added to your wishlist.`,
           icon: "success",
+        }).then(() => {
+          location.reload(true);
         });
       }
     } catch (error) {
@@ -132,13 +130,26 @@ export const AuthContextProvider = ({ children }) => {
     }
   };
 
+  const removeWishlist = async (id) => {
+    const urlRemoveWishlist = `http://localhost:1337/api/wishlists/${id}`;
+    const { data } = await axios.delete(urlRemoveWishlist);
+    if (data) {
+      Swal.fire({
+        title: "Remove Wishlist Successfully!",
+        text: `You have removed ${data.data.attributes.title} from your wishlist!`,
+        icon: "success",
+      }).then(() => {
+        location.reload(true);
+      });
+    }
+  };
+
   const logout = async () => {
-    setInfoUser(null);
-    setUsername(null);
-    setWishlist(null);
-    location.reload(true);
     try {
-      // Additional logout logic if needed
+      setInfoUser(null);
+      setUsername(null);
+      setWishlist(null);
+      location.reload(true);
     } catch (err) {
       console.log("error can't logout account: ", err);
     }
@@ -156,9 +167,6 @@ export const AuthContextProvider = ({ children }) => {
     localStorage.setItem("wishlist", JSON.stringify(wishlist));
   }, [wishlist]);
 
-  // console.log("infouser: ", infoUser);
-  // console.log("Username: ", username);
-
   return (
     <AuthContext.Provider
       value={{
@@ -167,6 +175,7 @@ export const AuthContextProvider = ({ children }) => {
         username,
         wishlist,
         addWishlist,
+        removeWishlist,
         logout,
         register,
       }}

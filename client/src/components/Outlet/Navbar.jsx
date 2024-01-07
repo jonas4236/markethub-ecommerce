@@ -8,23 +8,26 @@ import axios from "axios";
 import { AuthContext } from "../Context/AuthContext";
 
 const Navbar = () => {
-  const [openNav, setOpenNav] = useState(false);
-  const [dataTotalWishlist, setDataTotalWishlist] = useState([]);
-
+  const [dataWishlist, setDataWishlist] = useState([]);
+  const [wishlistTotal, setWishlistTotal] = useState([]);
   const { username } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchTotalWishlist = async () => {
-      const urlWishlists = `http://localhost:1337/api/wishlists?&filters[username]=${username}`;
-      const res = await axios.get(urlWishlists);
+      try {
+        const urlWishlists = `http://localhost:1337/api/wishlists?&filters[username]=${username}`;
+        const res = await axios.get(urlWishlists);
 
-      setDataTotalWishlist(res.data);
+        setDataWishlist(res.data);
+        setWishlistTotal(res.data.meta?.pagination.total);
+      } catch (error) {
+        console.log("error cannot get total wishlist: ", error);
+      }
     };
 
     fetchTotalWishlist();
-  }, [username]);
-  
-  // console.log("dataW:", dataTotalWishlist);
+  }, [username, wishlistTotal]);
+
 
   return (
     <div className="w-full h-[90px] items-center border-b-[1px] sticky top-[-10px] z-[99] bg-white">
@@ -64,7 +67,7 @@ const Navbar = () => {
                   <MdOutlineFavoriteBorder size={25} />
                   {username && (
                     <span className="absolute top-[-9px] right-[-7px] w-[20px] h-[20px] rounded-full items-center flex justify-center  bg-red-800 text-white text-[14px]">
-                      {dataTotalWishlist.meta?.pagination.total}
+                      {wishlistTotal}
                     </span>
                   )}
                 </div>

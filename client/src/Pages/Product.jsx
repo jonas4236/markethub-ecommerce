@@ -11,7 +11,6 @@ const Product = () => {
   const [relatedProduct, setRelatedProduct] = useState([]);
 
   const { slug } = useParams();
-  // console.log("slug: ", slug);
 
   useEffect(() => {
     const fetchPd = async () => {
@@ -25,18 +24,13 @@ const Product = () => {
     fetchPd();
   }, [slug]);
 
-  // console.log("DATA SP: ", product);
   const pd = product.data?.[0]?.attributes?.name;
-  // const dataImg = product.data?.[0]?.attributes.Images.data[0].attributes.url;
   const categoryy = product.data?.[0]?.attributes;
   const size = product.data?.[0]?.attributes.size;
   const slugRelated =
     product.data?.[0]?.attributes.categories.data[0].attributes.slug;
   const test = product.data;
-  // const pro = product.data?.[0]?.attributes;
   const Categorys = test?.[0]?.attributes.Images.data;
-
-  // console.log("TEST: ",size)
 
   useEffect(() => {
     const fetchRelated = async () => {
@@ -49,9 +43,6 @@ const Product = () => {
 
     fetchRelated();
   }, [slugRelated, slug]);
-
-  // console.log("TEST: ", slugRelated);
-  // console.log("productRelated: ", relatedProduct);
 
   return (
     <>

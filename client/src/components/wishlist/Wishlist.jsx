@@ -3,16 +3,12 @@ import {
   BsFillArrowLeftCircleFill,
   BsFillArrowRightCircleFill,
 } from "react-icons/bs";
+import WishlistProduct from "./WishlistProduct";
 
 import Slider from "react-slick";
-import { useSelector, useDispatch } from "react-redux";
-
-import { getWishlistTotal } from "../../Redux/wishlistSlice";
-
 // Import css files
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import WishlistProduct from "./WishlistProduct";
 import { AuthContext } from "../Context/AuthContext";
 import axios from "axios";
 
@@ -45,12 +41,6 @@ const Wishlist = () => {
     fetchWishlist();
   }, [username]);
 
-  
-  const mapdata = dataWishlist?.data?.map((item) => item.name)
-  console.log("wl:", mapdata);
-  console.log("---------------------------------")
-  console.log("dataWishlist:", dataWishlist.data);
-  
   const settings = {
     infinite: false,
     speed: 500,
@@ -85,7 +75,7 @@ const Wishlist = () => {
 
   return (
     <>
-      <div className="">
+      <div className="w-[1200px] h-[60vh] mx-auto">
         <>
           <div className="w-[1200px] mx-auto">
             <div className="mt-16">
@@ -139,9 +129,15 @@ const Wishlist = () => {
                 arrows={false}
                 ref={sliderRef}
               >
-                {/* {dataWishlist.map((item) => (
-                  <WishlistProduct key={item.wlId} item={item} />
-                ))} */}
+                {dataWishlist?.data?.length > 0 ? (
+                  dataWishlist?.data?.map((item, idx) => (
+                    <WishlistProduct key={idx} item={item} />
+                  ))
+                ) : (
+                  <div className="text-center">
+                    <p>No items in the wishlist.</p>
+                  </div>
+                )}
               </Slider>
             </div>
           </div>
