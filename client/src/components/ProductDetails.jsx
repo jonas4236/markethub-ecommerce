@@ -9,8 +9,6 @@ import { AuthContext } from "./Context/AuthContext";
 import axios from "axios";
 
 const ProductDetails = ({ product, size }) => {
-  const [productQuantity, setProductQuantity] = useState(1);
-
   const [wlId, SetWlId] = useState(null);
   const [title, SetTitle] = useState(null);
   const [slug, SetSlug] = useState(null);
@@ -20,10 +18,13 @@ const ProductDetails = ({ product, size }) => {
   const [image, SetImage] = useState(null);
 
   const [wishlistData, setWishlistData] = useState([]);
+  const [pdId, setPdId] = useState(null);
+  const [productQuantity, setProductQuantity] = useState(1);
+  const [stock, setStock] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
   const [requireSize, setRequireSize] = useState(true);
-
-  const { username, addWishlist, removeWishlist } = useContext(AuthContext);
+  const { username, addWishlist, removeWishlist, addCart } =
+    useContext(AuthContext);
 
   useEffect(() => {
     const fetchFindData = async () => {
@@ -40,16 +41,16 @@ const ProductDetails = ({ product, size }) => {
     fetchFindData();
   }, [username]);
 
-  // const pd = product.data;
   const singleProductId = product.data?.[0]?.id;
   // console.log("singleProductId:", singleProductId);
+
+  // console.log("selectedSize:", selectedSize);
 
   const isProductInWishlist =
     wishlistData.data &&
     wishlistData.data.find((item) => item.attributes.wlId == singleProductId);
 
   const id = isProductInWishlist?.id;
-  // console.log("id:",id)
 
   useEffect(() => {
     if (product) {
@@ -63,6 +64,8 @@ const ProductDetails = ({ product, size }) => {
         pd?.[0]?.attributes.categories.data?.[0]?.attributes.slug;
 
       SetWlId(singleProductId);
+      setPdId(Number(singleProductId));
+      setStock(pd?.[0]?.attributes.Stock);
       SetTitle(pd?.[0]?.attributes.name);
       SetSlug(productSlug);
       SetCategory(productCate);
@@ -72,7 +75,7 @@ const ProductDetails = ({ product, size }) => {
     }
   }, [product.data]);
 
-  // console.log("dataa:", product);
+  // const pd = product.data;
 
   const handleAddedWishlist = async (event) => {
     event.preventDefault();
@@ -86,6 +89,22 @@ const ProductDetails = ({ product, size }) => {
       priceperpiece,
       image,
       discount,
+    });
+  };
+
+  const handleAddCart = async (event) => {
+    event.preventDefault();
+
+    await addCart({
+      pdId,
+      title,
+      image,
+      priceperpiece,
+      productQuantity,
+      stock,
+      selectedSize,
+      size,
+      username,
     });
   };
 
@@ -164,7 +183,7 @@ const ProductDetails = ({ product, size }) => {
                 </span>
               </div> */}
               {size && (
-                <div className="mt-4">
+                <div className="mt-4" id="slSize">
                   <span className="text-xl tracking-tighter mr-2">
                     Select Size :
                   </span>
@@ -211,7 +230,23 @@ const ProductDetails = ({ product, size }) => {
                 <div className="flex">
                   {DataProduct.attributes.Stock >= 1 ? (
                     <>
-                      <button className="text-white bg-[#000] mr-4 py-2 px-6 h-full rounded-md">
+                      <button
+                        onClick={(event) => {
+                          if (size) {
+                            if (requireSize && !selectedSize) {
+                              document.getElementById("slSize").scrollIntoView({
+                                block: "center",
+                                behavior: "smooth",
+                              });
+                            } else {
+                              handleAddCart(event);
+                            }
+                          } else {
+                            handleAddCart(event);
+                          }
+                        }}
+                        className="text-white bg-[#000] mr-4 py-2 px-6 h-full rounded-md"
+                      >
                         Add To Cart
                       </button>
                       <button className="text-white bg-[#DB4444] py-2 px-6 h-full rounded-md">

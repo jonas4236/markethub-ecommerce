@@ -130,6 +130,51 @@ export const AuthContextProvider = ({ children }) => {
     }
   };
 
+  const addCart = async (Cart) => {
+    const urlCart = "http://localhost:1337/api/carts";
+    const NumberPrice = Number(Cart.priceperpiece);
+
+    // console.log("Cart:", Cart)
+    // console.log("sizeProduct:", Cart.size);
+
+    const cartItems = {
+      data: {
+        pdId: Cart.pdId,
+        title: Cart.title,
+        image: Cart.image,
+        price: NumberPrice,
+        quantity: Cart.productQuantity,
+        stock: Cart.stock,
+        selectedSize: Cart.selectedSize,
+        size: Cart.size,
+        username: Cart.username,
+      },
+    };
+
+    try {
+      const { data } = await axios.post(urlCart, cartItems);
+
+      if (data) {
+        Swal.fire({
+          title: "Added to Cart!",
+          text: `${Cart.title} has been added to your cart.`,
+          icon: "success",
+        }).then(() => {
+          location.reload(true);
+        });
+      }
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      Swal.fire({
+        title: "Error",
+        text: `There was an error adding the item to your cart: ${
+          error.response.data.error.message || error
+        }`,
+        icon: "error",
+      });
+    }
+  };
+
   const removeWishlist = async (id) => {
     const urlRemoveWishlist = `http://localhost:1337/api/wishlists/${id}`;
     const { data } = await axios.delete(urlRemoveWishlist);
@@ -140,6 +185,53 @@ export const AuthContextProvider = ({ children }) => {
         icon: "success",
       }).then(() => {
         location.reload(true);
+      });
+    }
+  };
+
+  const removeCart = async (id) => {
+    const urlRemoveCart = `http://localhost:1337/api/carts/${id}`;
+    const { data } = await axios.delete(urlRemoveCart);
+    if (data) {
+      Swal.fire({
+        title: "Remove Cart Successfully!",
+        text: `You have removed ${data.data.attributes.title} from your cart!`,
+        icon: "success",
+      }).then(() => {
+        location.reload(true);
+      });
+    }
+  };
+
+  const updateCart = async (cartItemId, updatedData) => {
+    const urlUpdateCart = `http://localhost:1337/api/carts/${cartItemId}`;
+
+    const updateSize = {
+      data: {
+        selectedSize: updatedData,
+      },
+    };
+
+    try {
+      const { data } = await axios.put(urlUpdateCart, updateSize);
+
+      // if (data) {
+      //   Swal.fire({
+      //     title: "Update Cart Successfully!",
+      //     text: `You have updated size ${data.data.attributes.title} to ${data.data.attributes.selectedSize} in your cart!`,
+      //     icon: "success",
+      //   }).then(() => {
+      //     location.reload(true);
+      //   });
+      // }
+    } catch (error) {
+      console.error("Error updating cart:", error);
+      Swal.fire({
+        title: "Error",
+        text: `There was an error updating the cart item: ${
+          error.response.data.error.message || error
+        }`,
+        icon: "error",
       });
     }
   };
@@ -175,6 +267,9 @@ export const AuthContextProvider = ({ children }) => {
         username,
         wishlist,
         addWishlist,
+        addCart,
+        removeCart,
+        updateCart,
         removeWishlist,
         logout,
         register,

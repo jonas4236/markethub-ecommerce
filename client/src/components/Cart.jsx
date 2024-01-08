@@ -1,8 +1,39 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CartItems from "./CartItems";
+import axios from "axios";
+import { AuthContext } from "./Context/AuthContext";
 
 const Cart = () => {
-  const [quantity, setQuantity] = useState(1)
+  const [quantity, setQuantity] = useState(1);
+  const [cartData, setCartData] = useState([]);
+
+  const { username } = useContext(AuthContext);
+
+  useEffect(() => {
+    const fetchCartData = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:1337/api/carts?populate=*&filters[username][$eq]=${username}`
+        );
+        setCartData(res.data);
+      } catch (error) {
+        console.log("can't get cart data from database:", error);
+      }
+    };
+
+    fetchCartData();
+  }, [username]);
+
+  useEffect(() => {
+    if (username) {
+      return;
+    }
+
+    window.location.href = "/login";
+  }, [username]);
+
+  // console.log("dataCart:", cartData.data);
+
   return (
     <>
       <div className="">
@@ -37,9 +68,40 @@ const Cart = () => {
             </div>
 
             <div className="">
-              <CartItems quantity={quantity} setQuantity={setQuantity} />
-              <CartItems quantity={quantity} setQuantity={setQuantity} />
-              <CartItems quantity={quantity} setQuantity={setQuantity} />
+              {cartData?.data?.length === 0 ? (
+                <>
+                  <div className="flex flex-col w-full items-center justify-center">
+                    <div className="">
+                      <img
+                        className="object-contain"
+                        src="https://shoe-store-frontend.vercel.app/_next/image?url=%2Fempty-cart.jpg&w=384&q=75"
+                        alt="img_cart"
+                      />
+                    </div>
+                    <div className="flex flex-col items-center mb-8">
+                      <span className="text-[20px] text-[#DB4444] font-semibold">
+                        Your cart is empty
+                      </span>
+                      <span className="text-[16px] font-medium">
+                        Looks like you have not added anything in your cart.
+                      </span>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  {cartData.data?.map((item, i) => (
+                    <CartItems
+                      key={i}
+                      quantity={quantity}
+                      item={item}
+                      setQuantity={setQuantity}
+                    />
+                  ))}
+                </>
+              )}
+              {/* <CartItems quantity={quantity} setQuantity={setQuantity} />
+              <CartItems quantity={quantity} setQuantity={setQuantity} /> */}
             </div>
 
             <div className="flex gap-64 mt-8">

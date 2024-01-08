@@ -10,6 +10,7 @@ import { AuthContext } from "../Context/AuthContext";
 const Navbar = () => {
   const [dataWishlist, setDataWishlist] = useState([]);
   const [wishlistTotal, setWishlistTotal] = useState([]);
+  const [cartTotal, setCartTotal] = useState([]);
   const { username } = useContext(AuthContext);
 
   useEffect(() => {
@@ -28,6 +29,21 @@ const Navbar = () => {
     fetchTotalWishlist();
   }, [username, wishlistTotal]);
 
+  useEffect(() => {
+    const fetchTotalWishlist = async () => {
+      try {
+        const urlCart = `http://localhost:1337/api/carts?&filters[username]=${username}`;
+        const res = await axios.get(urlCart);
+
+        setDataWishlist(res.data);
+        setCartTotal(res.data.meta?.pagination.total);
+      } catch (error) {
+        console.log("error cannot get total wishlist: ", error);
+      }
+    };
+
+    fetchTotalWishlist();
+  }, [username, wishlistTotal]);
 
   return (
     <div className="w-full h-[90px] items-center border-b-[1px] sticky top-[-10px] z-[99] bg-white">
@@ -75,9 +91,11 @@ const Navbar = () => {
               <Link to={"/cart"}>
                 <div className="cursor-pointer text-gray-700 relative h-full flex items-center">
                   <RiShoppingCart2Line size={25} />
-                  <span className="absolute top-[-9px] right-[-7px] w-[20px] h-[20px] rounded-full items-center flex justify-center  bg-red-800 text-white text-[14px]">
-                    0
-                  </span>
+                  {username && (
+                    <span className="absolute top-[-9px] right-[-7px] w-[20px] h-[20px] rounded-full items-center flex justify-center  bg-red-800 text-white text-[14px]">
+                      {cartTotal}
+                    </span>
+                  )}
                 </div>
               </Link>
               <div className="ml-4 h-full cursor-pointer text-blue-500">
