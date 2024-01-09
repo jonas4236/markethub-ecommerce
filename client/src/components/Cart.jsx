@@ -4,7 +4,6 @@ import axios from "axios";
 import { AuthContext } from "./Context/AuthContext";
 
 const Cart = () => {
-  const [quantity, setQuantity] = useState(1);
   const [cartData, setCartData] = useState([]);
 
   const { username } = useContext(AuthContext);
@@ -33,6 +32,10 @@ const Cart = () => {
   }, [username]);
 
   // console.log("dataCart:", cartData.data);
+  // console.log(
+  //   "dataCart:",
+  //   cartData?.data?.map((items) => items.attributes.quantity)
+  // );
 
   return (
     <>
@@ -93,9 +96,8 @@ const Cart = () => {
                   {cartData.data?.map((item, i) => (
                     <CartItems
                       key={i}
-                      quantity={quantity}
                       item={item}
-                      setQuantity={setQuantity}
+                      quan={item.attributes.quantity}
                     />
                   ))}
                 </>
@@ -127,19 +129,19 @@ const Cart = () => {
                     </div>
                     <div className="flex justify-between mt-4 text-black text-[16px] font-medium">
                       <span>Subtotal:</span>
-                      <span>$1750</span>
+                      <span>฿1750</span>
                     </div>
                     <div className="w-full h-[2px] bg-[#7D8184] rounded-full my-4"></div>
 
                     <div className="flex justify-between mt-4 text-black text-[16px] font-medium">
                       <span>Coupon:</span>
-                      <span className="text-[#DB4444]">5%</span>
+                      <span className="text-[#DB4444]">-</span>
                     </div>
                     <div className="w-full h-[2px] bg-[#7D8184] rounded-full my-4"></div>
 
                     <div className="flex justify-between mt-4 text-black text-[16px] font-medium">
                       <span>Total:</span>
-                      <span>$1700</span>
+                      <span>฿1750</span>
                     </div>
                     <div className="w-full mt-4 flex justify-center">
                       <button className="py-3 px-6 bg-[#DB4444] text-white rounded-md font-medium tracking-[1px]">

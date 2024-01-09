@@ -213,17 +213,30 @@ export const AuthContextProvider = ({ children }) => {
     };
 
     try {
-      const { data } = await axios.put(urlUpdateCart, updateSize);
+      await axios.put(urlUpdateCart, updateSize);
+    } catch (error) {
+      console.error("Error updating cart:", error);
+      Swal.fire({
+        title: "Error",
+        text: `There was an error updating the cart item: ${
+          error.response.data.error.message || error
+        }`,
+        icon: "error",
+      });
+    }
+  };
 
-      // if (data) {
-      //   Swal.fire({
-      //     title: "Update Cart Successfully!",
-      //     text: `You have updated size ${data.data.attributes.title} to ${data.data.attributes.selectedSize} in your cart!`,
-      //     icon: "success",
-      //   }).then(() => {
-      //     location.reload(true);
-      //   });
-      // }
+  const updateQuantiy = async (ProductId, updatedQuan) => {
+    const urlUpdateQuantity = `http://localhost:1337/api/carts/${ProductId}`;
+
+    const updateQuan = {
+      data: {
+        quantity: updatedQuan,
+      },
+    };
+
+    try {
+      await axios.put(urlUpdateQuantity, updateQuan);
     } catch (error) {
       console.error("Error updating cart:", error);
       Swal.fire({
@@ -270,6 +283,7 @@ export const AuthContextProvider = ({ children }) => {
         addCart,
         removeCart,
         updateCart,
+        updateQuantiy,
         removeWishlist,
         logout,
         register,

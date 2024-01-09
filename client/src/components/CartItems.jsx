@@ -1,15 +1,12 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "./Context/AuthContext";
 
-const CartItems = ({ quantity, setQuantity, item }) => {
-  console.log("item:", item);
+const CartItems = ({ item, quan }) => {
+  // console.log("item:", item);
+  const [quantity, setQuantity] = useState(quan);
 
-  const { removeCart, updateCart } = useContext(AuthContext);
-
-  const total = (p, q) => {
-    return p * q;
-  };
+  const { removeCart, updateCart, updateQuantiy } = useContext(AuthContext);
 
   const formattedText = (name) => {
     if (name.length <= 16) {
@@ -19,12 +16,24 @@ const CartItems = ({ quantity, setQuantity, item }) => {
     }
   };
 
+  // useEffect(() => {
+  //   setQuantity(item.attributes.quantity);
+  // }, [item.attributes.quantity]);
+
+  const total = (p, q) => {
+    return p * q;
+  };
+
   const handleRemovedCart = async (id) => {
     await removeCart(id);
   };
 
-  const handleSizeChange = async (a, b) => {
-    await updateCart(a, b);
+  const handleSizeChange = async (idProduct, sizeSingleProduct) => {
+    await updateCart(idProduct, sizeSingleProduct);
+  };
+
+  const handleQuantityChange = async (idProduct, countOfQuan) => {
+    await updateQuantiy(idProduct, countOfQuan);
   };
 
   return (
@@ -85,20 +94,25 @@ const CartItems = ({ quantity, setQuantity, item }) => {
           <div className="flex w-[180px] items-center justify-between h-full rounded-md border-black border-[1px]">
             <button
               className="mr-2 border-r-[1px] border-black h-full w-10 flex items-center justify-center text-black text-2xl"
-              onClick={() => {
+              onClick={(e) => {
                 const minusQuantity = quantity - 1;
                 setQuantity(minusQuantity < 1 ? 1 : minusQuantity);
+                handleQuantityChange(item.id, minusQuantity);
+                // console.log("quan minus:", minusQuantity);
               }}
             >
               -
             </button>
             <span className="flex items-center mx-4 font-medium">
-              {item.attributes.quantity}
+              {quantity}
             </span>
             <button
               className="ml-2 h-full bg-[#DB4444] w-10 flex items-center justify-center rounded-[0_6px_6px_0] text-white text-2xl"
-              onClick={() => {
-                setQuantity(quantity + 1);
+              onClick={(e) => {
+                const plusQuantity = quantity + 1;
+                setQuantity(plusQuantity);
+                handleQuantityChange(item.id, plusQuantity);
+                // console.log("quan plus:", plusQuantity);
               }}
             >
               +
@@ -109,7 +123,7 @@ const CartItems = ({ quantity, setQuantity, item }) => {
         <div className="flex-[1] justify-center items-center">
           <div className="flex items-center w-full h-full justify-center">
             <span className="text-[#DB4444] h-full flex items-center font-medium">
-              ฿{total(item.attributes.price, item.attributes.quantity)}
+              ฿{total(item.attributes.price, quantity)}
             </span>
           </div>
         </div>
