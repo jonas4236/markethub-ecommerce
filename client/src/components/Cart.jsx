@@ -31,12 +31,6 @@ const Cart = () => {
     window.location.href = "/login";
   }, [username]);
 
-  // console.log("dataCart:", cartData.data);
-  // console.log(
-  //   "dataCart:",
-  //   cartData?.data?.map((items) => items.attributes.quantity)
-  // );
-
   return (
     <>
       <div className="">

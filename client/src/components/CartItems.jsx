@@ -16,10 +16,6 @@ const CartItems = ({ item, quan }) => {
     }
   };
 
-  // useEffect(() => {
-  //   setQuantity(item.attributes.quantity);
-  // }, [item.attributes.quantity]);
-
   const total = (p, q) => {
     return p * q;
   };

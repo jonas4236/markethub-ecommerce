@@ -4,6 +4,7 @@ import SetColours from "./Colours/setColours";
 import SizeSelected from "./SizeSelected";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import Swal from "sweetalert2";
 
 import { AuthContext } from "./Context/AuthContext";
 import axios from "axios";
@@ -23,8 +24,24 @@ const ProductDetails = ({ product, size }) => {
   const [stock, setStock] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
   const [requireSize, setRequireSize] = useState(true);
-  const { username, addWishlist, removeWishlist, addCart } =
+  const { username, addWishlist, removeWishlist, addCart, updateQuantiy } =
     useContext(AuthContext);
+  const [cartData, setCartData] = useState([]);
+
+  useEffect(() => {
+    const fetchDataFromCart = async () => {
+      const urlFindCartId = `http://localhost:1337/api/carts?&filters[username]=${username}`;
+      try {
+        const res = await axios.get(urlFindCartId);
+
+        setCartData(res.data);
+      } catch (error) {
+        console.log("error cannot get data wishlistdata: ", error);
+      }
+    };
+
+    fetchDataFromCart();
+  }, [username]);
 
   useEffect(() => {
     const fetchFindData = async () => {
@@ -42,15 +59,28 @@ const ProductDetails = ({ product, size }) => {
   }, [username]);
 
   const singleProductId = product.data?.[0]?.id;
-  // console.log("singleProductId:", singleProductId);
-
-  // console.log("selectedSize:", selectedSize);
+  const singleProductName = product.data?.[0]?.attributes.name;
 
   const isProductInWishlist =
     wishlistData.data &&
     wishlistData.data.find((item) => item.attributes.wlId == singleProductId);
 
   const id = isProductInWishlist?.id;
+
+  const isProductInCart = cartData?.data?.some(
+    (item) =>
+      item.attributes.title === singleProductName &&
+      item.attributes.selectedSize === selectedSize
+  );
+
+  const FindCartIdOfProduct = cartData?.data?.find(
+    (item) =>
+      item.attributes.title === singleProductName &&
+      item.attributes.selectedSize === selectedSize
+  );
+
+  const CartId = FindCartIdOfProduct?.id;
+  const currentProductQuantity = FindCartIdOfProduct?.attributes.quantity;
 
   useEffect(() => {
     if (product) {
@@ -75,8 +105,6 @@ const ProductDetails = ({ product, size }) => {
     }
   }, [product.data]);
 
-  // const pd = product.data;
-
   const handleAddedWishlist = async (event) => {
     event.preventDefault();
 
@@ -95,17 +123,29 @@ const ProductDetails = ({ product, size }) => {
   const handleAddCart = async (event) => {
     event.preventDefault();
 
-    await addCart({
-      pdId,
-      title,
-      image,
-      priceperpiece,
-      productQuantity,
-      stock,
-      selectedSize,
-      size,
-      username,
-    });
+    if (isProductInCart === true) {
+      const updateNewQuantity = currentProductQuantity + productQuantity;
+      await updateQuantiy(CartId, updateNewQuantity);
+      Swal.fire({
+        title: "Added Quantity Successfully!",
+        text: `You have increase new quantity into your cart!`,
+        icon: "success",
+      }).then(() => {
+        location.reload(true);
+      });
+    } else {
+      await addCart({
+        pdId,
+        title,
+        image,
+        priceperpiece,
+        productQuantity,
+        stock,
+        selectedSize,
+        size,
+        username,
+      });
+    }
   };
 
   const handleRemovedWishlist = async (e) => {
@@ -232,17 +272,23 @@ const ProductDetails = ({ product, size }) => {
                     <>
                       <button
                         onClick={(event) => {
-                          if (size) {
-                            if (requireSize && !selectedSize) {
-                              document.getElementById("slSize").scrollIntoView({
-                                block: "center",
-                                behavior: "smooth",
-                              });
+                          if (!username) {
+                            window.location.href = "/login";
+                          } else {
+                            if (size) {
+                              if (requireSize && !selectedSize) {
+                                document
+                                  .getElementById("slSize")
+                                  .scrollIntoView({
+                                    block: "center",
+                                    behavior: "smooth",
+                                  });
+                              } else {
+                                handleAddCart(event);
+                              }
                             } else {
                               handleAddCart(event);
                             }
-                          } else {
-                            handleAddCart(event);
                           }
                         }}
                         className="text-white bg-[#000] mr-4 py-2 px-6 h-full rounded-md"

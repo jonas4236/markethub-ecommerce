@@ -1,7 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
-import Cookies from "js-cookie";
 
 export const AuthContext = createContext();
 
@@ -133,9 +132,6 @@ export const AuthContextProvider = ({ children }) => {
   const addCart = async (Cart) => {
     const urlCart = "http://localhost:1337/api/carts";
     const NumberPrice = Number(Cart.priceperpiece);
-
-    // console.log("Cart:", Cart)
-    // console.log("sizeProduct:", Cart.size);
 
     const cartItems = {
       data: {
