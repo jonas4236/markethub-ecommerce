@@ -35,7 +35,8 @@ const Cart = () => {
     return price * quantity;
   };
 
-  const overallSubtotal = cartData.data.reduce(
+  // การทำ สรุปราคารวมแต่ละ Product
+  const SummaryTotal = cartData?.data?.reduce(
     (acc, item) =>
       acc + subtotal(item.attributes.price, item.attributes.quantity),
     0
@@ -137,7 +138,7 @@ const Cart = () => {
                     </div>
                     <div className="flex justify-between mt-4 text-black text-[16px] font-medium">
                       <span>Subtotal:</span>
-                      <span>฿{overallSubtotal.toLocaleString()}</span>
+                      <span>฿{SummaryTotal?.toLocaleString()}</span>
                     </div>
                     <div className="w-full h-[2px] bg-[#7D8184] rounded-full my-4"></div>
 
@@ -149,7 +150,7 @@ const Cart = () => {
 
                     <div className="flex justify-between mt-4 text-black text-[16px] font-medium">
                       <span>Total:</span>
-                      <span>฿{overallSubtotal.toLocaleString()}</span>
+                      <span>฿{SummaryTotal?.toLocaleString()}</span>
                     </div>
                     <div className="w-full mt-4 flex justify-center">
                       <button className="py-3 px-6 bg-[#DB4444] text-white rounded-md font-medium tracking-[1px]">
