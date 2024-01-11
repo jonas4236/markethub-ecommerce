@@ -199,13 +199,13 @@ const ProductDetails = ({ product, size }) => {
                 <span className="text-red-500 text-[24px] font-medium mt-2">
                   THB:{" "}
                   <span className="text-red-500 font-medium">
-                    {DataProduct.attributes.originalPrice}
+                    {DataProduct.attributes.originalPrice.toLocaleString()}
                   </span>
                 </span>
                 {DataProduct.attributes.discountPrice && (
                   <div className="mt-2 ml-2">
                     <span className="line-through text-[18px] text-gray-300 font-medium mt-2">
-                      {DataProduct.attributes.discountPrice}
+                      {DataProduct.attributes.discountPrice.toLocaleString()}
                     </span>
                   </div>
                 )}

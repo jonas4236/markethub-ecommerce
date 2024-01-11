@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "./Context/AuthContext";
 
-const CartItems = ({ item, quan }) => {
+const CartItems = ({ item, quan, subtotal }) => {
   // console.log("item:", item);
   const [quantity, setQuantity] = useState(quan);
 
@@ -81,7 +81,7 @@ const CartItems = ({ item, quan }) => {
         <div className="flex-[1] justify-center items-center">
           <div className="flex items-center w-full h-full justify-center">
             <span className="text-[#DB4444] h-full flex items-center font-medium">
-              ฿{item.attributes.price}
+              ฿{item.attributes.price.toLocaleString()}
             </span>
           </div>
         </div>
@@ -119,7 +119,7 @@ const CartItems = ({ item, quan }) => {
         <div className="flex-[1] justify-center items-center">
           <div className="flex items-center w-full h-full justify-center">
             <span className="text-[#DB4444] h-full flex items-center font-medium">
-              ฿{total(item.attributes.price, quantity)}
+              ฿{subtotal.toLocaleString()}
             </span>
           </div>
         </div>

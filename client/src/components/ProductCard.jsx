@@ -120,11 +120,11 @@ const ProductCard = ({ product, slugCategory }) => {
             </span>
             <div className="flex w-full h-full py-1">
               <span className="text-[#DB4444] mr-[8px] text-base font-semibold">
-                THB: {product.attributes.originalPrice}
+                THB: {product.attributes.originalPrice.toLocaleString()}
               </span>
               {discounted && (
                 <span className="line-through text-gray-500 text-sm font-semibold">
-                  {product.attributes.discountPrice}
+                  {product.attributes.discountPrice.toLocaleString()}
                 </span>
               )}
             </div>

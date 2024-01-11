@@ -88,10 +88,10 @@ const FlashSaleProducts = ({ flash, slugCategory, wishlistData }) => {
           <span className="font-semibold">{flash?.attributes.name}</span>
           <div className="flex w-full h-full py-1">
             <span className="text-[#DB4444] mr-[8px] text-base font-semibold">
-              THB: {flash?.attributes.originalPrice}
+              THB: {flash?.attributes.originalPrice.toLocaleString()}
             </span>
             <span className="line-through text-gray-500 text-sm font-semibold">
-              {flash?.attributes.discountPrice}
+              {flash?.attributes.discountPrice.toLocaleString()}
             </span>
           </div>
           <div className="flex gap-[4px] items-center">
