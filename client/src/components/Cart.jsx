@@ -5,6 +5,8 @@ import { AuthContext } from "./Context/AuthContext";
 
 const Cart = () => {
   const [cartData, setCartData] = useState([]);
+  const [overAllSubtotal, setOverAllSubtotal] = useState(0);
+  // const [overAllTotal, setOverAllTotal] = useState(0);
 
   const { username } = useContext(AuthContext);
 
@@ -36,11 +38,21 @@ const Cart = () => {
   };
 
   // การทำ สรุปราคารวมแต่ละ Product
-  const SummaryTotal = cartData?.data?.reduce(
-    (acc, item) =>
-      acc + subtotal(item.attributes.price, item.attributes.quantity),
-    0
-  );
+  useEffect(() => {
+    const calculateTotal = () => {
+      const SummaryTotal = cartData?.data?.reduce(
+        (acc, item) =>
+          acc + subtotal(item.attributes.price, item.attributes.quantity),
+        0
+      );
+
+      setOverAllSubtotal(SummaryTotal);
+    };
+
+    calculateTotal();
+  }, [cartData]);
+
+  console.log("total:", overAllSubtotal);
 
   return (
     <>
@@ -103,10 +115,6 @@ const Cart = () => {
                       key={i}
                       item={item}
                       quan={item.attributes.quantity}
-                      subtotal={subtotal(
-                        item.attributes.price,
-                        item.attributes.quantity
-                      )}
                     />
                   ))}
                 </>
@@ -138,7 +146,7 @@ const Cart = () => {
                     </div>
                     <div className="flex justify-between mt-4 text-black text-[16px] font-medium">
                       <span>Subtotal:</span>
-                      <span>฿{SummaryTotal?.toLocaleString()}</span>
+                      <span>฿{overAllSubtotal?.toLocaleString()}</span>
                     </div>
                     <div className="w-full h-[2px] bg-[#7D8184] rounded-full my-4"></div>
 
@@ -150,7 +158,7 @@ const Cart = () => {
 
                     <div className="flex justify-between mt-4 text-black text-[16px] font-medium">
                       <span>Total:</span>
-                      <span>฿{SummaryTotal?.toLocaleString()}</span>
+                      <span>฿{overAllSubtotal?.toLocaleString()}</span>
                     </div>
                     <div className="w-full mt-4 flex justify-center">
                       <button className="py-3 px-6 bg-[#DB4444] text-white rounded-md font-medium tracking-[1px]">

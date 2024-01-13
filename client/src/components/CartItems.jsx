@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "./Context/AuthContext";
 
-const CartItems = ({ item, quan, subtotal }) => {
+const CartItems = ({ item, quan }) => {
   // console.log("item:", item);
   const [quantity, setQuantity] = useState(quan);
 
@@ -16,10 +16,6 @@ const CartItems = ({ item, quan, subtotal }) => {
     }
   };
 
-  const total = (p, q) => {
-    return p * q;
-  };
-
   const handleRemovedCart = async (id) => {
     await removeCart(id);
   };
@@ -31,6 +27,8 @@ const CartItems = ({ item, quan, subtotal }) => {
   const handleQuantityChange = async (idProduct, countOfQuan) => {
     await updateQuantiy(idProduct, countOfQuan);
   };
+
+  const subtotals = item.attributes.price * quantity;
 
   return (
     <>
@@ -90,11 +88,14 @@ const CartItems = ({ item, quan, subtotal }) => {
           <div className="flex w-[180px] items-center justify-between h-full rounded-md border-black border-[1px]">
             <button
               className="mr-2 border-r-[1px] border-black h-full w-10 flex items-center justify-center text-black text-2xl"
-              onClick={(e) => {
-                const minusQuantity = quantity - 1;
-                setQuantity(minusQuantity < 1 ? 1 : minusQuantity);
-                handleQuantityChange(item.id, minusQuantity);
-                // console.log("quan minus:", minusQuantity);
+              onClick={() => {
+                setQuantity((prevQuantity) => {
+                  const minusQuantity = prevQuantity - 1;
+                  const newMinusQuantity =
+                    minusQuantity < 1 ? 1 : minusQuantity;
+                  handleQuantityChange(item.id, newMinusQuantity);
+                  return newMinusQuantity;
+                });
               }}
             >
               -
@@ -104,11 +105,16 @@ const CartItems = ({ item, quan, subtotal }) => {
             </span>
             <button
               className="ml-2 h-full bg-[#DB4444] w-10 flex items-center justify-center rounded-[0_6px_6px_0] text-white text-2xl"
-              onClick={(e) => {
-                const plusQuantity = quantity + 1;
-                setQuantity(plusQuantity);
-                handleQuantityChange(item.id, plusQuantity);
-                // console.log("quan plus:", plusQuantity);
+              onClick={() => {
+                setQuantity((prevQuantity) => {
+                  const plusQuantity = prevQuantity + 1;
+                  const newPlusQuantity =
+                    plusQuantity > item.attributes.stock
+                      ? item.attributes.stock
+                      : plusQuantity;
+                  handleQuantityChange(item.id, newPlusQuantity);
+                  return newPlusQuantity;
+                });
               }}
             >
               +
@@ -119,7 +125,7 @@ const CartItems = ({ item, quan, subtotal }) => {
         <div className="flex-[1] justify-center items-center">
           <div className="flex items-center w-full h-full justify-center">
             <span className="text-[#DB4444] h-full flex items-center font-medium">
-              ฿{subtotal.toLocaleString()}
+              ฿{subtotals.toLocaleString()}
             </span>
           </div>
         </div>
