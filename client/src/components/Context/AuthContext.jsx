@@ -13,9 +13,17 @@ export const AuthContextProvider = ({ children }) => {
     JSON.parse(localStorage.getItem("username") || null)
   );
 
-  const [wishlist, setWishlist] = useState(
-    JSON.parse(localStorage.getItem("wishlist") || null)
+  const [cartData, setCartData] = useState(
+    JSON.parse(localStorage.getItem("cartData") || null)
   );
+
+  const [overAllSubtotal, setOverAllSubtotal] = useState(
+    JSON.parse(localStorage.getItem("overAllSubtotal") || null)
+  );
+
+  const subtotal = (price, quantity) => {
+    return price * quantity;
+  };
 
   const login = async (user) => {
     const url = "http://localhost:1337/api/auth/local";
@@ -76,7 +84,6 @@ export const AuthContextProvider = ({ children }) => {
     } catch (err) {
       setInfoUser(null);
       setUsername(null);
-      setWishlist(null);
       console.log("err can't not register: ", err);
       Swal.fire({
         title: "Register Failed!",
@@ -233,6 +240,18 @@ export const AuthContextProvider = ({ children }) => {
 
     try {
       await axios.put(urlUpdateQuantity, updateQuan);
+      const res = await axios.get(
+        `http://localhost:1337/api/carts?populate=*&filters[username][$eq]=${username}`
+      );
+      setCartData(res.data);
+
+      const updatedSummaryTotal = res.data?.data?.reduce(
+        (acc, item) =>
+          acc + subtotal(item.attributes.price, item.attributes.quantity),
+        0
+      );
+      setOverAllSubtotal(updatedSummaryTotal);
+      console.log("total:", overAllSubtotal);
     } catch (error) {
       console.error("Error updating cart:", error);
       Swal.fire({
@@ -249,7 +268,6 @@ export const AuthContextProvider = ({ children }) => {
     try {
       setInfoUser(null);
       setUsername(null);
-      setWishlist(null);
       location.reload(true);
     } catch (err) {
       console.log("error can't logout account: ", err);
@@ -265,8 +283,12 @@ export const AuthContextProvider = ({ children }) => {
   }, [username]);
 
   useEffect(() => {
-    localStorage.setItem("wishlist", JSON.stringify(wishlist));
-  }, [wishlist]);
+    localStorage.setItem("cartData", JSON.stringify(cartData));
+  }, [cartData]);
+
+  useEffect(() => {
+    localStorage.setItem("overAllSubtotal", JSON.stringify(overAllSubtotal));
+  }, [overAllSubtotal]);
 
   return (
     <AuthContext.Provider
@@ -274,7 +296,7 @@ export const AuthContextProvider = ({ children }) => {
         login,
         infoUser,
         username,
-        wishlist,
+        overAllSubtotal,
         addWishlist,
         addCart,
         removeCart,

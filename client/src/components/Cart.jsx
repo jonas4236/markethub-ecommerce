@@ -5,10 +5,10 @@ import { AuthContext } from "./Context/AuthContext";
 
 const Cart = () => {
   const [cartData, setCartData] = useState([]);
-  const [overAllSubtotal, setOverAllSubtotal] = useState(0);
+  // const [overAllSubtotal, setOverAllSubtotal] = useState(0);
   // const [overAllTotal, setOverAllTotal] = useState(0);
 
-  const { username } = useContext(AuthContext);
+  const { username, overAllSubtotal } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchCartData = async () => {
@@ -32,27 +32,6 @@ const Cart = () => {
 
     window.location.href = "/login";
   }, [username]);
-
-  const subtotal = (price, quantity) => {
-    return price * quantity;
-  };
-
-  // การทำ สรุปราคารวมแต่ละ Product
-  useEffect(() => {
-    const calculateTotal = () => {
-      const SummaryTotal = cartData?.data?.reduce(
-        (acc, item) =>
-          acc + subtotal(item.attributes.price, item.attributes.quantity),
-        0
-      );
-
-      setOverAllSubtotal(SummaryTotal);
-    };
-
-    calculateTotal();
-  }, [cartData]);
-
-  console.log("total:", overAllSubtotal);
 
   return (
     <>
@@ -146,7 +125,9 @@ const Cart = () => {
                     </div>
                     <div className="flex justify-between mt-4 text-black text-[16px] font-medium">
                       <span>Subtotal:</span>
-                      <span>฿{overAllSubtotal?.toLocaleString()}</span>
+                      <span className="text-[#DB4444]">
+                        ฿{overAllSubtotal?.toLocaleString()}
+                      </span>
                     </div>
                     <div className="w-full h-[2px] bg-[#7D8184] rounded-full my-4"></div>
 
@@ -158,7 +139,9 @@ const Cart = () => {
 
                     <div className="flex justify-between mt-4 text-black text-[16px] font-medium">
                       <span>Total:</span>
-                      <span>฿{overAllSubtotal?.toLocaleString()}</span>
+                      <span className="text-[#DB4444]">
+                        ฿{overAllSubtotal?.toLocaleString()}
+                      </span>
                     </div>
                     <div className="w-full mt-4 flex justify-center">
                       <button className="py-3 px-6 bg-[#DB4444] text-white rounded-md font-medium tracking-[1px]">
