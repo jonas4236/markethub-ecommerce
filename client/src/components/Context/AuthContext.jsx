@@ -251,7 +251,6 @@ export const AuthContextProvider = ({ children }) => {
         0
       );
       setOverAllSubtotal(updatedSummaryTotal);
-      console.log("total:", overAllSubtotal);
     } catch (error) {
       console.error("Error updating cart:", error);
       Swal.fire({
@@ -268,6 +267,8 @@ export const AuthContextProvider = ({ children }) => {
     try {
       setInfoUser(null);
       setUsername(null);
+      setCartData(null);
+      setOverAllSubtotal(0);
       location.reload(true);
     } catch (err) {
       console.log("error can't logout account: ", err);
@@ -287,8 +288,36 @@ export const AuthContextProvider = ({ children }) => {
   }, [cartData]);
 
   useEffect(() => {
-    localStorage.setItem("overAllSubtotal", JSON.stringify(overAllSubtotal));
+    localStorage.setItem(
+      "overAllSubtotal",
+      JSON.stringify(overAllSubtotal) || 0
+    );
   }, [overAllSubtotal]);
+
+  useEffect(() => {
+    if (username) {
+      const fetchTotal = async () => {
+        try {
+          const res = await axios.get(
+            `http://localhost:1337/api/carts?populate=*&filters[username][$eq]=${username}`
+          );
+          setCartData(res.data);
+
+          const updatedSummaryTotal = res.data?.data?.reduce(
+            (acc, item) =>
+              acc + subtotal(item.attributes.price, item.attributes.quantity),
+            0
+          );
+
+          setOverAllSubtotal(updatedSummaryTotal);
+        } catch (error) {
+          console.log("error cannot get data total:", error);
+        }
+      };
+
+      fetchTotal();
+    }
+  }, [username]);
 
   return (
     <AuthContext.Provider
