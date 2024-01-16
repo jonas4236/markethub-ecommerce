@@ -2,11 +2,15 @@ import React, { useContext, useEffect, useState } from "react";
 import CartItems from "./CartItems";
 import axios from "axios";
 import { AuthContext } from "./Context/AuthContext";
+import { loadStripe } from "@stripe/stripe-js";
 
 const Cart = () => {
   const [cartData, setCartData] = useState([]);
   // const [overAllSubtotal, setOverAllSubtotal] = useState(0);
   // const [overAllTotal, setOverAllTotal] = useState(0);
+  const stripePromise = loadStripe(
+    "pk_test_51NVUEHLFltWlQvC86UqP91MMR28Z5dAgC1cNFuUbnOd46qo0bRb6QPdtRzBzF3aMupjF7Pe2KenKD95bmASjIWxg00geOIMSk8"
+  );
 
   const { username, overAllSubtotal } = useContext(AuthContext);
 
@@ -32,6 +36,23 @@ const Cart = () => {
 
     window.location.href = "/login";
   }, [username]);
+
+  const handlePayment = async () => {
+    try {
+      const stripe = await stripePromise;
+
+      const res = await axios.post("http://localhost:1337/api/orders", {
+        cartData: cartData,
+        total: overAllSubtotal,
+      });
+
+      await stripe.redirectToCheckout({
+        sessionId: res.data.stripeSession.id,
+      });
+    } catch (err) {
+      console.log("can't handlePayment:", err);
+    }
+  };
 
   return (
     <>
@@ -144,7 +165,10 @@ const Cart = () => {
                       </span>
                     </div>
                     <div className="w-full mt-4 flex justify-center">
-                      <button className="py-3 px-6 bg-[#DB4444] text-white rounded-md font-medium tracking-[1px]">
+                      <button
+                        onClick={handlePayment}
+                        className="py-3 px-6 bg-[#DB4444] text-white rounded-md font-medium tracking-[1px]"
+                      >
                         Procees to checkout
                       </button>
                     </div>
