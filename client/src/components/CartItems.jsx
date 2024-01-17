@@ -34,8 +34,6 @@ const CartItems = ({ item, quan }) => {
 
   const subtotals = item.attributes.price * quantity;
 
-  // console.log("title:", item.attributes.title);
-
   return (
     <>
       <div className="flex gap-10 px-12 py-4 my-6 shadow-lg">
