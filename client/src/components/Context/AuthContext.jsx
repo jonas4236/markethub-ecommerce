@@ -206,14 +206,22 @@ export const AuthContextProvider = ({ children }) => {
     }
   };
 
-  const updateCart = async (cartItemId, updatedData) => {
+  const updateCart = async (cartItemId, updatedData, updatedTitle) => {
     const urlUpdateCart = `http://localhost:1337/api/carts/${cartItemId}`;
 
+    // regex เปลี่ยนค่า(replace) อะไรก็ตามที่อยู่ใน "[]" bracket example: Air Jordan 1 Mid SE [UK 9] to ตามด้วยค่าปัจจุบันที่ทำการอัพเดตไป(Air Jordan 1 Mid SE [updatedData]) หรือ exmaple = Air Jordan 1 Mid SE [UK 10] / "UK 10" คือค่าไหม่ที่ทำการ updated จาก frontend.
+    const updatedTitleWithSize = updatedTitle.replace(
+      /\[.*?\]/,
+      `[${updatedData}]`
+    );
     const updateSize = {
       data: {
+        title: updatedTitleWithSize,
         selectedSize: updatedData,
       },
     };
+
+    console.log("title backend:", updateSize);
 
     try {
       await axios.put(urlUpdateCart, updateSize);

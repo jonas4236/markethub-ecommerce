@@ -40,7 +40,7 @@ const Cart = () => {
   const handlePayment = async () => {
     try {
       const stripe = await stripePromise;
-
+      
       const res = await axios.post("http://localhost:1337/api/orders", {
         cartData: cartData,
         total: overAllSubtotal,

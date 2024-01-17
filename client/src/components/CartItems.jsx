@@ -20,8 +20,12 @@ const CartItems = ({ item, quan }) => {
     await removeCart(id);
   };
 
-  const handleSizeChange = async (idProduct, sizeSingleProduct) => {
-    await updateCart(idProduct, sizeSingleProduct);
+  const handleSizeChange = async (
+    idProduct,
+    sizeSingleProduct,
+    updatedTitle
+  ) => {
+    await updateCart(idProduct, sizeSingleProduct, updatedTitle);
   };
 
   const handleQuantityChange = async (idProduct, countOfQuan) => {
@@ -29,6 +33,8 @@ const CartItems = ({ item, quan }) => {
   };
 
   const subtotals = item.attributes.price * quantity;
+
+  // console.log("title:", item.attributes.title);
 
   return (
     <>
@@ -54,7 +60,13 @@ const CartItems = ({ item, quan }) => {
                 <div className="flex ml-3">
                   <span>Size:</span>
                   <select
-                    onChange={(e) => handleSizeChange(item.id, e.target.value)}
+                    onChange={(e) =>
+                      handleSizeChange(
+                        item.id,
+                        e.target.value,
+                        item.attributes.title
+                      )
+                    }
                     className="outline-none cursor-pointer"
                   >
                     {item?.attributes.size?.data?.map((data, i) => {

@@ -16,9 +16,10 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
 
     const lineItems = await Promise.all(
       cartData?.data?.map(async (product) => {
-        const item = await strapi
-          .service("api::product.product")
-          .findOne(product.id);
+        // const item = await strapi
+        //   .service("api::product.product")
+        //   .findOne(product.id);
+        const customFields = product?.attributes.selectedSize;
 
         return {
           price_data: {
@@ -26,8 +27,11 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
             product_data: {
               name: product?.attributes.title,
               images: [product?.attributes.image],
+              metadata: {
+                Size: customFields,
+              },
             },
-            unit_amount: (product?.attributes.price) * 100,
+            unit_amount: product?.attributes.price * 100,
           },
           quantity: product?.attributes.quantity,
         };
@@ -36,7 +40,7 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
 
     try {
       const session = await stripe.checkout.sessions.create({
-        shipping_address_collection: { allowed_countries: ["TH", "US"] },
+        shipping_address_collection: { allowed_countries: ["TH"] },
         payment_method_types: ["card"],
         mode: "payment",
         success_url: `${process.env.CLIENT_URL}?success=true`,
