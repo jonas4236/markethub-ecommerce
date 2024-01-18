@@ -5,29 +5,30 @@ import { AuthContext } from "./Context/AuthContext";
 import { loadStripe } from "@stripe/stripe-js";
 
 const Cart = () => {
-  const [cartData, setCartData] = useState([]);
+  // const [cartData, setCartData] = useState([]);
   // const [overAllSubtotal, setOverAllSubtotal] = useState(0);
-  // const [overAllTotal, setOverAllTotal] = useState(0);
   const stripePromise = loadStripe(
     "pk_test_51NVUEHLFltWlQvC86UqP91MMR28Z5dAgC1cNFuUbnOd46qo0bRb6QPdtRzBzF3aMupjF7Pe2KenKD95bmASjIWxg00geOIMSk8"
   );
 
-  const { username, overAllSubtotal } = useContext(AuthContext);
+  const { username, overAllSubtotal, cartData } = useContext(AuthContext);
 
-  useEffect(() => {
-    const fetchCartData = async () => {
-      try {
-        const res = await axios.get(
-          `http://localhost:1337/api/carts?populate=*&filters[username][$eq]=${username}`
-        );
-        setCartData(res.data);
-      } catch (error) {
-        console.log("can't get cart data from database:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchCartData = async () => {
+  //     try {
+  //       const res = await axios.get(
+  //         `http://localhost:1337/api/carts?populate=*&filters[username][$eq]=${username}`
+  //       );
+  //       setCartData(res.data);
+  //     } catch (error) {
+  //       console.log("can't get cart data from database:", error);
+  //     }
+  //   };
 
-    fetchCartData();
-  }, [username]);
+  //   fetchCartData();
+  // }, [username]);
+
+  console.log("cartData:", cartData);
 
   useEffect(() => {
     if (username) {
@@ -37,10 +38,12 @@ const Cart = () => {
     window.location.href = "/login";
   }, [username]);
 
+  // console.log("overAllSubtotal:", overAllSubtotal);
+
   const handlePayment = async () => {
     try {
       const stripe = await stripePromise;
-      
+
       const res = await axios.post("http://localhost:1337/api/orders", {
         cartData: cartData,
         total: overAllSubtotal,
@@ -110,7 +113,7 @@ const Cart = () => {
                 </>
               ) : (
                 <>
-                  {cartData.data?.map((item, i) => (
+                  {cartData?.data?.map((item, i) => (
                     <CartItems
                       key={i}
                       item={item}

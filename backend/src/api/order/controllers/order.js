@@ -19,7 +19,6 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
         // const item = await strapi
         //   .service("api::product.product")
         //   .findOne(product.id);
-        const customFields = product?.attributes.selectedSize;
 
         return {
           price_data: {
@@ -27,9 +26,6 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
             product_data: {
               name: product?.attributes.title,
               images: [product?.attributes.image],
-              metadata: {
-                Size: customFields,
-              },
             },
             unit_amount: product?.attributes.price * 100,
           },

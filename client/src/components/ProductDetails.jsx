@@ -59,7 +59,8 @@ const ProductDetails = ({ product, size }) => {
   }, [username]);
 
   const singleProductId = product.data?.[0]?.id;
-  const singleProductName = product.data?.[0]?.attributes.name + ` [${selectedSize}]`;
+  const singleProductName =
+    product.data?.[0]?.attributes.name + ` [${selectedSize}]`;
   // console.log("singleProductName:", singleProductName)
 
   const isProductInWishlist =
@@ -137,7 +138,7 @@ const ProductDetails = ({ product, size }) => {
     } else {
       await addCart({
         pdId,
-        title: `${title} [${selectedSize}]`,
+        title: selectedSize ? `${title} [${selectedSize}]` : `${title}`,
         image,
         priceperpiece,
         productQuantity,
