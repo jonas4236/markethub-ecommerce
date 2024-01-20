@@ -221,10 +221,13 @@ export const AuthContextProvider = ({ children }) => {
       },
     };
 
-    // console.log("title backend:", updateSize);
-
     try {
       await axios.put(urlUpdateCart, updateSize);
+      const res = await axios.get(
+        `http://localhost:1337/api/carts?populate=*&filters[username][$eq]=${username}`
+      );
+      setCartData(res.data);
+
     } catch (error) {
       console.error("Error updating cart:", error);
       Swal.fire({
@@ -252,8 +255,6 @@ export const AuthContextProvider = ({ children }) => {
         `http://localhost:1337/api/carts?populate=*&filters[username][$eq]=${username}`
       );
       setCartData(res.data);
-
-      console.log("updated Quan:", res.data.data[1].attributes.quantity);
 
       const updatedSummaryTotal = res.data?.data?.reduce(
         (acc, item) =>

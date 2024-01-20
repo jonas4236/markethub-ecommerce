@@ -61,7 +61,7 @@ const ProductDetails = ({ product, size }) => {
   const singleProductId = product.data?.[0]?.id;
   const singleProductName =
     product.data?.[0]?.attributes.name + ` [${selectedSize}]`;
-  // console.log("singleProductName:", singleProductName)
+  const singleProductNameNoSize = product.data?.[0]?.attributes.name;
 
   const isProductInWishlist =
     wishlistData.data &&
@@ -83,6 +83,13 @@ const ProductDetails = ({ product, size }) => {
 
   const CartId = FindCartIdOfProduct?.id;
   const currentProductQuantity = FindCartIdOfProduct?.attributes.quantity;
+
+  const getProductSameName = cartData?.data?.find(
+    (item) => item.attributes.title === singleProductNameNoSize
+  );
+
+  const CartId2 = getProductSameName?.id;
+  const currentProductQuantity2 = getProductSameName?.attributes.quantity;
 
   useEffect(() => {
     if (product) {
@@ -125,9 +132,13 @@ const ProductDetails = ({ product, size }) => {
   const handleAddCart = async (event) => {
     event.preventDefault();
 
-    if (isProductInCart === true) {
+    if (isProductInCart || getProductSameName) {
       const updateNewQuantity = currentProductQuantity + productQuantity;
-      await updateQuantiy(CartId, updateNewQuantity);
+      const updateNewQuantity2 = currentProductQuantity2 + productQuantity;
+      await updateQuantiy(
+        CartId || CartId2,
+        updateNewQuantity || updateNewQuantity2
+      );
       Swal.fire({
         title: "Added Quantity Successfully!",
         text: `You have increase new quantity into your cart!`,
