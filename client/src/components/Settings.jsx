@@ -31,11 +31,21 @@ export default function Settings() {
       <Menu as="div" className="relative inline-block text-left">
         <div className="">
           <Menu.Button className="">
-            <img
-              className="w-[25px] h-[25px] object-cover rounded-full"
-              src={user.avatarURL}
-              alt=""
-            />
+            {user?.avatarURL ? (
+              <>
+                <img
+                  className="w-[25px] h-[25px] object-cover rounded-full"
+                  src={user.avatarURL}
+                  alt={`${user.username} avatar`}
+                />
+              </>
+            ) : (
+              <img
+                className="w-[25px] h-[25px] object-cover rounded-full"
+                src="https:cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                alt="default avatar"
+              />
+            )}
           </Menu.Button>
         </div>
         <Transition

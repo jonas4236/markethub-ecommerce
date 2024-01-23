@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+
 import {
   Button,
   Modal,
@@ -14,10 +15,11 @@ import {
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 
+const API_BASE_URL = "http://localhost:1337/api";
+
 const UploadAvatar = ({
   token,
   userId,
-  username,
   avatarURL,
   setisUserUpdated,
   setIsHover,
@@ -25,21 +27,19 @@ const UploadAvatar = ({
   const [modal, setModal] = useState(false);
   const [file, setFile] = useState(null);
 
-  const toggle = () => {
-    setModal(!modal);
-  };
+  const toggle = () => setModal(!modal);
 
-  const close = () => {
-    setIsHover(false);
-  };
+  const close = () => setIsHover(false);
 
-  const handleFileChange = ({ target: { files } }) => {
+  const handleFileChange = (event) => {
+    const { files } = event.target;
+
     if (files?.length) {
       const { type } = files[0];
       if (type === "image/png" || type === "image/jpeg") {
         setFile(files[0]);
       } else {
-        toast.error("Accept only png and jpeg image types are allowed!*", {
+        toast.error("Accept only png and jpeg image types are allowed!", {
           hideProgressBar: true,
         });
       }
@@ -49,8 +49,8 @@ const UploadAvatar = ({
   const updateUserAvatarId = async (avatarId, avatarURL) => {
     try {
       await axios.put(
-        `http://localhost:1337/api/users/${userId}`,
-        JSON.stringify({ avatarId, avatarURL }),
+        `${API_BASE_URL}/users/${userId}`,
+        { avatarId, avatarURL },
         {
           headers: {
             "Content-Type": "application/json",
@@ -59,42 +59,36 @@ const UploadAvatar = ({
         }
       );
       setisUserUpdated(true);
-      location.reload(true);
+      window.location.reload(true);
     } catch (error) {
-      console.log({ error });
+      console.error("Error updating user avatar:", error);
     }
   };
 
   const handleSubmit = async () => {
     if (!file) {
-      toast.error("File is required*", {
-        hideProgressBar: true,
-      });
+      toast.error("File is required!", { hideProgressBar: true });
       return;
     }
 
-    // console.log("handleChange:", handleFileChange)
-
     try {
-      const files = new FormData();
-      files.append("files", file);
-      //   files.append("name", `${username} avatar`);
+      const formData = new FormData();
+      formData.append("files", file);
 
       const {
         data: [{ id, url }],
-      } = await axios.post(`http://localhost:1337/api/upload`, files, {
+      } = await axios.post(`${API_BASE_URL}/upload`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `bearer ${token}`,
         },
       });
-      //   console.log("id:", id)
-      //   console.log("url:", url)
+
       updateUserAvatarId(id, url);
       setFile(null);
       setIsHover(false);
     } catch (error) {
-      console.log({ error });
+      console.error("Error uploading avatar:", error);
     }
   };
 
@@ -103,10 +97,6 @@ const UploadAvatar = ({
       ❌
     </button>
   );
-
-  const test = () => {
-    setIsHover(false);
-  };
 
   return (
     <>

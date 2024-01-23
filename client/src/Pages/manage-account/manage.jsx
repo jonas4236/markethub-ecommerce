@@ -91,7 +91,6 @@ const manage = () => {
                         <UploadAvatar
                           token={token}
                           userId={user.id}
-                          username={user.username}
                           avatarURL={user.avatarURL}
                           setisUserUpdated={setisUserUpdated}
                           setIsHover={setIsHover}
@@ -109,7 +108,6 @@ const manage = () => {
                         <UploadAvatar
                           token={token}
                           userId={user.id}
-                          username={user.username}
                           avatarURL={user.avatarURL}
                           setisUserUpdated={setisUserUpdated}
                           setIsHover={setIsHover}
