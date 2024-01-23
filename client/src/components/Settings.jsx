@@ -3,17 +3,37 @@ import { Fragment, useContext, useEffect, useRef, useState } from "react";
 import { BiUser, BiLink, BiDoorOpen, BiLogInCircle } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { AuthContext } from "./Context/AuthContext";
+import axios from "axios";
 
 export default function Settings() {
-  const { username, infoUser, logout } = useContext(AuthContext);
+  const { username, infoUser, logout, token } = useContext(AuthContext);
+
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    const getProfileData = async () => {
+      try {
+        const { data } = await axios.get(`http://localhost:1337/api/users/me`, {
+          headers: {
+            Authorization: `bearer ${token}`,
+          },
+        });
+        setUser(data);
+      } catch (error) {
+        console.log({ error });
+      }
+    };
+    getProfileData();
+  }, [token]);
+
   return (
     <div className="text-right">
       <Menu as="div" className="relative inline-block text-left">
         <div className="">
           <Menu.Button className="">
             <img
-              className="w-[25px] h-[25px] object-contain rounded-full"
-              src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+              className="w-[25px] h-[25px] object-cover rounded-full"
+              src={user.avatarURL}
               alt=""
             />
           </Menu.Button>

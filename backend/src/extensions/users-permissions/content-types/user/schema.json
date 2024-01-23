@@ -64,6 +64,15 @@
       "target": "plugin::users-permissions.role",
       "inversedBy": "users",
       "configurable": false
+    },
+    "address": {
+      "type": "string"
+    },
+    "avatarURL": {
+      "type": "string"
+    },
+    "avatarId": {
+      "type": "integer"
     }
   }
 }

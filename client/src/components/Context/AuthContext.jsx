@@ -21,6 +21,10 @@ export const AuthContextProvider = ({ children }) => {
     JSON.parse(localStorage.getItem("overAllSubtotal") || null)
   );
 
+  const [token, setToken] = useState(
+    JSON.parse(localStorage.getItem("token") || null)
+  );
+
   const subtotal = (price, quantity) => {
     return price * quantity;
   };
@@ -35,6 +39,7 @@ export const AuthContextProvider = ({ children }) => {
         if (data.jwt) {
           setInfoUser(data);
           setUsername(data.user.username);
+          setToken(data.jwt);
           localStorage.setItem("username", JSON.stringify(username));
           Swal.fire({
             title: "Login Successfully!",
@@ -227,7 +232,6 @@ export const AuthContextProvider = ({ children }) => {
         `http://localhost:1337/api/carts?populate=*&filters[username][$eq]=${username}`
       );
       setCartData(res.data);
-
     } catch (error) {
       console.error("Error updating cart:", error);
       Swal.fire({
@@ -280,6 +284,7 @@ export const AuthContextProvider = ({ children }) => {
       setUsername(null);
       setCartData(null);
       setOverAllSubtotal(0);
+      setToken(null);
       location.reload(true);
     } catch (err) {
       console.log("error can't logout account: ", err);
@@ -297,6 +302,10 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     localStorage.setItem("cartData", JSON.stringify(cartData));
   }, [cartData]);
+
+  useEffect(() => {
+    localStorage.setItem("token", JSON.stringify(token));
+  }, [token]);
 
   useEffect(() => {
     localStorage.setItem(
@@ -337,6 +346,7 @@ export const AuthContextProvider = ({ children }) => {
         infoUser,
         username,
         cartData,
+        token,
         overAllSubtotal,
         addWishlist,
         addCart,

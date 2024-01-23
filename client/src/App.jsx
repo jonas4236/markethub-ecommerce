@@ -11,7 +11,7 @@ import Login from "./Pages/Login";
 import Product from "./Pages/Product";
 import Cart from "./components/Cart";
 import Wishlist from "./components/wishlist/Wishlist";
-import Manage from "./components/manage-account/manage";
+import Manage from "./Pages/manage-account/manage";
 
 const Layout = () => {
   return (
