@@ -197,7 +197,7 @@ const manage = () => {
                     <button className="h-full">Cancel</button>
                   </div>
                   <div className="">
-                    <button className="py-3 px-8 bg-[#DB4444] text-white rounded-md">
+                    <button className="py-[12px] px-8 bg-[#DB4444] text-white rounded-md">
                       Save Changes
                     </button>
                   </div>

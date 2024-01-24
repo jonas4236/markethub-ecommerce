@@ -39,7 +39,7 @@ const UploadAvatar = ({
       if (type === "image/png" || type === "image/jpeg") {
         setFile(files[0]);
       } else {
-        toast.error("Accept only png and jpeg image types are allowed!", {
+        toast.error("Accept only png and jpeg image types are allowed*", {
           hideProgressBar: true,
         });
       }
@@ -67,28 +67,30 @@ const UploadAvatar = ({
 
   const handleSubmit = async () => {
     if (!file) {
-      toast.error("File is required!", { hideProgressBar: true });
+      toast.error("Avatar is required!", { hideProgressBar: true });
       return;
-    }
+    } else {
+      toast.success(
+        "Upload Avatar Successfully! Please wait a second for reload the page."
+      );
+      try {
+        const formData = new FormData();
+        formData.append("files", file);
 
-    try {
-      const formData = new FormData();
-      formData.append("files", file);
-
-      const {
-        data: [{ id, url }],
-      } = await axios.post(`${API_BASE_URL}/upload`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `bearer ${token}`,
-        },
-      });
-
-      updateUserAvatarId(id, url);
-      setFile(null);
-      setIsHover(false);
-    } catch (error) {
-      console.error("Error uploading avatar:", error);
+        const {
+          data: [{ id, url }],
+        } = await axios.post(`${API_BASE_URL}/upload`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `bearer ${token}`,
+          },
+        });
+        updateUserAvatarId(id, url);
+        setFile(null);
+        setIsHover(false);
+      } catch (error) {
+        console.error("Error uploading avatar:", error);
+      }
     }
   };
 
