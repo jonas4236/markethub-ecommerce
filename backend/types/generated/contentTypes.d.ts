@@ -1046,10 +1046,10 @@ export interface ApiReviewReview extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    Text: Attribute.Text;
-    ProductName: Attribute.String;
+    text: Attribute.Text;
+    productId: Attribute.BigInteger;
     email: Attribute.Email;
-    stars: Attribute.Integer;
+    starrs: Attribute.BigInteger;
     username: Attribute.String & Attribute.Required;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;

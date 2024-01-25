@@ -12,17 +12,17 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "Text": {
+    "text": {
       "type": "text"
     },
-    "ProductName": {
-      "type": "string"
+    "productId": {
+      "type": "biginteger"
     },
     "email": {
       "type": "email"
     },
-    "stars": {
-      "type": "integer"
+    "starrs": {
+      "type": "biginteger"
     },
     "username": {
       "type": "string",

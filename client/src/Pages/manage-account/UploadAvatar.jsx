@@ -40,7 +40,7 @@ const UploadAvatar = ({
         setFile(files[0]);
       } else {
         toast.error("Accept only png and jpeg image types are allowed*", {
-          hideProgressBar: true,
+          autoClose: 3000,
         });
       }
     }
@@ -67,7 +67,9 @@ const UploadAvatar = ({
 
   const handleSubmit = async () => {
     if (!file) {
-      toast.error("Avatar is required!", { hideProgressBar: true });
+      toast.error("Avatar is required!", {
+        autoClose: 3000,
+      });
       return;
     } else {
       toast.success(

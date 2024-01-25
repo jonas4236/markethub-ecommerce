@@ -62,7 +62,7 @@ const AddToCart = ({
         <>
           <span
             onClick={handleAddedWishlist}
-            className="absolute bg-white hover:bg-black hover:text-white top-[15px] p-[8px] rounded-full right-[24px]"
+            className="absolute bg-white hover:bg-black hover:text-[#DB4444] top-[15px] p-[8px] rounded-full right-[24px]"
           >
             <BsBagHeart />
           </span>
@@ -70,7 +70,7 @@ const AddToCart = ({
       )}
       <span
         onClick={() => setOpen(true)}
-        className="absolute bg-white hover:bg-black hover:text-white top-[55px] p-[8px] rounded-full right-[24px]"
+        className="absolute bg-white hover:bg-black hover:text-[#DB4444] top-[55px] p-[8px] rounded-full right-[24px]"
       >
         <Lightbox
           open={open}

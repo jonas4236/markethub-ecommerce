@@ -5,6 +5,7 @@ import ProductDetails from "../components/ProductDetails";
 import RelatedItems from "../components/RelatedItems";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import ProductReview from "../components/Reviews/ProductReview";
 
 const Product = () => {
   const [product, setProduct] = useState([]);
@@ -85,6 +86,9 @@ const Product = () => {
             <div className="flex-[2]">
               <ProductDetails product={product} size={size} />
             </div>
+          </div>
+          <div className="mt-20">
+            <ProductReview />
           </div>
           <div className="">
             <RelatedItems product={relatedProduct} slug={slugRelated} />

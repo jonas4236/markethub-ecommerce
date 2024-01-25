@@ -14,7 +14,7 @@ const WishlistAdd = ({ itemId }) => {
   return (
     <>
       <div onClick={handleRemovedWishlist} className="">
-        <span className="absolute bg-white text-[#DB4444] hover:bg-black hover:text-white top-[15px] p-[8px] rounded-full right-[24px]">
+        <span className="absolute bg-white text-[#DB4444] hover:bg-black hover:text-gray-600 top-[15px] p-[8px] rounded-full right-[24px]">
           <BsFillTrash3Fill />
         </span>
       </div>
