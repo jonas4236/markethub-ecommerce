@@ -8,7 +8,6 @@ import { getWishlistTotal } from "../../Redux/wishlistSlice";
 
 const WishlistProduct = ({ item }) => {
   const [isHover, setIsHover] = useState(false);
-  
 
   const formattedText = (name) => {
     if (name.length <= 23) {
@@ -19,7 +18,7 @@ const WishlistProduct = ({ item }) => {
   };
 
   // console.log("item:", item);
-  
+
   return (
     <div className="">
       <Link to={`/product/${item.attributes.category}/${item.attributes.slug}`}>
@@ -58,10 +57,10 @@ const WishlistProduct = ({ item }) => {
             </span>
             <div className="flex w-full h-full py-1">
               <span className="text-[#DB4444] mr-[8px] text-base font-semibold">
-                THB: {item.attributes.PricePerPiece}
+                THB: {item.attributes.PricePerPiece.toLocaleString()}
               </span>
               <span className="line-through text-gray-500 text-sm font-semibold">
-                {item.attributes.discount}
+                {item.attributes.discount.toLocaleString()}
               </span>
             </div>
           </div>

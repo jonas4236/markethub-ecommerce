@@ -2,6 +2,7 @@ import React from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import DetailsReview from "./DetailsReview";
+import WriteComments from "./WriteComments";
 
 const ProductReview = () => {
   const responsive = {
@@ -43,8 +44,9 @@ const ProductReview = () => {
           <DetailsReview />
           <DetailsReview />
           <DetailsReview />
-
         </Carousel>
+
+        <WriteComments />
       </div>
     </>
   );

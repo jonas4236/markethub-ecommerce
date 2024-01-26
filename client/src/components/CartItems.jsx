@@ -36,7 +36,7 @@ const CartItems = ({ item, quan }) => {
 
   return (
     <>
-      <div className="flex gap-10 px-12 py-4 my-6 shadow-lg">
+      <div className="flex gap-10 px-12 py-4 my-6 shadow-xl">
         <div className="flex-[1] justify-center items-center">
           <div className="flex items-center relative">
             <img

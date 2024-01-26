@@ -47,7 +47,7 @@ const Cart = () => {
             <span className="text-[#DB4444] font-medium ml-2">Cart</span>
           </div>
           <div className="">
-            <div className="flex gap-10 px-12 py-4 shadow-lg mb-8">
+            <div className="flex gap-10 px-12 py-4 shadow-xl mb-8">
               <div className="flex-[1]">
                 <span className="text-black font-medium flex items-center justify-center">
                   Product
@@ -106,13 +106,13 @@ const Cart = () => {
 
             <div className="flex gap-64 mt-8">
               <div className="flex-[1]">
-                <div className="">
+                <div className="flex">
                   <input
-                    className="py-3 px-5 mr-4 rounded-md border-[1px] border-[#DB4444] text-[#DB4444] outline-none font-medium"
+                    className="px-2 mr-4 rounded-md border-[1px] border-[#DB4444] text-[#DB4444] outline-none font-medium"
                     type="text"
                     placeholder="Coupon Code"
                   />
-                  <button className="py-3 px-5 rounded-md bg-[#DB4444] text-white outline-none font-medium tracking-wide">
+                  <button className="py-2.5 px-3 rounded-md bg-[#DB4444] text-white outline-none font-medium tracking-wide">
                     Apply Coupon
                   </button>
                 </div>
