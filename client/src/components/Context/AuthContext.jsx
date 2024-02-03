@@ -13,6 +13,10 @@ export const AuthContextProvider = ({ children }) => {
     JSON.parse(localStorage.getItem("username") || null)
   );
 
+  const [email, setEmail] = useState(
+    JSON.parse(localStorage.getItem("email") || null)
+  );
+
   const [cartData, setCartData] = useState(
     JSON.parse(localStorage.getItem("cartData") || null)
   );
@@ -39,6 +43,7 @@ export const AuthContextProvider = ({ children }) => {
         if (data.jwt) {
           setInfoUser(data);
           setUsername(data.user.username);
+          setEmail(data.user.email);
           setToken(data.jwt);
           localStorage.setItem("username", JSON.stringify(username));
           Swal.fire({
@@ -282,6 +287,7 @@ export const AuthContextProvider = ({ children }) => {
     try {
       setInfoUser(null);
       setUsername(null);
+      setEmail(null);
       setCartData(null);
       setOverAllSubtotal(0);
       setToken(null);
@@ -298,6 +304,10 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     localStorage.setItem("username", JSON.stringify(username));
   }, [username]);
+
+  useEffect(() => {
+    localStorage.setItem("email", JSON.stringify(email));
+  }, [email]);
 
   useEffect(() => {
     localStorage.setItem("cartData", JSON.stringify(cartData));
@@ -345,6 +355,7 @@ export const AuthContextProvider = ({ children }) => {
         login,
         infoUser,
         username,
+        email,
         cartData,
         token,
         overAllSubtotal,

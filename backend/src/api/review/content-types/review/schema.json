@@ -21,10 +21,14 @@
     "email": {
       "type": "email"
     },
-    "starrs": {
+    "stars": {
       "type": "biginteger"
     },
     "username": {
+      "type": "string",
+      "required": true
+    },
+    "profileImage": {
       "type": "string",
       "required": true
     }

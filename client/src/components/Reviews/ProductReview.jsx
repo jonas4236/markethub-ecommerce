@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import DetailsReview from "./DetailsReview";
 import WriteComments from "./WriteComments";
+import axios from "axios";
 
-const ProductReview = () => {
+const ProductReview = ({ token, productId, setRating, setIsProductUpdate }) => {
+  const [dataReview, setDataReview] = useState([]);
   const responsive = {
     superLargeDesktop: {
-      // the naming can be any, depends on you.
       breakpoint: { max: 4000, min: 3000 },
       items: 4,
     },
@@ -24,6 +25,28 @@ const ProductReview = () => {
       items: 1,
     },
   };
+
+  useEffect(() => {
+    const getReviewData = async () => {
+      try {
+        const {
+          data: { data },
+        } = await axios.get(
+          `http://localhost:1337/api/reviews?&filters[productId][$eq]=${productId}`
+        );
+
+        setDataReview(data);
+        setIsProductUpdate(true);
+      } catch (error) {
+        console.log("can't get review data:", error);
+      }
+    };
+
+    getReviewData();
+  }, [productId]);
+
+  // console.log("DataReview:", dataReview);
+
   return (
     <>
       <div className="w-full">
@@ -33,20 +56,26 @@ const ProductReview = () => {
         </div>
         <Carousel
           responsive={responsive}
-          className="object-contain rounded-lg"
+          className={`object-contain rounded-lg flex ${
+            dataReview.length <= 3 ? "justify-center" : ""
+          }`}
           autoPlay={true}
           autoPlaySpeed={3000}
-          infinite={true}
-          //   showDots={true}
         >
-          <DetailsReview />
-          <DetailsReview />
-          <DetailsReview />
-          <DetailsReview />
-          <DetailsReview />
+          {/* make data reverse for make new users comments to first slide */}
+          {[...dataReview].reverse().map((item) => (
+            <DetailsReview key={item.id} review={item} />
+          ))}
         </Carousel>
 
-        <WriteComments />
+        {token && (
+          <WriteComments
+            token={token}
+            productId={productId}
+            setRating={setRating}
+            setIsProductUpdate={setIsProductUpdate}
+          />
+        )}
       </div>
     </>
   );

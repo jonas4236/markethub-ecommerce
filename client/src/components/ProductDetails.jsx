@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import { BiSolidStar, BiStar, BiHeart, BiSolidHeart } from "react-icons/bi";
-import SetColours from "./Colours/setColours";
+import { BiHeart, BiSolidHeart } from "react-icons/bi";
 import SizeSelected from "./SizeSelected";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import Swal from "sweetalert2";
+import { Rating } from "react-simple-star-rating";
 
 import { AuthContext } from "./Context/AuthContext";
 import axios from "axios";
@@ -27,6 +27,7 @@ const ProductDetails = ({ product, size }) => {
   const { username, addWishlist, removeWishlist, addCart, updateQuantiy } =
     useContext(AuthContext);
   const [cartData, setCartData] = useState([]);
+  const [rating, setRating] = useState(null);
 
   useEffect(() => {
     const fetchDataFromCart = async () => {
@@ -87,6 +88,36 @@ const ProductDetails = ({ product, size }) => {
   const getProductSameName = cartData?.data?.find(
     (item) => item.attributes.title === singleProductNameNoSize
   );
+
+  const [dataReviewCount, setDataReviewCount] = useState([]);
+
+  useEffect(() => {
+    const getReviewData = async () => {
+      try {
+        const {
+          data: { data },
+        } = await axios.get(
+          `http://localhost:1337/api/reviews?&filters[productId][$eq]=${singleProductId}`
+        );
+
+        setDataReviewCount(data);
+        let averageRating =
+          data.reduce((acc, value) => {
+            return acc + Number(value.attributes.stars);
+          }, 0) / data.length;
+
+        averageRating = Number(
+          averageRating > 0 ? averageRating.toFixed(1) : averageRating
+        );
+
+        setRating(averageRating);
+      } catch (error) {
+        console.log("can't get review data:", error);
+      }
+    };
+
+    getReviewData();
+  }, [singleProductId, rating]);
 
   const CartId2 = getProductSameName?.id;
   const currentProductQuantity2 = getProductSameName?.attributes.quantity;
@@ -179,23 +210,18 @@ const ProductDetails = ({ product, size }) => {
             </div>
             <div className="mt-1">
               <div className="flex items-center">
-                <span className="text-yellow-500 text-[18px]">
-                  <BiSolidStar />
-                </span>
-                <span className="text-yellow-500 text-[18px]">
-                  <BiSolidStar />
-                </span>
-                <span className="text-yellow-500 text-[18px]">
-                  <BiSolidStar />
-                </span>
-                <span className="text-yellow-500 text-[18px]">
-                  <BiSolidStar />
-                </span>
-                <span className="text-yellow-500 text-[18px]">
-                  <BiStar />
-                </span>
+                <Rating
+                  SVGclassName="inline-block"
+                  initialValue={rating ? rating : 0}
+                  readonly
+                  size={20}
+                />
                 <span className="ml-4 mr-2 text-[14px] text-gray-400">
-                  (150 Reviews)
+                  (
+                  {`${dataReviewCount.length ? dataReviewCount.length : 0} ${
+                    dataReviewCount.length === 1 ? "Review" : "Reviews"
+                  }`}
+                  )
                 </span>
                 <span className="text-xl mr-2 text-gray-400">|</span>
                 {DataProduct.attributes.Stock >= 1 ? (

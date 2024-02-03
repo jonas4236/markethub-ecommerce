@@ -10,15 +10,15 @@
     "strapi": "strapi"
   },
   "dependencies": {
-    "@strapi/plugin-i18n": "^4.16.2",
-    "@strapi/plugin-users-permissions": "^4.16.2",
-    "@strapi/provider-upload-cloudinary": "^4.16.2",
-    "@strapi/strapi": "^4.16.2",
+    "@strapi/plugin-i18n": "^4.19.1",
+    "@strapi/plugin-users-permissions": "^4.19.1",
+    "@strapi/provider-upload-cloudinary": "^4.19.1",
+    "@strapi/strapi": "^4.19.1",
     "mysql": "2.18.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^5.3.4",
-    "stripe": "^14.12.0",
+    "stripe": "^14.14.0",
     "styled-components": "^5.3.11"
   },
   "author": {

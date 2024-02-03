@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { Rating } from "react-simple-star-rating";
 
-const DetailsReview = () => {
-  const [rating, setRating] = useState(4);
-
+const DetailsReview = ({ review }) => {
   return (
     <>
       <div className="">
@@ -13,15 +11,15 @@ const DetailsReview = () => {
               <div className="flex items-center justify-center ">
                 <img
                   className="size-12 p-1 rounded-full border-2 border-[#DB4444]"
-                  src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-                  alt=""
+                  src={review.attributes.profileImage}
+                  alt="PROFILE_IMAGE"
                 />
               </div>
               <div className="flex justify-center">
                 <span>
                   <Rating
                     SVGclassName="inline-block"
-                    initialValue={rating}
+                    initialValue={review.attributes.stars}
                     readonly
                     size={20}
                   />
@@ -30,20 +28,15 @@ const DetailsReview = () => {
               </div>
               <div className="flex flex-col items-center justify-center">
                 <span className="text-[#DB4444] font-medium">
-                  Thanakorn Sangmee
+                  {review.attributes.username}
                 </span>
-                <span className="font-medium">Posted: 25/1/2567</span>
+                <span className="font-medium">
+                  Posted:{" "}
+                  {new Date(review.attributes.createdAt).toLocaleString("th")}
+                </span>
               </div>
               <div className="mt-2 h-max px-2">
-                <span className="h-max">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Repudiandae reprehenderit ullam doloribus suscipit voluptate
-                  ab? Fuga enim blanditiis consequatur? Molestiae nam commodi
-                  voluptatum quas? Repellat expedita amet aspernatur, obcaecati,
-                  est qui iusto placeat modi eius voluptas quae. Ad omnis eius
-                  illum vitae, reprehenderit eos delectus, soluta dicta
-                  laudantium enim doloribus.
-                </span>
+                <span className="h-max">{review.attributes.text}</span>
               </div>
             </div>
           </div>

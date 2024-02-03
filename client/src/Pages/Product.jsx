@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import ProductDetails from "../components/ProductDetails";
@@ -6,10 +6,15 @@ import RelatedItems from "../components/RelatedItems";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import ProductReview from "../components/Reviews/ProductReview";
+import { AuthContext } from "../components/Context/AuthContext";
 
 const Product = () => {
   const [product, setProduct] = useState([]);
   const [relatedProduct, setRelatedProduct] = useState([]);
+  const [rating, setRating] = useState({ stars: null, count: 0 });
+  const [isProductUpdate, setIsProductUpdate] = useState(false);
+
+  const { token } = useContext(AuthContext);
 
   const { slug } = useParams();
 
@@ -20,10 +25,16 @@ const Product = () => {
       );
 
       setProduct(res.data);
+      setIsProductUpdate(false);
     };
 
     fetchPd();
-  }, [slug]);
+  }, [slug, isProductUpdate]);
+
+  const id = product.data?.[0]?.id;
+
+  // console.log("productId:", id);
+  // console.log("token:", token);
 
   const pd = product.data?.[0]?.attributes?.name;
   const categoryy = product.data?.[0]?.attributes;
@@ -88,7 +99,12 @@ const Product = () => {
             </div>
           </div>
           <div className="mt-20">
-            <ProductReview />
+            <ProductReview
+              token={token}
+              productId={id}
+              setRating={setRating}
+              setIsProductUpdate={setIsProductUpdate}
+            />
           </div>
           <div className="">
             <RelatedItems product={relatedProduct} slug={slugRelated} />
