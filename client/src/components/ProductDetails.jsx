@@ -255,12 +255,6 @@ const ProductDetails = ({ product, size }) => {
                 </Markdown>
               </div>
               <div className="w-[full] h-[2px] bg-black mt-4 rounded-full"></div>
-              {/* <div className="flex mt-4">
-                <span className="text-xl tracking-tighter">Colours:</span>
-                <span className="ml-2">
-                  <SetColours />
-                </span>
-              </div> */}
               {size && (
                 <div className="mt-4" id="slSize">
                   <span className="text-xl tracking-tighter mr-2">
