@@ -59,8 +59,6 @@ const ProductReview = ({ token, productId, setRating, setIsProductUpdate }) => {
           className={`object-contain rounded-lg flex ${
             dataReview.length <= 3 ? "justify-center" : ""
           }`}
-          autoPlay={true}
-          autoPlaySpeed={3000}
         >
           {/* make data reverse for make new users comments to first slide */}
           {[...dataReview].reverse().map((item) => (

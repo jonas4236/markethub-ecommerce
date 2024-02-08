@@ -62,7 +62,7 @@ const WriteComments = ({ token, productId, setRating, setIsProductUpdate }) => {
           text: `Thanks you for review our product!`,
           icon: "success",
         }).then(() => {
-          location.reload(true);
+          window.location.reload();
         });
       } catch (error) {
         console.log("error cannot submit review:", error);
