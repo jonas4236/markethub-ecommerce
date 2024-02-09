@@ -10,7 +10,8 @@ const Cart = () => {
   );
 
   const [loading, setLoading] = useState(false);
-  const { username, overAllSubtotal, cartData } = useContext(AuthContext);
+  const { username, overAllSubtotal, cartData, email } =
+    useContext(AuthContext);
   // console.log("cartData:", cartData);
 
   useEffect(() => {
@@ -28,6 +29,7 @@ const Cart = () => {
       const res = await axios.post("http://localhost:1337/api/orders", {
         cartData: cartData,
         total: overAllSubtotal,
+        email: email,
       });
 
       await stripe.redirectToCheckout({

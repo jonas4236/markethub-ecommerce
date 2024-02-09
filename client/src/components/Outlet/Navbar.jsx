@@ -8,7 +8,6 @@ import axios from "axios";
 import { AuthContext } from "../Context/AuthContext";
 
 const Navbar = () => {
-  const [dataWishlist, setDataWishlist] = useState([]);
   const [wishlistTotal, setWishlistTotal] = useState([]);
   const [cartTotal, setCartTotal] = useState([]);
   const { username } = useContext(AuthContext);
@@ -19,7 +18,6 @@ const Navbar = () => {
         const urlWishlists = `http://localhost:1337/api/wishlists?&filters[username]=${username}`;
         const res = await axios.get(urlWishlists);
 
-        setDataWishlist(res.data);
         setWishlistTotal(res.data.meta?.pagination.total);
       } catch (error) {
         console.log("error cannot get total wishlist: ", error);
@@ -35,7 +33,6 @@ const Navbar = () => {
         const urlCart = `http://localhost:1337/api/carts?&filters[username]=${username}`;
         const res = await axios.get(urlCart);
 
-        setDataWishlist(res.data);
         setCartTotal(res.data.meta?.pagination.total);
       } catch (error) {
         console.log("error cannot get total wishlist: ", error);
