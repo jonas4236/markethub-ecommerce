@@ -975,6 +975,7 @@ export interface ApiOrderOrder extends Schema.CollectionType {
     email: Attribute.String;
     stripeId: Attribute.String;
     products: Attribute.JSON;
+    total: Attribute.Integer;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

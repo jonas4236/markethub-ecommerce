@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { RiShoppingCart2Line } from "react-icons/ri";
-import { FaCircleUser } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import Settings from "../Settings";
 import axios from "axios";
@@ -28,7 +27,7 @@ const Navbar = () => {
   }, [username, wishlistTotal]);
 
   useEffect(() => {
-    const fetchTotalWishlist = async () => {
+    const fetchTotalCart = async () => {
       try {
         const urlCart = `http://localhost:1337/api/carts?&filters[username]=${username}`;
         const res = await axios.get(urlCart);
@@ -39,7 +38,7 @@ const Navbar = () => {
       }
     };
 
-    fetchTotalWishlist();
+    fetchTotalCart();
   }, [username, wishlistTotal]);
 
   return (

@@ -20,6 +20,9 @@
     },
     "products": {
       "type": "json"
+    },
+    "total": {
+      "type": "integer"
     }
   }
 }

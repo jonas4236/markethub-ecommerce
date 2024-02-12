@@ -12,14 +12,10 @@ const { createCoreController } = require("@strapi/strapi").factories;
 module.exports = createCoreController("api::order.order", ({ strapi }) => ({
   async create(ctx) {
     // @ts-ignore
-    const { cartData, email } = ctx.request.body;
+    const { cartData, email, total } = ctx.request.body;
 
     const lineItems = await Promise.all(
       cartData?.data?.map(async (product) => {
-        // const item = await strapi
-        //   .service("api::product.product")
-        //   .findOne(product.id);
-
         return {
           price_data: {
             currency: "thb",
@@ -39,20 +35,30 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
         shipping_address_collection: { allowed_countries: ["TH"] },
         payment_method_types: ["card"],
         mode: "payment",
-        success_url: `${process.env.CLIENT_URL}`,
-        cancel_url: `${process.env.CLIENT_URL}`,
+        success_url: `${process.env.CLIENT_URL}/cart`,
+        cancel_url: `${process.env.CLIENT_URL}/cart`,
         line_items: lineItems,
       });
 
+
+      // push data from frontend to database (order).
       await strapi.service("api::order.order").create({
         data: {
           email: email,
           products: cartData,
           stripeId: session.id,
+          total: total,
         },
       });
 
-      return { stripeSession: session };
+      const responseData = {
+        sessionId: session.id,
+        sessionUrl: session.url,
+        success: true,
+        stripeSession: session,
+      };
+
+      ctx.response.body = responseData;
     } catch (err) {
       ctx.response.status = 500;
       ctx.response.statusText = err;

@@ -12,7 +12,7 @@ const Cart = () => {
   const [loading, setLoading] = useState(false);
   const { username, overAllSubtotal, cartData, email } =
     useContext(AuthContext);
-  // console.log("cartData:", cartData);
+  console.log("cartData:", cartData);
 
   useEffect(() => {
     if (username) {
@@ -22,19 +22,30 @@ const Cart = () => {
     window.location.href = "/login";
   }, [username]);
 
+  const test = async () => {
+    await axios.delete(`http://localhost:1337/api/cart/${username}`);
+    // Update local state to reflect empty cart
+  };
+
   const handlePayment = async () => {
     try {
       const stripe = await stripePromise;
       setLoading(true);
-      const res = await axios.post("http://localhost:1337/api/orders", {
+      const { data } = await axios.post("http://localhost:1337/api/orders", {
         cartData: cartData,
         total: overAllSubtotal,
         email: email,
       });
 
       await stripe.redirectToCheckout({
-        sessionId: res.data.stripeSession.id,
+        sessionId: data.stripeSession.id,
       });
+
+      if (data || data.success) {
+        // await axios.get(`http://localhost:1337/api/cart/${username}`);
+
+        window.location.href = "products/nike";
+      }
     } catch (err) {
       setLoading(false);
       console.log("can't handlePayment:", err);
@@ -116,7 +127,10 @@ const Cart = () => {
                     type="text"
                     placeholder="Coupon Code"
                   />
-                  <button className="py-2.5 px-3 rounded-md bg-[#DB4444] text-white outline-none font-medium tracking-wide">
+                  <button
+                    onClick={test}
+                    className="py-2.5 px-3 rounded-md bg-[#DB4444] text-white outline-none font-medium tracking-wide"
+                  >
                     Apply Coupon
                   </button>
                 </div>
