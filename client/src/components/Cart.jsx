@@ -12,7 +12,6 @@ const Cart = () => {
   const [loading, setLoading] = useState(false);
   const { username, overAllSubtotal, cartData, email } =
     useContext(AuthContext);
-  console.log("cartData:", cartData);
 
   useEffect(() => {
     if (username) {
@@ -21,11 +20,6 @@ const Cart = () => {
 
     window.location.href = "/login";
   }, [username]);
-
-  const test = async () => {
-    await axios.delete(`http://localhost:1337/api/cart/${username}`);
-    // Update local state to reflect empty cart
-  };
 
   const handlePayment = async () => {
     try {
@@ -40,12 +34,6 @@ const Cart = () => {
       await stripe.redirectToCheckout({
         sessionId: data.stripeSession.id,
       });
-
-      if (data || data.success) {
-        // await axios.get(`http://localhost:1337/api/cart/${username}`);
-
-        window.location.href = "products/nike";
-      }
     } catch (err) {
       setLoading(false);
       console.log("can't handlePayment:", err);
@@ -127,10 +115,7 @@ const Cart = () => {
                     type="text"
                     placeholder="Coupon Code"
                   />
-                  <button
-                    onClick={test}
-                    className="py-2.5 px-3 rounded-md bg-[#DB4444] text-white outline-none font-medium tracking-wide"
-                  >
+                  <button className="py-2.5 px-3 rounded-md bg-[#DB4444] text-white outline-none font-medium tracking-wide">
                     Apply Coupon
                   </button>
                 </div>
