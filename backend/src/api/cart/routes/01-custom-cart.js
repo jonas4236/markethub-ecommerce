@@ -10,10 +10,5 @@ module.exports = {
       path: "/stock/:username",
       handler: "cart.updateStock",
     },
-    {
-      method: "GET",
-      path: "/stocks/:username",
-      handler: "cart.updateStock",
-    },
   ],
 };
