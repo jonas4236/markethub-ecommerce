@@ -42,9 +42,9 @@ const HomePage = () => {
     }
   }, [dataSession, detected, navigate, pathname]); // Include navigate in dependencies
 
-  console.log("dataSession:", dataSession);
-  console.log("detected:", detected);
-  console.log("pathname:", pathname);
+  // console.log("dataSession:", dataSession);
+  // console.log("detected:", detected);
+  // console.log("pathname:", pathname);
 
   return (
     <>

@@ -60,6 +60,8 @@ const ProductDetails = ({ product, size }) => {
   }, [username]);
 
   const singleProductId = product.data?.[0]?.id;
+  const sgProductName = product.data?.[0]?.attributes.name;
+
   const singleProductName =
     product.data?.[0]?.attributes.name + ` [${selectedSize}]`;
   const singleProductNameNoSize = product.data?.[0]?.attributes.name;
@@ -121,6 +123,21 @@ const ProductDetails = ({ product, size }) => {
 
   const CartId2 = getProductSameName?.id;
   const currentProductQuantity2 = getProductSameName?.attributes.quantity;
+
+  const findExistItemInCart = cartData.data?.find(
+    (item) => item.attributes.title == sgProductName
+  );
+
+  // console.log("findExistItemInCart:", findExistItemInCart);
+
+  const findQuantityInCart = findExistItemInCart?.attributes.quantity;
+
+  const constantOfStockInCart =
+    product.data?.[0]?.attributes.Stock - findQuantityInCart;
+
+  console.log("findQuantityInCart:", findQuantityInCart);
+  console.log("constantOfStockInCart:", constantOfStockInCart);
+  console.log("productQuantity:", productQuantity);
 
   useEffect(() => {
     if (product) {
@@ -281,7 +298,7 @@ const ProductDetails = ({ product, size }) => {
                 <div className="w-max">
                   <div className="flex h-full rounded-md border-black border-[1px]">
                     <button
-                      className="mr-2  border-r-[1px] border-black h-10 w-10 flex items-center justify-center text-black text-2xl"
+                      className="mr-2 border-r-[1px] border-black h-full w-10 flex items-center justify-center text-black text-2xl"
                       onClick={() => {
                         const newQuantity = productQuantity - 1;
                         setProductQuantity(newQuantity < 1 ? 1 : newQuantity);
@@ -290,54 +307,89 @@ const ProductDetails = ({ product, size }) => {
                       -
                     </button>
                     <span className="flex items-center mx-4 font-medium">
-                      {productQuantity}
+                      {productQuantity > DataProduct.attributes.Stock
+                        ? DataProduct.attributes.Stock
+                        : productQuantity > constantOfStockInCart
+                        ? constantOfStockInCart
+                        : productQuantity}
                     </span>
-                    <button
-                      className="ml-2 bg-[#DB4444] h-10 w-10 flex items-center justify-center rounded-[0_6px_6px_0] text-white text-2xl"
-                      onClick={() => setProductQuantity(productQuantity + 1)}
-                    >
-                      +
-                    </button>
+                    {productQuantity === DataProduct.attributes.Stock ||
+                    productQuantity === constantOfStockInCart ? (
+                      <button className="ml-2 bg-[#CCC] h-full w-10 flex items-center justify-center rounded-[0_6px_6px_0] text-black text-2xl">
+                        +
+                      </button>
+                    ) : (
+                      <button
+                        className="ml-2 bg-[#DB4444] h-full w-10 flex items-center justify-center rounded-[0_6px_6px_0] text-white text-2xl"
+                        onClick={() => {
+                          if (productQuantity < DataProduct.attributes.Stock) {
+                            setProductQuantity(productQuantity + 1);
+                          } else {
+                            return;
+                          }
+                          if (productQuantity < constantOfStockInCart) {
+                            setProductQuantity(productQuantity + 1);
+                          } else {
+                            return;
+                          }
+                        }}
+                      >
+                        +
+                      </button>
+                    )}
                   </div>
                 </div>
                 <div className="flex">
                   {DataProduct.attributes.Stock >= 1 ? (
                     <>
-                      <button
-                        onClick={(event) => {
-                          if (!username) {
-                            window.location.href = "/login";
-                          } else {
-                            if (size) {
-                              if (requireSize && !selectedSize) {
-                                document
-                                  .getElementById("slSize")
-                                  .scrollIntoView({
-                                    block: "center",
-                                    behavior: "smooth",
-                                  });
+                      {constantOfStockInCart === 0 ? (
+                        <>
+                          <button className="text-[#fff] bg-gray-300 border-2 border-gray-400 cursor-not-allowed mr-4 py-2 px-6 h-full rounded-md">
+                            Sold Out
+                          </button>
+                          <button className="text-[#fff] bg-gray-300 border-2 border-gray-400 cursor-not-allowed py-2 px-6 h-full rounded-md">
+                            Sold Out
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <button
+                            onClick={(event) => {
+                              if (!username) {
+                                window.location.href = "/login";
                               } else {
-                                handleAddCart(event);
+                                if (size) {
+                                  if (requireSize && !selectedSize) {
+                                    document
+                                      .getElementById("slSize")
+                                      .scrollIntoView({
+                                        block: "center",
+                                        behavior: "smooth",
+                                      });
+                                  } else {
+                                    handleAddCart(event);
+                                  }
+                                } else {
+                                  handleAddCart(event);
+                                }
                               }
-                            } else {
-                              handleAddCart(event);
-                            }
-                          }
-                        }}
-                        className="text-white bg-[#000] mr-4 py-2 px-6 h-full rounded-md"
-                      >
-                        Add To Cart
-                      </button>
-                      <button className="text-white bg-[#DB4444] py-2 px-6 h-full rounded-md">
-                        Buy Now
-                      </button>
+                            }}
+                            className="text-white bg-[#000] mr-4 py-2 px-6 h-full rounded-md"
+                          >
+                            Add To Cart
+                          </button>
+                          <button className="text-white bg-[#DB4444] py-2 px-6 h-full rounded-md">
+                            Buy Now
+                          </button>
+                        </>
+                      )}
                     </>
                   ) : (
                     <>
-                      <button className="text-[#fff] bg-gray-300 cursor-not-allowed mr-4 py-2 px-6 h-full rounded-md">
+                      <button className="text-[#fff] bg-gray-300 border-2 border-gray-400 cursor-not-allowed mr-4 py-2 px-6 h-full rounded-md">
                         Sold Out
                       </button>
-                      <button className="text-[#fff] bg-gray-300 cursor-not-allowed py-2 px-6 h-full rounded-md">
+                      <button className="text-[#fff] bg-gray-300 border-2 border-gray-400 cursor-not-allowed py-2 px-6 h-full rounded-md">
                         Sold Out
                       </button>
                     </>
