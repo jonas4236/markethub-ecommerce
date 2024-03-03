@@ -113,22 +113,28 @@ const CartItems = ({ item, quan }) => {
             <span className="flex items-center mx-4 font-medium">
               {quantity}
             </span>
-            <button
-              className="ml-2 h-full bg-[#DB4444] w-10 flex items-center justify-center rounded-[0_6px_6px_0] text-white text-2xl"
-              onClick={() => {
-                setQuantity((prevQuantity) => {
-                  const plusQuantity = prevQuantity + 1;
-                  const newPlusQuantity =
-                    plusQuantity > item.attributes.stock
-                      ? item.attributes.stock
-                      : plusQuantity;
-                  handleQuantityChange(item.id, newPlusQuantity);
-                  return newPlusQuantity;
-                });
-              }}
-            >
-              +
-            </button>
+            {quantity === item.attributes.stock ? (
+              <button className="ml-2 h-full bg-[#CCC] w-10 flex items-center justify-center rounded-[0_6px_6px_0] text-black text-2xl">
+                +
+              </button>
+            ) : (
+              <button
+                className="ml-2 h-full bg-[#DB4444] w-10 flex items-center justify-center rounded-[0_6px_6px_0] text-white text-2xl"
+                onClick={() => {
+                  setQuantity((prevQuantity) => {
+                    const plusQuantity = prevQuantity + 1;
+                    const newPlusQuantity =
+                      plusQuantity >= item.attributes.stock
+                        ? item.attributes.stock
+                        : plusQuantity;
+                    handleQuantityChange(item.id, newPlusQuantity);
+                    return newPlusQuantity;
+                  });
+                }}
+              >
+                +
+              </button>
+            )}
           </div>
         </div>
 

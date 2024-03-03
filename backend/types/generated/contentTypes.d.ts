@@ -852,6 +852,36 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
   };
 }
 
+export interface ApiCountdownCountdown extends Schema.CollectionType {
+  collectionName: 'countdowns';
+  info: {
+    singularName: 'countdown';
+    pluralName: 'countdowns';
+    displayName: 'countdown';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    flashsale: Attribute.Integer;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::countdown.countdown',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::countdown.countdown',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiFooterCategoryFooterCategory extends Schema.CollectionType {
   collectionName: 'footer_categories';
   info: {
@@ -1142,6 +1172,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::cart.cart': ApiCartCart;
       'api::category.category': ApiCategoryCategory;
+      'api::countdown.countdown': ApiCountdownCountdown;
       'api::footer-category.footer-category': ApiFooterCategoryFooterCategory;
       'api::header-promote.header-promote': ApiHeaderPromoteHeaderPromote;
       'api::main-category.main-category': ApiMainCategoryMainCategory;

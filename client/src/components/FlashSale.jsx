@@ -14,13 +14,13 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { AuthContext } from "./Context/AuthContext";
+import CountdownTime from "./CountdownTime";
 
 const FlashSale = () => {
-  const [targetTimes, setTargetTimes] = useState(
-    Date.now() + 3 * 60 * 60 * 1000
-  );
   const [flashProducts, setFlashProducts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [countdown, setCountdown] = useState([]);
+
   const [numberOfCate, setNumberOfCate] = useState(
     parseInt(localStorage.getItem("numberOfCate")) || 1
   );
@@ -60,7 +60,7 @@ const FlashSale = () => {
     fetchFlashSale();
   }, [slugCate]);
 
-   const [wishlistData, setWishlistData] = useState([]);
+  const [wishlistData, setWishlistData] = useState([]);
   const { username } = useContext(AuthContext);
 
   useEffect(() => {
@@ -80,56 +80,27 @@ const FlashSale = () => {
 
   // console.log("wishlistData:", wishlistData);
 
-  const renderer = ({ days, hours, minutes, seconds, completed }) => {
-    if (completed) {
-      setTargetTimes(Date.now() + 3 * 60 * 60 * 1000);
-      setNumberOfCate((prevNumber) => prevNumber + 0.25);
-      location.reload(true);
-      if (numberOfCate > 8) {
-        setNumberOfCate(1);
-      }
-      return null;
-    } else {
-      return (
-        <div className="flex h-full items-center">
-          <div className="flex flex-col mr-4">
-            <span className="text-md text-[#DB4444] font-semibold">Days</span>
-            <span className="text-3xl font-base text-black-500">
-              {days}{" "}
-              <span className="mx-2 text-[#DB4444] font-semibold">:</span>
-            </span>
-          </div>
-          <div className="flex flex-col mr-4">
-            <span className="text-md text-[#DB4444] font-semibold">Hours</span>
-            <span className="text-3xl font-base text-black-500">
-              {hours}{" "}
-              <span className="mx-2 text-[#DB4444] font-semibold">:</span>
-            </span>
-          </div>
-          <div className="flex flex-col mr-4">
-            <span className="text-md text-[#DB4444] font-semibold">
-              Minutes
-            </span>
-            <span className="text-3xl font-base text-black-500">
-              {minutes}{" "}
-              <span className="mx-2 text-[#DB4444] font-semibold">:</span>
-            </span>
-          </div>
-          <div className="flex flex-col mr-4">
-            <span className="text-md text-[#DB4444] font-semibold">
-              Seconds
-            </span>
-            <span className="text-3xl font-base text-black-500">
-              {seconds}{" "}
-              <span className="mx-2 text-[#DB4444] font-semibold"></span>
-            </span>
-          </div>
-        </div>
-      );
-    }
-  };
+  useEffect(() => {
+    const getCountOfFlashSale = async () => {
+      const urlCountdown = "http://localhost:1337/api/countdowns";
+      const {
+        data: { data },
+      } = await axios.get(urlCountdown);
 
-  // const targetTime = Date.now() + 1 * 60 * 60 * 1000;
+      setCountdown(data);
+    };
+
+    getCountOfFlashSale();
+  }, []);
+
+  // console.log("countdown:", countdown);
+
+  const getFullCountdown = countdown.map((value) => value.attributes.flashsale);
+  // console.log("getFullCountdown:", getFullCountdown);
+
+  if (numberOfCate > 8) {
+    setNumberOfCate(1);
+  }
 
   const sliderRef = useRef(null);
 
@@ -182,7 +153,7 @@ const FlashSale = () => {
               </span>
             </span>
             <div className="ml-16">
-              <Countdown date={targetTimes} renderer={renderer} />
+              <CountdownTime time={getFullCountdown} />
             </div>
           </div>
           <div className="">

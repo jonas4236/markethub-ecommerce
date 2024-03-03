@@ -135,9 +135,9 @@ const ProductDetails = ({ product, size }) => {
   const constantOfStockInCart =
     product.data?.[0]?.attributes.Stock - findQuantityInCart;
 
-  console.log("findQuantityInCart:", findQuantityInCart);
-  console.log("constantOfStockInCart:", constantOfStockInCart);
-  console.log("productQuantity:", productQuantity);
+  // console.log("findQuantityInCart:", findQuantityInCart);
+  // console.log("constantOfStockInCart:", constantOfStockInCart);
+  // console.log("productQuantity:", productQuantity);
 
   useEffect(() => {
     if (product) {

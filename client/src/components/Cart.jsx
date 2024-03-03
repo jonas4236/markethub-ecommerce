@@ -111,7 +111,7 @@ const Cart = () => {
               <div className="flex-[1]">
                 <div className="flex">
                   <input
-                    className="px-2 mr-4 rounded-md border-[1px] border-[#DB4444] text-[#DB4444] outline-none font-medium"
+                    className="px-2 mr-4 rounded-md border-[1px] bg-white border-[#DB4444] text-[#DB4444] outline-none font-medium"
                     type="text"
                     placeholder="Coupon Code"
                   />

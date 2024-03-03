@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "countdowns",
+  "info": {
+    "singularName": "countdown",
+    "pluralName": "countdowns",
+    "displayName": "countdown"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "flashsale": {
+      "type": "integer"
+    }
+  }
+}

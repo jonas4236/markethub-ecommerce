@@ -12,6 +12,7 @@
   box-sizing: border-box;
   scroll-behavior: smooth;
   font-family: "Noto Sans Thai", sans-serif;
+  background-color: transparent;
 }
 
 /* PRODUCT DETAILS CAROUSEL STYLING CUSTOMIZATION START */
