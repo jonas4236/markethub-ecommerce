@@ -29,6 +29,14 @@ export const AuthContextProvider = ({ children }) => {
     JSON.parse(localStorage.getItem("token") || null)
   );
 
+  const [countdown, setCountdown] = useState(
+    parseInt(localStorage.getItem("countdown")) || 10
+  );
+
+  const [numberOfCate, setNumberOfCate] = useState(
+    parseInt(localStorage.getItem("numberOfCate")) || 1
+  );
+
   const subtotal = (price, quantity) => {
     return price * quantity;
   };
@@ -298,6 +306,14 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    localStorage.setItem("countdown", countdown.toString());
+  }, [countdown]);
+
+  useEffect(() => {
+    localStorage.setItem("numberOfCate", numberOfCate.toString());
+  }, [numberOfCate]);
+
+  useEffect(() => {
     localStorage.setItem("infoUser", JSON.stringify(infoUser));
   }, [infoUser]);
 
@@ -367,6 +383,10 @@ export const AuthContextProvider = ({ children }) => {
         removeWishlist,
         logout,
         register,
+        countdown,
+        setCountdown,
+        numberOfCate,
+        setNumberOfCate,
       }}
     >
       {children}

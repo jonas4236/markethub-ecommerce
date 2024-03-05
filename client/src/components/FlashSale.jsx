@@ -19,16 +19,11 @@ import CountdownTime from "./CountdownTime";
 const FlashSale = () => {
   const [flashProducts, setFlashProducts] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [countdown, setCountdown] = useState([]);
+  const [wishlistData, setWishlistData] = useState([]);
 
-  const [numberOfCate, setNumberOfCate] = useState(
-    parseInt(localStorage.getItem("numberOfCate")) || 1
-  );
   const [slugCate, setSlugCate] = useState(null);
-
-  useEffect(() => {
-    localStorage.setItem("numberOfCate", numberOfCate.toString());
-  }, [numberOfCate]);
+  const { username, countdown, setCountdown, setNumberOfCate, numberOfCate } =
+    useContext(AuthContext);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -60,9 +55,6 @@ const FlashSale = () => {
     fetchFlashSale();
   }, [slugCate]);
 
-  const [wishlistData, setWishlistData] = useState([]);
-  const { username } = useContext(AuthContext);
-
   useEffect(() => {
     const fetchFindData = async () => {
       const urlFindData = `http://localhost:1337/api/wishlists?&filters[username]=${username}`;
@@ -78,29 +70,19 @@ const FlashSale = () => {
     fetchFindData();
   }, [username]);
 
-  // console.log("wishlistData:", wishlistData);
-
   useEffect(() => {
-    const getCountOfFlashSale = async () => {
-      const urlCountdown = "http://localhost:1337/api/countdowns";
-      const {
-        data: { data },
-      } = await axios.get(urlCountdown);
-
-      setCountdown(data);
-    };
-
-    getCountOfFlashSale();
-  }, []);
-
-  // console.log("countdown:", countdown);
-
-  const getFullCountdown = countdown.map((value) => value.attributes.flashsale);
-  // console.log("getFullCountdown:", getFullCountdown);
-
-  if (numberOfCate > 8) {
-    setNumberOfCate(1);
-  }
+    if (countdown < 0 && window.location.pathname === "/") {
+      setNumberOfCate((prevNumberOfCate) => {
+        const newNumberOfCate =
+          prevNumberOfCate >= 8 ? 1 : prevNumberOfCate + 1;
+        return newNumberOfCate;
+      });
+      window.location.reload();
+      setCountdown(10);
+    } else {
+      return;
+    }
+  }, [countdown, setCountdown]);
 
   const sliderRef = useRef(null);
 
@@ -153,7 +135,7 @@ const FlashSale = () => {
               </span>
             </span>
             <div className="ml-16">
-              <CountdownTime time={getFullCountdown} />
+              <CountdownTime time={countdown} />
             </div>
           </div>
           <div className="">

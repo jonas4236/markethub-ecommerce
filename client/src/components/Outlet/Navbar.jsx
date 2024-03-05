@@ -9,7 +9,8 @@ import { AuthContext } from "../Context/AuthContext";
 const Navbar = () => {
   const [wishlistTotal, setWishlistTotal] = useState([]);
   const [cartTotal, setCartTotal] = useState([]);
-  const { username } = useContext(AuthContext);
+  const { username, countdown, setCountdown, setNumberOfCate } =
+    useContext(AuthContext);
 
   useEffect(() => {
     const fetchTotalWishlist = async () => {
@@ -39,7 +40,27 @@ const Navbar = () => {
     };
 
     fetchTotalCart();
-  }, [username, wishlistTotal]);
+  }, [username]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCountdown((value) => (value <= -1 ? countdown : value - 1));
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [countdown]);
+
+  // check did countdown in local storage is equal to 0. make numberOfCate in local storage + 1 too. and if numberOfCate have more than 8 make numberOfCate reset to default value(1).
+  useEffect(() => {
+    if (countdown < 0 && !(window.location.pathname === "/")) {
+      setNumberOfCate((prevNumberOfCate) => {
+        const newNumberOfCate =
+          prevNumberOfCate >= 8 ? 1 : prevNumberOfCate + 1;
+        return newNumberOfCate;
+      });
+      setCountdown(10);
+    }
+  }, [countdown, setCountdown]);
 
   return (
     <div className="w-full h-[90px] items-center border-b-[1px] sticky top-[-10px] z-[99] bg-white">
