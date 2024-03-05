@@ -78,7 +78,7 @@ const FlashSale = () => {
         return newNumberOfCate;
       });
       window.location.reload();
-      setCountdown(10);
+      setCountdown(10800);
     } else {
       return;
     }

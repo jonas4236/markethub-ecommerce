@@ -73,7 +73,7 @@ const Product = () => {
           </div>
 
           <div className="flex gap-16 mt-16">
-            <div className="flex-[2]">
+            <div className="flex-[3]">
               <div className="">
                 <Carousel
                   showArrows={true}
@@ -81,7 +81,7 @@ const Product = () => {
                   showIndicators={false}
                   showStatus={false}
                   thumbWidth={120}
-                  className="productCarousel w-[600px]"
+                  className="productCarousel w-[100%]"
                 >
                   {Categorys?.map((images, idx) => (
                     <img

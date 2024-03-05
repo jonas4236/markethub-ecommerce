@@ -22,7 +22,7 @@
   gap: 15px;
 }
 .productCarousel.carousel-root .carousel {
-  width: auto;
+  width: 200px;
 }
 .productCarousel.carousel-root .carousel.carousel-slider {
   width: 100%;

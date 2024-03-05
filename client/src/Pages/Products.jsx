@@ -7,9 +7,11 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 
 const Products = () => {
-  const [products, setProducts] = useState([]);
-
   const { slug } = useParams();
+
+  const [products, setProducts] = useState([]);
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,19 +29,50 @@ const Products = () => {
     fetchData();
   }, [slug]);
 
+  const filterProducts = () => {
+    const filteredProducts = products.data?.filter((value) => {
+      const productPrice = parseFloat(value.attributes.originalPrice);
+
+      return (
+        (!minPrice || productPrice >= minPrice) &&
+        (!maxPrice || productPrice <= maxPrice)
+      );
+    });
+
+    console.log("filteredProducts:", filteredProducts);
+    setProducts(filteredProducts);
+  };
+
+  // console.log("products:", products.data.map((value) => value.attributes.originalPrice));
+  // console.log("products:", products);
+
+  const clearFilters = () => {
+    setMaxPrice("");
+    setMinPrice("");
+    setProducts(products);
+    window.location.reload();
+  };
+
+  console.log("minPrice:", minPrice);
+  console.log("maxPrice:", maxPrice);
+
   return (
     <>
       <div className="">
         <div className="w-[1600px] mx-auto flex gap-16">
           <div className="flex-[1] w-full h-max bg-white shadow-xl p-4 mt-4 rounded-lg sticky top-[90px]">
             <div className="">
-              <h2 className="text-[30px]">FILTERS</h2>
+              <h2 className="text-[30px]">FILTERS 🔍</h2>
               <div className="w-full h-[1px] mt-2 mb-2 bg-black"></div>
-              <h3 className="text-[22px]">Categories</h3>
-              <SubCategories />
-              <div className="w-full h-[1px] mt-2 mb-2 bg-black"></div>
-              <h3 className="text-[22px]">Sort By</h3>
-              <PriceSubCate />
+              <h3 className="text-[22px]">Prices</h3>
+              <PriceSubCate
+                setMinPrice={setMinPrice}
+                setMaxPrice={setMaxPrice}
+                minPrice={minPrice}
+                maxPrice={maxPrice}
+                clearFilters={clearFilters}
+                filterProducts={filterProducts}
+              />
               <div className="w-full h-[1px] mt-2 mb-2 bg-black"></div>
               <h3 className="text-[22px]">By Rating</h3>
               <div className="mt-2">
@@ -53,15 +86,37 @@ const Products = () => {
                 Result Of{" "}
                 <span className="text-[#DB4444] font-medium capitalize">
                   {slug.includes("-") ? slug.replace("-", " ") : slug} (
-                  {products.meta?.pagination?.total})
+                  {products.meta?.pagination?.total || products.length})
                 </span>
               </span>
               <div className="grid grid-cols-4 h-full mt-8">
-                {products.data?.map((data) => (
-                  <div className="" key={data.id}>
-                    <ListItems data={data} slugCategory={slug} />
-                  </div>
-                ))}
+                {products.data ? (
+                  <>
+                    {products.data?.map((data) => (
+                      <div className="" key={data.id}>
+                        <ListItems
+                          data={data}
+                          minPrice={minPrice}
+                          maxPrice={maxPrice}
+                          slugCategory={slug}
+                        />
+                      </div>
+                    ))}
+                  </>
+                ) : (
+                  <>
+                    {products.map((data) => (
+                      <div className="" key={data.id}>
+                        <ListItems
+                          data={data}
+                          minPrice={minPrice}
+                          maxPrice={maxPrice}
+                          slugCategory={slug}
+                        />
+                      </div>
+                    ))}
+                  </>
+                )}
               </div>
             </div>
           </div>

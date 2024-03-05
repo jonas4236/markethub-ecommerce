@@ -30,7 +30,7 @@ export const AuthContextProvider = ({ children }) => {
   );
 
   const [countdown, setCountdown] = useState(
-    parseInt(localStorage.getItem("countdown")) || 10
+    parseInt(localStorage.getItem("countdown")) || 10800
   );
 
   const [numberOfCate, setNumberOfCate] = useState(

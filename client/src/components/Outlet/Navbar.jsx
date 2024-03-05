@@ -58,7 +58,7 @@ const Navbar = () => {
           prevNumberOfCate >= 8 ? 1 : prevNumberOfCate + 1;
         return newNumberOfCate;
       });
-      setCountdown(10);
+      setCountdown(10800);
     }
   }, [countdown, setCountdown]);
 
