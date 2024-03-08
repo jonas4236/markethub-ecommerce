@@ -1,60 +1,57 @@
 import React, { useEffect, useState } from "react";
-import Stars from "../components/Stars";
 import SubCategories from "../components/SubCategories";
-import PriceSubCate from "../components/PriceSubCate";
 import ListItems from "../components/ListItems";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import SortBy from "../components/filters/SortBy";
+import Stars from "../components/filters/Stars";
+import PriceSubCate from "../components/filters/PriceSubCate";
 
 const Products = () => {
   const { slug } = useParams();
 
   const [products, setProducts] = useState([]);
-  const [minPrice, setMinPrice] = useState("");
-  const [maxPrice, setMaxPrice] = useState("");
 
+  // state for filter min/max price
+  const [priceFilterActive, setPriceFilterActive] = useState(false);
+  const [priceFilterMin, setPriceFilterMin] = useState("");
+  const [priceFilterMax, setPriceFilterMax] = useState("");
+  const [countOfResultFilter, setCountOfResultFilter] = useState(null);
+
+  // console.log("priceFilterMax:", priceFilterMax);
+  // console.log("priceFilterMin:", priceFilterMin);
+
+  const fetchData = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:1337/api/products?populate=*&filters[categories][slug][$eq]=${slug}`
+      );
+
+      setProducts(res.data);
+    } catch (error) {
+      console.log("error: ", error);
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get(
-          `http://localhost:1337/api/products?populate=*&filters[categories][slug][$eq]=${slug}`
-        );
-
-        setProducts(res.data);
-      } catch (error) {
-        console.log("error: ", error);
-      }
-    };
-
     fetchData();
   }, [slug]);
 
-  const filterProducts = () => {
-    const filteredProducts = products.data?.filter((value) => {
-      const productPrice = parseFloat(value.attributes.originalPrice);
+  // console.log("priceFilterActive:", priceFilterActive);
 
-      return (
-        (!minPrice || productPrice >= minPrice) &&
-        (!maxPrice || productPrice <= maxPrice)
-      );
-    });
-
-    console.log("filteredProducts:", filteredProducts);
-    setProducts(filteredProducts);
+  const filterMinMaxPrice = (min, max) => {
+    setPriceFilterActive(true);
+    setPriceFilterMin(min);
+    setPriceFilterMax(max);
   };
-
-  // console.log("products:", products.data.map((value) => value.attributes.originalPrice));
-  // console.log("products:", products);
 
   const clearFilters = () => {
-    setMaxPrice("");
-    setMinPrice("");
-    setProducts(products);
-    window.location.reload();
+    setPriceFilterActive(false);
+    setPriceFilterMax("");
+    setPriceFilterMin("");
+    setCountOfResultFilter("")
   };
 
-  console.log("minPrice:", minPrice);
-  console.log("maxPrice:", maxPrice);
+  console.log("products:", products);
 
   return (
     <>
@@ -66,13 +63,12 @@ const Products = () => {
               <div className="w-full h-[1px] mt-2 mb-2 bg-black"></div>
               <h3 className="text-[22px]">Prices</h3>
               <PriceSubCate
-                setMinPrice={setMinPrice}
-                setMaxPrice={setMaxPrice}
-                minPrice={minPrice}
-                maxPrice={maxPrice}
                 clearFilters={clearFilters}
-                filterProducts={filterProducts}
+                filterMinMaxPrice={filterMinMaxPrice}
               />
+              <div className="w-full h-[1px] mt-2 mb-2 bg-black"></div>
+              <h3 className="text-[22px]">Sort By</h3>
+              <SortBy />
               <div className="w-full h-[1px] mt-2 mb-2 bg-black"></div>
               <h3 className="text-[22px]">By Rating</h3>
               <div className="mt-2">
@@ -86,37 +82,21 @@ const Products = () => {
                 Result Of{" "}
                 <span className="text-[#DB4444] font-medium capitalize">
                   {slug.includes("-") ? slug.replace("-", " ") : slug} (
-                  {products.meta?.pagination?.total || products.length})
+                  {countOfResultFilter
+                    ? countOfResultFilter
+                    : products.meta?.pagination?.total}
+                  )
                 </span>
               </span>
-              <div className="grid grid-cols-4 h-full mt-8">
-                {products.data ? (
-                  <>
-                    {products.data?.map((data) => (
-                      <div className="" key={data.id}>
-                        <ListItems
-                          data={data}
-                          minPrice={minPrice}
-                          maxPrice={maxPrice}
-                          slugCategory={slug}
-                        />
-                      </div>
-                    ))}
-                  </>
-                ) : (
-                  <>
-                    {products.map((data) => (
-                      <div className="" key={data.id}>
-                        <ListItems
-                          data={data}
-                          minPrice={minPrice}
-                          maxPrice={maxPrice}
-                          slugCategory={slug}
-                        />
-                      </div>
-                    ))}
-                  </>
-                )}
+              <div>
+                <ListItems
+                  data={products}
+                  priceFilterOn={priceFilterActive}
+                  priceMin={priceFilterMin}
+                  priceMax={priceFilterMax}
+                  slugCategory={slug}
+                  setCountOfResultFilter={setCountOfResultFilter}
+                />
               </div>
             </div>
           </div>

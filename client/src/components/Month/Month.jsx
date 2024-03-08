@@ -69,7 +69,7 @@ const Month = () => {
         <div className="w-full h-full [40px] mt-[40px]">
           <Slider
             {...settings}
-            className="gap-4 w-[1200px]"
+            className="gap-4 w-[1200px] h-[400px]"
             arrows={false}
             ref={sliderRef}
           >
