@@ -291,6 +291,22 @@ export const AuthContextProvider = ({ children }) => {
     }
   };
 
+  const updateStars = async (id, receiveStars) => {
+    const urlUpdateStars = `http://localhost:1337/api/products/${id}`;
+
+    const updateStar = {
+      data: {
+        stars: receiveStars,
+      },
+    };
+
+    try {
+      await axios.put(urlUpdateStars, updateStar);
+    } catch (e) {
+      console.log("error can't update the stars of product:", e);
+    }
+  };
+
   const logout = async () => {
     try {
       setInfoUser(null);
@@ -387,6 +403,7 @@ export const AuthContextProvider = ({ children }) => {
         setCountdown,
         numberOfCate,
         setNumberOfCate,
+        updateStars,
       }}
     >
       {children}

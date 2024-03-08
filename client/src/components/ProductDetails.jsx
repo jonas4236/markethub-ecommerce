@@ -24,8 +24,14 @@ const ProductDetails = ({ product, size }) => {
   const [stock, setStock] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
   const [requireSize, setRequireSize] = useState(true);
-  const { username, addWishlist, removeWishlist, addCart, updateQuantiy } =
-    useContext(AuthContext);
+  const {
+    username,
+    addWishlist,
+    removeWishlist,
+    addCart,
+    updateQuantiy,
+    updateStars,
+  } = useContext(AuthContext);
   const [cartData, setCartData] = useState([]);
   const [rating, setRating] = useState(null);
 
@@ -109,7 +115,7 @@ const ProductDetails = ({ product, size }) => {
           }, 0) / data.length;
 
         averageRating = Number(
-          averageRating > 0 ? averageRating.toFixed(1) : averageRating
+          averageRating > 0 ? averageRating.toFixed(0) : averageRating
         );
 
         setRating(averageRating);
@@ -120,6 +126,8 @@ const ProductDetails = ({ product, size }) => {
 
     getReviewData();
   }, [singleProductId, rating]);
+
+  // console.log("rating:", rating);
 
   const CartId2 = getProductSameName?.id;
   const currentProductQuantity2 = getProductSameName?.attributes.quantity;
@@ -135,9 +143,15 @@ const ProductDetails = ({ product, size }) => {
   const constantOfStockInCart =
     product.data?.[0]?.attributes.Stock - findQuantityInCart;
 
-  // console.log("findQuantityInCart:", findQuantityInCart);
-  // console.log("constantOfStockInCart:", constantOfStockInCart);
-  // console.log("productQuantity:", productQuantity);
+  // update stars every users come to this page.
+  useEffect(() => {
+    const updateQuanOfStars = async (singleProductId, rating) => {
+      if (rating) {
+        await updateStars(singleProductId, rating);
+      }
+    };
+    updateQuanOfStars(singleProductId, rating);
+  }, [singleProductId, rating]);
 
   useEffect(() => {
     if (product) {
@@ -214,6 +228,9 @@ const ProductDetails = ({ product, size }) => {
 
     await removeWishlist(id);
   };
+
+  // console.log("singleProductId:", singleProductId);
+  // console.log("stars:", rating);
 
   return (
     <>

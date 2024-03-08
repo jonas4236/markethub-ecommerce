@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { BiStar, BiSolidStar } from "react-icons/bi";
 
-const Stars = () => {
+const Stars = ({ filterSortedByStars, clearStarFilter }) => {
   // State to track the last checked checkbox
   const [checkedId, setCheckedId] = useState("");
 
@@ -14,9 +14,11 @@ const Stars = () => {
     if (checkedId === id) {
       setCheckedId("");
       e.target.checked = false;
+      clearStarFilter();
     } else {
       // Else, check the new one and update state
       setCheckedId(id);
+      filterSortedByStars(id);
     }
   };
 

@@ -8,6 +8,9 @@ const ListItems = ({
   priceMin,
   priceMax,
   setCountOfResultFilter,
+  sorted,
+  starFilterOn,
+  starSorted,
 }) => {
   // console.log("dataaaa:", data);
 
@@ -15,14 +18,22 @@ const ListItems = ({
   const filteredData =
     data.data?.filter((val) => {
       let newData = true;
-      // if priceFilterOn = true follow this logic down below.
-      if (priceFilterOn) {
+      // Check both priceFilterOn and starFilterOn conditions together
+      if (priceFilterOn && starFilterOn) {
+        newData =
+          val.attributes.originalPrice >= priceMin &&
+          val.attributes.originalPrice <= priceMax &&
+          val.attributes.stars >= starSorted;
+      } else if (priceFilterOn) {
+        // if priceFilterOn = true follow this logic down below.
         newData =
           val.attributes.originalPrice >= priceMin &&
           val.attributes.originalPrice <= priceMax;
+      } else if (starFilterOn) {
+        newData = val.attributes.stars >= starSorted;
       }
       return newData;
-    }) || []; // if not found the data make default is emty array.
+    }) || [];
 
   if (priceFilterOn) {
     filteredData.sort((min, max) => {
@@ -33,8 +44,32 @@ const ListItems = ({
     setCountOfResultFilter(filteredData.length);
   }
 
+  if (sorted === "asc") {
+    filteredData.sort((min, max) => {
+      const LowerPrice = Number(min.attributes.originalPrice);
+      const HighestPrice = Number(max.attributes.originalPrice);
+      return HighestPrice - LowerPrice; // For ascending order, use `HighestPrice - LowerPrice`because in map data we used Array reverse().
+    });
+  }
+
+  if (sorted === "desc") {
+    filteredData.sort((min, max) => {
+      const LowerPrice = Number(min.attributes.originalPrice);
+      const HighestPrice = Number(max.attributes.originalPrice);
+      return LowerPrice - HighestPrice; // For ascending order, use `LowerPrice - HighestPrice`because in map data we used Array reverse().
+    });
+  }
+
+  // if (starFilterOn) {
+  //   data.data?.map((val) => {
+  //     var newDataOfStar = true;
+  //     return (newDataOfStar = val.attributes.stars >= starSorted);
+
+  //     return newDataOfStar;
+  //   });
+  // }
   console.log("ListItems data prop:", filteredData);
-  console.log("count:", filteredData.length);
+  // console.log("count:", filteredData.length);
 
   return (
     <>

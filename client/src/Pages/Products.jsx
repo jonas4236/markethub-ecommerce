@@ -18,26 +18,29 @@ const Products = () => {
   const [priceFilterMax, setPriceFilterMax] = useState("");
   const [countOfResultFilter, setCountOfResultFilter] = useState(null);
 
-  // console.log("priceFilterMax:", priceFilterMax);
-  // console.log("priceFilterMin:", priceFilterMin);
+  // state for filter sort low/high price
+  const [sorted, setSorted] = useState(null);
 
-  const fetchData = async () => {
-    try {
-      const res = await axios.get(
-        `http://localhost:1337/api/products?populate=*&filters[categories][slug][$eq]=${slug}`
-      );
+  // state for filter by stars
+  const [starFilterActive, setStarFilterActive] = useState(false);
+  const [starSorted, setStarSorted] = useState("");
 
-      setProducts(res.data);
-    } catch (error) {
-      console.log("error: ", error);
-    }
-  };
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:1337/api/products?populate=*&filters[categories][slug][$eq]=${slug}`
+        );
+
+        setProducts(res.data);
+      } catch (error) {
+        console.log("error: ", error);
+      }
+    };
     fetchData();
   }, [slug]);
 
-  // console.log("priceFilterActive:", priceFilterActive);
-
+  // -------------------- filter min/max price --------------------------
   const filterMinMaxPrice = (min, max) => {
     setPriceFilterActive(true);
     setPriceFilterMin(min);
@@ -48,10 +51,23 @@ const Products = () => {
     setPriceFilterActive(false);
     setPriceFilterMax("");
     setPriceFilterMin("");
-    setCountOfResultFilter("")
+    setCountOfResultFilter("");
+  };
+  // -------------------- filter min/max price --------------------------
+
+  // -------------------- filter sorted by stars --------------------------
+  const filterSortedByStars = (stars) => {
+    setStarFilterActive(true);
+    setStarSorted(stars);
   };
 
-  // console.log("products:", products);
+  const clearStarFilter = () => {
+    setStarFilterActive(false);
+    setStarSorted("");
+  };
+  // -------------------- filter sorted by stars --------------------------
+
+  // console.log("starSorted:", starSorted);
 
   return (
     <>
@@ -68,11 +84,14 @@ const Products = () => {
               />
               <div className="w-full h-[1px] mt-2 mb-2 bg-black"></div>
               <h3 className="text-[22px]">Sort By</h3>
-              <SortBy />
+              <SortBy setSorted={setSorted} />
               <div className="w-full h-[1px] mt-2 mb-2 bg-black"></div>
               <h3 className="text-[22px]">By Rating</h3>
               <div className="mt-2">
-                <Stars />
+                <Stars
+                  filterSortedByStars={filterSortedByStars}
+                  clearStarFilter={clearStarFilter}
+                />
               </div>
             </div>
           </div>
@@ -91,9 +110,12 @@ const Products = () => {
               <div>
                 <ListItems
                   data={products}
+                  sorted={sorted}
                   priceFilterOn={priceFilterActive}
                   priceMin={priceFilterMin}
                   priceMax={priceFilterMax}
+                  starFilterOn={starFilterActive}
+                  starSorted={starSorted}
                   slugCategory={slug}
                   setCountOfResultFilter={setCountOfResultFilter}
                 />

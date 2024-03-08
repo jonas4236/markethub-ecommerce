@@ -71,6 +71,9 @@
     },
     "size": {
       "type": "json"
+    },
+    "stars": {
+      "type": "decimal"
     }
   }
 }

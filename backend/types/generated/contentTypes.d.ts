@@ -1060,6 +1060,7 @@ export interface ApiProductProduct extends Schema.CollectionType {
     >;
     Stock: Attribute.Integer;
     size: Attribute.JSON;
+    stars: Attribute.Decimal;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

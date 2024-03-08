@@ -5,11 +5,13 @@ import { Link } from "react-router-dom";
 import { getDiscountedPricePercentage } from "./discount";
 import { AuthContext } from "./Context/AuthContext";
 import axios from "axios";
+import { Rating } from "react-simple-star-rating";
 
 const ProductCard = ({ product, slugCategory }) => {
   const [isHover, setIsHover] = useState(false);
   const [wishlistData, setWishlistData] = useState([]);
-
+  const [dataReviewCount, setDataReviewCount] = useState([]);
+  const [rating, setRating] = useState(null);
   const { username } = useContext(AuthContext);
 
   useEffect(() => {
@@ -39,7 +41,7 @@ const ProductCard = ({ product, slugCategory }) => {
     wishlistData.data &&
     wishlistData.data.find((item) => item.attributes.wlId == ProductCardId);
 
-    // console.log("have a same product:", isProductInWishlist)
+  // console.log("have a same product:", isProductInWishlist)
 
   const [wlId, SetWlId] = useState(null);
   const [title, SetTitle] = useState(null);
@@ -74,6 +76,36 @@ const ProductCard = ({ product, slugCategory }) => {
       SetImage(img.url);
     }
   }, [product]);
+
+  useEffect(() => {
+    const getReviewData = async () => {
+      try {
+        const {
+          data: { data },
+        } = await axios.get(
+          `http://localhost:1337/api/reviews?&filters[productId][$eq]=${product.id}`
+        );
+
+        setDataReviewCount(data);
+        let averageRating =
+          data.reduce((acc, value) => {
+            return acc + Number(value.attributes.stars);
+          }, 0) / data.length;
+
+        averageRating = Number(
+          averageRating > 0 ? averageRating.toFixed(0) : averageRating
+        );
+
+        setRating(averageRating);
+      } catch (error) {
+        console.log("can't get review data:", error);
+      }
+    };
+
+    getReviewData();
+  }, [product.id, rating]);
+
+  // console.log("rating:", rating);
 
   return (
     <>
@@ -129,24 +161,19 @@ const ProductCard = ({ product, slugCategory }) => {
               )}
             </div>
             <div className="flex gap-[4px] items-center">
-              <span className="text-[#FFAD33]">
-                <BiSolidStar />
-              </span>
-              <span className="text-[#FFAD33]">
-                <BiSolidStar />
-              </span>
-              <span className="text-[#FFAD33]">
-                <BiSolidStar />
-              </span>
-              <span className="text-[#FFAD33]">
-                <BiSolidStar />
-              </span>
-              <span className="text-[#FFAD33]">
-                <BiSolidStar />
-              </span>
+              <Rating
+                SVGclassName="inline-block"
+                initialValue={rating ? rating : 0}
+                readonly
+                size={20}
+              />
 
               <span className="ml-2 text-slate-600 font-semibold text-sm">
-                (86)
+                (
+                {`${dataReviewCount.length ? dataReviewCount.length : 0} ${
+                  dataReviewCount.length === 1 ? "Review" : "Reviews"
+                }`}
+                )
               </span>
             </div>
           </div>
