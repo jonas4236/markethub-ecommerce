@@ -9,31 +9,32 @@ const ListItems = ({
   priceMax,
   setCountOfResultFilter,
 }) => {
-  // Filter products based on the criteria
   // console.log("dataaaa:", data);
 
   // filter min/max price logic
   const filteredData =
     data.data?.filter((val) => {
-      let ret = true;
+      let newData = true;
+      // if priceFilterOn = true follow this logic down below.
       if (priceFilterOn) {
-        ret =
+        newData =
           val.attributes.originalPrice >= priceMin &&
           val.attributes.originalPrice <= priceMax;
       }
-      return ret;
-    }) || []; // if not found the data make default is array
+      return newData;
+    }) || []; // if not found the data make default is emty array.
 
   if (priceFilterOn) {
     filteredData.sort((min, max) => {
       const LowerPrice = Number(min.attributes.originalPrice);
       const HighestPrice = Number(max.attributes.originalPrice);
-      return LowerPrice - HighestPrice; // For descending order, use `priceB - priceA`
+      return LowerPrice - HighestPrice; // For ascending order, use `HighestPrice - LowerPrice`because in map data we used Array reverse().
     });
     setCountOfResultFilter(filteredData.length);
   }
 
   console.log("ListItems data prop:", filteredData);
+  console.log("count:", filteredData.length);
 
   return (
     <>

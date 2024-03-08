@@ -51,7 +51,7 @@ const Products = () => {
     setCountOfResultFilter("")
   };
 
-  console.log("products:", products);
+  // console.log("products:", products);
 
   return (
     <>
