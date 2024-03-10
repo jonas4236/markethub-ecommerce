@@ -60,15 +60,7 @@ const ListItems = ({
     });
   }
 
-  // if (starFilterOn) {
-  //   data.data?.map((val) => {
-  //     var newDataOfStar = true;
-  //     return (newDataOfStar = val.attributes.stars >= starSorted);
-
-  //     return newDataOfStar;
-  //   });
-  // }
-  console.log("ListItems data prop:", filteredData);
+  // console.log("ListItems data prop:", filteredData);
   // console.log("count:", filteredData.length);
 
   return (

@@ -16,7 +16,7 @@ const HomePage = () => {
   const [detected, setDetected] = useState(false);
   const { params } = useParams();
 
-  const { username } = useContext(AuthContext);
+  const { username, cartData } = useContext(AuthContext);
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -25,20 +25,33 @@ const HomePage = () => {
     setDataSession(params);
   }, []);
 
+  const getIdFromCart = cartData.data?.map(
+    (value) => value.attributes.quantity
+  );
+  // console.log("getIdFromCart:", getIdFromCart);
+  const updateNewStock = {
+    dataStockQuantity: getIdFromCart,
+  };
+
   // check did server response /success={CHECKOUT_SESSION_ID} and then removed all item in cart.
   useEffect(() => {
     if (pathname.match(/^\/success=.*/) && !detected) {
       navigate("/"); // redirect to "/" if successful payment was already detected
     } else if (dataSession && !detected) {
       setDetected(true);
-      axios.delete(`http://localhost:1337/api/cart/${username}`);
-      Swal.fire({
-        title: "Purchase successfully!",
-        text: "Thank you for your interest in our products!",
-        icon: "success",
-      }).then(() => {
-        setDataSession(null);
-      });
+      axios
+        .put(`http://localhost:1337/api/stock/${username}`, updateNewStock)
+        .then(() => {
+          axios.delete(`http://localhost:1337/api/cart/${username}`);
+          Swal.fire({
+            title: "Purchase successfully!",
+            text: "Thank you for your interest in our products!",
+            icon: "success",
+          }).then(() => {
+            window.location.reload();
+            setDataSession(null);
+          });
+        });
     }
   }, [dataSession, detected, navigate, pathname]); // Include navigate in dependencies
 
