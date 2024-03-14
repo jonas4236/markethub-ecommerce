@@ -47,7 +47,7 @@ const FlashSaleProducts = ({ flash, slugCategory, wishlistData }) => {
     <Link to={`/product/${slugCategory}/${flash?.attributes.slug}`}>
       <div className="hover:scale-110 transition-all mt-[20px] ml-[15px] w-max">
         <div
-          className="relative"
+          className="relative h-[250px]"
           onMouseEnter={() => setIsHover(true)}
           onMouseLeave={() => setIsHover(false)}
         >

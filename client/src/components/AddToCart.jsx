@@ -52,25 +52,13 @@ const AddToCart = ({
   // console.log("image:",image)
   // console.log("discount:",discount)
 
-  // console.log("id product:", id);
+  // console.log("isExist:", isExist);
 
   return (
     <>
-      {isExist ? (
-        ""
-      ) : (
-        <>
-          <span
-            onClick={handleAddedWishlist}
-            className="absolute bg-white hover:bg-black hover:text-[#DB4444] top-[15px] p-[8px] rounded-full right-[24px]"
-          >
-            <BsBagHeart />
-          </span>
-        </>
-      )}
       <span
         onClick={() => setOpen(true)}
-        className="absolute bg-white hover:bg-black hover:text-[#DB4444] top-[55px] p-[8px] rounded-full right-[24px]"
+        className="absolute bg-black text-white hover:bg-black hover:text-[#DB4444] top-[15px] p-[8px] rounded-full right-[24px]"
       >
         <Lightbox
           open={open}
@@ -88,11 +76,16 @@ const AddToCart = ({
             maxZoomPixelRatio: 5,
           }}
         />
-        <AiOutlineEye />
+        <AiOutlineEye className="hover:bg-black hover:text-[#DB4444]" />
       </span>
-      <span className="absolute bottom-[0px] w-full bg-black text-white rounded-[0_0_6px_6px] flex justify-center items-center font-medium h-[40px]">
-        Add To Cart
-      </span>
+      {!isExist && (
+        <span
+          onClick={handleAddedWishlist}
+          className="absolute bottom-[0px] w-full bg-black text-white rounded-[0_0_6px_6px] flex justify-center items-center font-medium h-[40px]"
+        >
+          Add To Wishlist
+        </span>
+      )}
     </>
   );
 };

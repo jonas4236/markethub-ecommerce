@@ -18,9 +18,6 @@ const WishlistAdd = ({ itemId }) => {
           <BsFillTrash3Fill />
         </span>
       </div>
-      <span className="absolute bottom-[0px] w-full bg-black text-white rounded-[0_0_6px_6px] flex justify-center items-center font-medium h-[40px]">
-        Add To Cart
-      </span>
     </>
   );
 };
