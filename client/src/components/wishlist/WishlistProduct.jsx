@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import WishlistAdd from "./WishlistAdd";
 import { getDiscountedPricePercentage } from "../discount";
-import { useSelector, useDispatch } from "react-redux";
-
-import { getWishlistTotal } from "../../Redux/wishlistSlice";
 
 const WishlistProduct = ({ item }) => {
   const [isHover, setIsHover] = useState(false);
@@ -16,8 +13,6 @@ const WishlistProduct = ({ item }) => {
       return name.substring(0, 23) + "...";
     }
   };
-
-  // console.log("item:", item);
 
   return (
     <div className="">

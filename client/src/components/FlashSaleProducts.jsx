@@ -1,18 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
-import { BiSolidStar, BiSolidStarHalf, BiStar } from "react-icons/bi";
 import AddToCart from "./AddToCart";
 import { Link } from "react-router-dom";
 import { getDiscountedPricePercentage } from "./discount";
 import { AuthContext } from "./Context/AuthContext";
+import { Rating } from "react-simple-star-rating";
 
 const FlashSaleProducts = ({ flash, slugCategory, wishlistData }) => {
   const [isHover, setIsHover] = useState(false);
 
-  // console.log("dataFlashSale:", wishlistData?.data?.map((item) => item.attributes.wlId));
-
   const { username } = useContext(AuthContext);
-
-  // console.log("flash:", flash);
 
   const [wlId, SetWlId] = useState(null);
   const [title, SetTitle] = useState(null);
@@ -21,6 +17,9 @@ const FlashSaleProducts = ({ flash, slugCategory, wishlistData }) => {
   const [priceperpiece, SetPricePerPiece] = useState(null);
   const [discount, SetDiscount] = useState(null);
   const [image, SetImage] = useState(null);
+
+  const [dataReviewCount, setDataReviewCount] = useState([]);
+  const [rating, setRating] = useState(null);
 
   useEffect(() => {
     if (flash) {
@@ -35,7 +34,6 @@ const FlashSaleProducts = ({ flash, slugCategory, wishlistData }) => {
   }, [flash]);
 
   const FlashId = flash?.id;
-  // console.log("FlashId:", FlashId);
 
   const isProductInWishlist = wishlistData?.data?.find(
     (item) => item.attributes.wlId == FlashId
@@ -51,7 +49,33 @@ const FlashSaleProducts = ({ flash, slugCategory, wishlistData }) => {
     }
   };
 
-  // console.log("isProductInWishlist:", isProductInWishlist);
+  useEffect(() => {
+    const getReviewData = async () => {
+      try {
+        const {
+          data: { data },
+        } = await axios.get(
+          `http://localhost:1337/api/reviews?&filters[productId][$eq]=${FlashId}`
+        );
+
+        setDataReviewCount(data);
+        let averageRating =
+          data.reduce((acc, value) => {
+            return acc + Number(value.attributes.stars);
+          }, 0) / data.length;
+
+        averageRating = Number(
+          averageRating > 0 ? averageRating.toFixed(0) : averageRating
+        );
+
+        setRating(averageRating);
+      } catch (error) {
+        console.log("can't get review data:", error);
+      }
+    };
+
+    getReviewData();
+  }, [flash?.id, rating]);
 
   return (
     <Link to={`/product/${slugCategory}/${flash?.attributes.slug}`}>
@@ -107,24 +131,18 @@ const FlashSaleProducts = ({ flash, slugCategory, wishlistData }) => {
             </span>
           </div>
           <div className="flex gap-[4px] items-center">
-            <span className="text-[#FFAD33]">
-              <BiSolidStar />
-            </span>
-            <span className="text-[#FFAD33]">
-              <BiSolidStar />
-            </span>
-            <span className="text-[#FFAD33]">
-              <BiSolidStar />
-            </span>
-            <span className="text-[#FFAD33]">
-              <BiSolidStar />
-            </span>
-            <span className="text-[#FFAD33]">
-              <BiSolidStar />
-            </span>
-
+            <Rating
+              SVGclassName="inline-block"
+              initialValue={rating ? rating : 0}
+              readonly
+              size={20}
+            />
             <span className="ml-2 text-slate-600 font-semibold text-sm">
-              (86)
+              (
+              {`${dataReviewCount.length ? dataReviewCount.length : 0} ${
+                dataReviewCount.length === 1 ? "Review" : "Reviews"
+              }`}
+              )
             </span>
           </div>
         </div>

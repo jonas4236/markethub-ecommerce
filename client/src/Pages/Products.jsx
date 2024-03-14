@@ -67,10 +67,6 @@ const Products = () => {
   };
   // -------------------- filter sorted by stars --------------------------
 
-  // console.log("starSorted:", starSorted);
-
-  console.log("countOfResultFilter:", countOfResultFilter);
-
   return (
     <>
       <div className="">
@@ -104,10 +100,13 @@ const Products = () => {
               <span className="text-black text-2xl">
                 Result Of{" "}
                 <span className="text-[#DB4444] font-medium capitalize">
-                  {slug.includes("-") ? slug.replace("-", " ") : slug} ({}
-                  {countOfResultFilter === 0 || countOfResultFilter !== ""
-                    ? countOfResultFilter
-                    : products.meta?.pagination?.total}
+                  {/* This ensures that if countOfResultFilter is null or empty, it will default to products.meta?.pagination?.total, but only if products.meta?.pagination?.total is not null or undefined. */}
+                  {slug.includes("-") ? slug.replace("-", " ") : slug} (
+                  {countOfResultFilter === null || countOfResultFilter === ""
+                    ? products.meta?.pagination?.total
+                      ? products.meta?.pagination?.total
+                      : 0
+                    : countOfResultFilter}
                   )
                 </span>
               </span>
