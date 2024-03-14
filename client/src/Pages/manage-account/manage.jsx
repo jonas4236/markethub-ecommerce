@@ -344,7 +344,12 @@ const manage = () => {
       }
     }
 
-    if ((newFullName || newEmail || newAddress) && !currentPassword &&!newPassword && !confirmPassword) {
+    if (
+      (newFullName || newEmail || newAddress) &&
+      !currentPassword &&
+      !newPassword &&
+      !confirmPassword
+    ) {
       Swal.fire({
         title: "Changed info successfully!",
         text: `You have changed the info profile!`,
@@ -354,8 +359,8 @@ const manage = () => {
       });
     } else {
       Swal.fire({
-        title: "Changed info and password successfully!",
-        text: `Changed the info and password in your account!`,
+        title: "Changed info successfully!",
+        text: `You have changed the info profile!`,
         icon: "success",
       }).then(() => {
         logout();
