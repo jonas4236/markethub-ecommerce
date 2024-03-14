@@ -5,11 +5,15 @@ import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import Swal from "sweetalert2";
 import { Rating } from "react-simple-star-rating";
+import { loadStripe } from "@stripe/stripe-js";
 
 import { AuthContext } from "./Context/AuthContext";
 import axios from "axios";
 
 const ProductDetails = ({ product, size }) => {
+  const stripePromise = loadStripe(
+    "pk_test_51NVUEHLFltWlQvC86UqP91MMR28Z5dAgC1cNFuUbnOd46qo0bRb6QPdtRzBzF3aMupjF7Pe2KenKD95bmASjIWxg00geOIMSk8"
+  );
   const [wlId, SetWlId] = useState(null);
   const [title, SetTitle] = useState(null);
   const [slug, SetSlug] = useState(null);
@@ -24,8 +28,10 @@ const ProductDetails = ({ product, size }) => {
   const [stock, setStock] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
   const [requireSize, setRequireSize] = useState(true);
+  const [loading, setLoading] = useState(false);
   const {
     username,
+    email,
     addWishlist,
     removeWishlist,
     addCart,
@@ -229,6 +235,42 @@ const ProductDetails = ({ product, size }) => {
     await removeWishlist(id);
   };
 
+  const handleBuyNow = async (event) => {
+    event.preventDefault();
+    try {
+      const cartDataBuyNow = {
+        data: [
+          {
+            attributes: {
+              pdId: 13,
+              size: size || null,
+              image: image,
+              price: priceperpiece,
+              title: selectedSize ? `${title} [${selectedSize}]` : `${title}`,
+              quantity: productQuantity,
+              username: username,
+              selectedSize: selectedSize || null,
+            },
+          },
+        ],
+      };
+      const stripe = await stripePromise;
+      setLoading(true);
+      const { data } = await axios.post("http://localhost:1337/api/orders", {
+        cartData: cartDataBuyNow,
+        total: priceperpiece * productQuantity,
+        email: email,
+      });
+
+      await stripe.redirectToCheckout({
+        sessionId: data.stripeSession.id,
+      });
+    } catch (err) {
+      setLoading(false);
+      console.log("can't handle buy now:", err);
+    }
+  };
+
   // console.log("singleProductId:", singleProductId);
   // console.log("stars:", rating);
 
@@ -395,9 +437,242 @@ const ProductDetails = ({ product, size }) => {
                           >
                             Add To Cart
                           </button>
-                          <button className="text-white bg-[#DB4444] py-2 px-6 h-full rounded-md">
-                            Buy Now
-                          </button>
+                          <div className="relative">
+                            <button
+                              onClick={(event) => {
+                                if (!username) {
+                                  window.location.href = "/login";
+                                } else {
+                                  if (size) {
+                                    if (requireSize && !selectedSize) {
+                                      document
+                                        .getElementById("slSize")
+                                        .scrollIntoView({
+                                          block: "center",
+                                          behavior: "smooth",
+                                        });
+                                    } else {
+                                      handleBuyNow(event);
+                                    }
+                                  } else {
+                                    handleBuyNow(event);
+                                  }
+                                }
+                              }}
+                              className={`text-white bg-[#DB4444] py-2 px-6 ${
+                                loading ? "pr-12" : ""
+                              } h-full rounded-md`}
+                            >
+                              Buy Now
+                            </button>
+                            {loading && (
+                              <div className="absolute top-[8px] right-[12px]">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="24"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <circle cx="12" cy="3" r="0" fill="#ffffff">
+                                    <animate
+                                      id="svgSpinners6DotsScale0"
+                                      fill="freeze"
+                                      attributeName="r"
+                                      begin="0;svgSpinners6DotsScale2.end-0.5s"
+                                      calcMode="spline"
+                                      dur="0.6s"
+                                      keySplines="0,1,0,1;.53,0,.61,.73"
+                                      keyTimes="0;.2;1"
+                                      values="0;2;0"
+                                    />
+                                  </circle>
+                                  <circle
+                                    cx="16.5"
+                                    cy="4.21"
+                                    r="0"
+                                    fill="#ffffff"
+                                  >
+                                    <animate
+                                      id="svgSpinners6DotsScale1"
+                                      fill="freeze"
+                                      attributeName="r"
+                                      begin="svgSpinners6DotsScale0.begin+0.1s"
+                                      calcMode="spline"
+                                      dur="0.6s"
+                                      keySplines="0,1,0,1;.53,0,.61,.73"
+                                      keyTimes="0;.2;1"
+                                      values="0;2;0"
+                                    />
+                                  </circle>
+                                  <circle
+                                    cx="7.5"
+                                    cy="4.21"
+                                    r="0"
+                                    fill="#ffffff"
+                                  >
+                                    <animate
+                                      id="svgSpinners6DotsScale2"
+                                      fill="freeze"
+                                      attributeName="r"
+                                      begin="svgSpinners6DotsScale4.begin+0.1s"
+                                      calcMode="spline"
+                                      dur="0.6s"
+                                      keySplines="0,1,0,1;.53,0,.61,.73"
+                                      keyTimes="0;.2;1"
+                                      values="0;2;0"
+                                    />
+                                  </circle>
+                                  <circle
+                                    cx="19.79"
+                                    cy="7.5"
+                                    r="0"
+                                    fill="#ffffff"
+                                  >
+                                    <animate
+                                      id="svgSpinners6DotsScale3"
+                                      fill="freeze"
+                                      attributeName="r"
+                                      begin="svgSpinners6DotsScale1.begin+0.1s"
+                                      calcMode="spline"
+                                      dur="0.6s"
+                                      keySplines="0,1,0,1;.53,0,.61,.73"
+                                      keyTimes="0;.2;1"
+                                      values="0;2;0"
+                                    />
+                                  </circle>
+                                  <circle
+                                    cx="4.21"
+                                    cy="7.5"
+                                    r="0"
+                                    fill="#ffffff"
+                                  >
+                                    <animate
+                                      id="svgSpinners6DotsScale4"
+                                      fill="freeze"
+                                      attributeName="r"
+                                      begin="svgSpinners6DotsScale6.begin+0.1s"
+                                      calcMode="spline"
+                                      dur="0.6s"
+                                      keySplines="0,1,0,1;.53,0,.61,.73"
+                                      keyTimes="0;.2;1"
+                                      values="0;2;0"
+                                    />
+                                  </circle>
+                                  <circle cx="21" cy="12" r="0" fill="#ffffff">
+                                    <animate
+                                      id="svgSpinners6DotsScale5"
+                                      fill="freeze"
+                                      attributeName="r"
+                                      begin="svgSpinners6DotsScale3.begin+0.1s"
+                                      calcMode="spline"
+                                      dur="0.6s"
+                                      keySplines="0,1,0,1;.53,0,.61,.73"
+                                      keyTimes="0;.2;1"
+                                      values="0;2;0"
+                                    />
+                                  </circle>
+                                  <circle cx="3" cy="12" r="0" fill="#ffffff">
+                                    <animate
+                                      id="svgSpinners6DotsScale6"
+                                      fill="freeze"
+                                      attributeName="r"
+                                      begin="svgSpinners6DotsScale8.begin+0.1s"
+                                      calcMode="spline"
+                                      dur="0.6s"
+                                      keySplines="0,1,0,1;.53,0,.61,.73"
+                                      keyTimes="0;.2;1"
+                                      values="0;2;0"
+                                    />
+                                  </circle>
+                                  <circle
+                                    cx="19.79"
+                                    cy="16.5"
+                                    r="0"
+                                    fill="#ffffff"
+                                  >
+                                    <animate
+                                      id="svgSpinners6DotsScale7"
+                                      fill="freeze"
+                                      attributeName="r"
+                                      begin="svgSpinners6DotsScale5.begin+0.1s"
+                                      calcMode="spline"
+                                      dur="0.6s"
+                                      keySplines="0,1,0,1;.53,0,.61,.73"
+                                      keyTimes="0;.2;1"
+                                      values="0;2;0"
+                                    />
+                                  </circle>
+                                  <circle
+                                    cx="4.21"
+                                    cy="16.5"
+                                    r="0"
+                                    fill="#ffffff"
+                                  >
+                                    <animate
+                                      id="svgSpinners6DotsScale8"
+                                      fill="freeze"
+                                      attributeName="r"
+                                      begin="svgSpinners6DotsScalea.begin+0.1s"
+                                      calcMode="spline"
+                                      dur="0.6s"
+                                      keySplines="0,1,0,1;.53,0,.61,.73"
+                                      keyTimes="0;.2;1"
+                                      values="0;2;0"
+                                    />
+                                  </circle>
+                                  <circle
+                                    cx="16.5"
+                                    cy="19.79"
+                                    r="0"
+                                    fill="#ffffff"
+                                  >
+                                    <animate
+                                      id="svgSpinners6DotsScale9"
+                                      fill="freeze"
+                                      attributeName="r"
+                                      begin="svgSpinners6DotsScale7.begin+0.1s"
+                                      calcMode="spline"
+                                      dur="0.6s"
+                                      keySplines="0,1,0,1;.53,0,.61,.73"
+                                      keyTimes="0;.2;1"
+                                      values="0;2;0"
+                                    />
+                                  </circle>
+                                  <circle
+                                    cx="7.5"
+                                    cy="19.79"
+                                    r="0"
+                                    fill="#ffffff"
+                                  >
+                                    <animate
+                                      id="svgSpinners6DotsScalea"
+                                      fill="freeze"
+                                      attributeName="r"
+                                      begin="svgSpinners6DotsScaleb.begin+0.1s"
+                                      calcMode="spline"
+                                      dur="0.6s"
+                                      keySplines="0,1,0,1;.53,0,.61,.73"
+                                      keyTimes="0;.2;1"
+                                      values="0;2;0"
+                                    />
+                                  </circle>
+                                  <circle cx="12" cy="21" r="0" fill="#ffffff">
+                                    <animate
+                                      id="svgSpinners6DotsScaleb"
+                                      fill="freeze"
+                                      attributeName="r"
+                                      begin="svgSpinners6DotsScale9.begin+0.1s"
+                                      calcMode="spline"
+                                      dur="0.6s"
+                                      keySplines="0,1,0,1;.53,0,.61,.73"
+                                      keyTimes="0;.2;1"
+                                      values="0;2;0"
+                                    />
+                                  </circle>
+                                </svg>
+                              </div>
+                            )}
+                          </div>
                         </>
                       )}
                     </>
