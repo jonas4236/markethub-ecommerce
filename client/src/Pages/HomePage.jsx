@@ -25,9 +25,9 @@ const HomePage = () => {
     setDataSession(params);
   }, []);
 
-  const getIdFromCart = cartData.data?.map(
+  const getIdFromCart = cartData?.data?.map(
     (value) => value.attributes.quantity
-  );
+  ) || null;
   // console.log("getIdFromCart:", getIdFromCart);
   const updateNewStock = {
     dataStockQuantity: getIdFromCart,

@@ -49,7 +49,6 @@ module.exports = createCoreController("api::cart.cart", ({ strapi }) => ({
         filters: { username: username },
       });
 
-
       // if not found return this if\else.
       if (!findUser.length) {
         return ctx.send("No carts found for the given username.");
@@ -90,5 +89,33 @@ module.exports = createCoreController("api::cart.cart", ({ strapi }) => ({
       console.error(error);
       return ctx.badRequest(`Failed to find stock in cart: ${error}`);
     }
+  },
+
+  async updateUsernameOfUser(ctx) {
+    const { username } = ctx.params;
+    const { newUsername } = ctx.request.body;
+
+    const findOldUsername = await strapi.entityService.findMany(
+      "api::cart.cart",
+      {
+        filters: {
+          username: username,
+        },
+      }
+    );
+
+    // const queryUsername = findOldUsername.map((val) => val.username);
+
+    for (let i = 0; i < findOldUsername.length; i++) {
+      const queryOneByOneOfUsername = findOldUsername[i];
+      await strapi.db.query("api::cart.cart").updateMany({
+        where: { id: queryOneByOneOfUsername.id },
+        data: {
+          username: newUsername,
+        },
+      });
+    }
+
+    return ctx.send(`update username client successfully!.`);
   },
 }));

@@ -24,13 +24,10 @@ const UploadAvatar = ({
   setisUserUpdated,
   setIsHover,
 }) => {
-  const [modal, setModal] = useState(false);
   const [file, setFile] = useState(null);
+  const closeModal = () => setIsHover(false);
 
-  const toggle = () => setModal(!modal);
-
-  const close = () => setIsHover(false);
-
+  // check file type.
   const handleFileChange = (event) => {
     const { files } = event.target;
 
@@ -46,6 +43,9 @@ const UploadAvatar = ({
     }
   };
 
+  // console.log("file:", file);
+
+  // update after "POST" the avatar into cloud.
   const updateUserAvatarId = async (avatarId, avatarURL) => {
     try {
       await axios.put(
@@ -104,45 +104,46 @@ const UploadAvatar = ({
 
   return (
     <>
-      <Button
-        className="absolute bottom-16 left-[12px] outline-none border-none py-1 px-3 bg-[#DB4444] text-white rounded-md"
-        onClick={toggle}
-      >
-        Upload Avatar
-      </Button>
-      <div>
-        <Modal isOpen={modal} toggle={toggle}>
-          <ModalHeader toggle={toggle} className="text-lg" close={closeBtn}>{`${
-            avatarURL ? "Change" : "Upload"
-          } Avatar`}</ModalHeader>
-          <ModalBody>
-            <Form>
-              <FormGroup>
-                <Label for="AvatarFile">File</Label>
-                <Input
-                  type="file"
-                  name="file"
-                  id="AvatarFile"
-                  onChange={handleFileChange}
-                />
-              </FormGroup>
-            </Form>
-          </ModalBody>
-          <ModalFooter>
-            <Button
-              className="text-white outline-none border-none bg-sky-600"
-              onClick={handleSubmit}
-            >
-              Upload
-            </Button>{" "}
-            <Button
-              className="text-white outline-none border-none bg-gray-600"
-              onClick={close}
-            >
-              Cancel
-            </Button>
-          </ModalFooter>
-        </Modal>
+      <div className="absolute top-[60px] left-[14px] bottom-[50px]">
+        {/* Open the modal using document.getElementById('ID').showModal() method */}
+        <button
+          className="btn bg-[#DB4444] text-white hover:bg-[#ff5252] outline-none border-none"
+          onClick={() => document.getElementById("avatar_picture").showModal()}
+        >
+          {`${avatarURL ? "Change" : "Upload"} Avatar`}
+        </button>
+        <dialog id="avatar_picture" className="modal">
+          <div className="modal-box bg-white">
+            <h3 className="font-bold text-lg">{`${
+              avatarURL ? "Change" : "Upload"
+            } Avatar`}</h3>
+            <p className="py-4">
+              <Label for="AvatarFile">File</Label>
+              <Input
+                type="file"
+                name="file"
+                id="AvatarFile"
+                onChange={handleFileChange}
+              />
+            </p>
+            <div className="modal-action">
+              <form method="dialog">
+                <button
+                  className="btn mr-2 bg-white outline-none border-2 border-[#DB4444]"
+                  onClick={closeModal}
+                >
+                  Close
+                </button>
+                <span
+                  className="btn bg-green-500 text-white hover:bg-green-700 border-none outline-none"
+                  onClick={handleSubmit}
+                >
+                  Change
+                </span>
+              </form>
+            </div>
+          </div>
+        </dialog>
       </div>
     </>
   );

@@ -100,7 +100,7 @@ const WriteComments = ({ token, productId, setRating, setIsProductUpdate }) => {
               ></textarea>
               {warnText && (
                 <span className="text-[#DB4444]">
-                  You can have a maximum length of 384* words.
+                  You can have a maximum length of 382* words.
                 </span>
               )}
               <div className="flex justify-end mt-2">
