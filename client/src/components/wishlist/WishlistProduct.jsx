@@ -59,9 +59,11 @@ const WishlistProduct = ({ item }) => {
               <span className="text-[#DB4444] mr-[8px] text-base font-semibold">
                 THB: {item.attributes.PricePerPiece.toLocaleString()}
               </span>
-              <span className="line-through text-gray-500 text-sm font-semibold">
-                {item.attributes.discount.toLocaleString()}
-              </span>
+              {item.attributes.discount && (
+                <span className="line-through text-gray-500 text-sm font-semibold">
+                  {item.attributes.discount.toLocaleString()}
+                </span>
+              )}
             </div>
           </div>
         </div>

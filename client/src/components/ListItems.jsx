@@ -41,7 +41,7 @@ const ListItems = ({
       const HighestPrice = Number(max.attributes.originalPrice);
       return LowerPrice - HighestPrice; // For ascending order, use `HighestPrice - LowerPrice`because in map data we used Array reverse().
     });
-    setCountOfResultFilter(filteredData.length);
+    setCountOfResultFilter(filteredData.length || 0);
   }
 
   if (sorted === "asc") {

@@ -69,6 +69,8 @@ const Products = () => {
 
   // console.log("starSorted:", starSorted);
 
+  console.log("countOfResultFilter:", countOfResultFilter);
+
   return (
     <>
       <div className="">
@@ -81,6 +83,8 @@ const Products = () => {
               <PriceSubCate
                 clearFilters={clearFilters}
                 filterMinMaxPrice={filterMinMaxPrice}
+                priceFilterMin={priceFilterMin}
+                priceFilterMax={priceFilterMax}
               />
               <div className="w-full h-[1px] mt-2 mb-2 bg-black"></div>
               <h3 className="text-[22px]">Sort By</h3>
@@ -100,8 +104,8 @@ const Products = () => {
               <span className="text-black text-2xl">
                 Result Of{" "}
                 <span className="text-[#DB4444] font-medium capitalize">
-                  {slug.includes("-") ? slug.replace("-", " ") : slug} (
-                  {countOfResultFilter
+                  {slug.includes("-") ? slug.replace("-", " ") : slug} ({}
+                  {countOfResultFilter === 0 || countOfResultFilter !== ""
                     ? countOfResultFilter
                     : products.meta?.pagination?.total}
                   )

@@ -41,6 +41,16 @@ const FlashSaleProducts = ({ flash, slugCategory, wishlistData }) => {
     (item) => item.attributes.wlId == FlashId
   );
 
+  const formattedText = (name) => {
+    if (name && name.length <= 25) {
+      return name;
+    } else if (name) {
+      return name.substring(0, 25) + "...";
+    } else {
+      return "";
+    }
+  };
+
   // console.log("isProductInWishlist:", isProductInWishlist);
 
   return (
@@ -85,7 +95,9 @@ const FlashSaleProducts = ({ flash, slugCategory, wishlistData }) => {
           )}
         </div>
         <div className="p-[16px_16px_16px_0] w-[270px]">
-          <span className="font-semibold">{flash?.attributes.name}</span>
+          <span className="font-semibold">
+            {formattedText(flash?.attributes.name)}
+          </span>
           <div className="flex w-full h-full py-1">
             <span className="text-[#DB4444] mr-[8px] text-base font-semibold">
               THB: {flash?.attributes.originalPrice.toLocaleString()}

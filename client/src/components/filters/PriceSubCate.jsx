@@ -1,17 +1,30 @@
 import React, { useState } from "react";
 
-const PriceSubCate = ({ clearFilters, filterMinMaxPrice }) => {
-  const [minPrice, setMinPrice] = useState("");
-  const [maxPrice, setMaxPrice] = useState("");
-  const handleMinPriceChange = async (e) => {
-    setMinPrice(e.target.value);
-  };
-  const handleMaxPriceChange = async (e) => {
-    setMaxPrice(e.target.value);
+const PriceSubCate = ({
+  clearFilters,
+  filterMinMaxPrice,
+  priceFilterMin,
+  priceFilterMax,
+}) => {
+  // This line is calling the "filterMinMaxPrice" function when the minimum price input field changes. It passes two arguments:
+  // 1. e.target.value: This is the new value of the minimum price input field, which is obtained from the onChange event.
+  // 2. priceFilterMax: This is the current value of the maximum price. It's used to maintain the state of the maximum price while updating the minimum price.
+  const handleMinPriceChange = (e) => {
+    filterMinMaxPrice(e.target.value, priceFilterMax);
+    if (!e.target.value && !priceFilterMax) {
+      clearFilters();
+    }
   };
 
-  // console.log("min:", minPrice);
-  // console.log("max:", maxPrice);
+  // This line is calling the "filterMinMaxPrice" function when the maximum price input field changes. It passes two arguments:
+  // 1. priceFilterMin: This is the current value of the minimum price. It's used to maintain the state of the minimum price while updating the maximum price.
+  // 2. e.target.value: This is the new value of the maximum price input field, obtained from the onChange event.
+  const handleMaxPriceChange = (e) => {
+    filterMinMaxPrice(priceFilterMin, e.target.value);
+    if (!priceFilterMin && !e.target.value) {
+      clearFilters();
+    }
+  };
 
   return (
     <>
@@ -50,22 +63,6 @@ const PriceSubCate = ({ clearFilters, filterMinMaxPrice }) => {
               placeholder="Maximum Price"
               onChange={handleMaxPriceChange}
             />
-          </div>
-        </div>
-        <div className="mt-2">
-          <div className="flex justify-between">
-            <button
-              className="py-1 px-4 border-[#DB4444] border-2 hover:bg-[#DB4444] rounded-lg text-[#DB4444] transition-all hover:text-white"
-              onClick={clearFilters}
-            >
-              Clear Filters
-            </button>
-            <button
-              className="py-1 px-4 text-white hover:bg-green-700 hover:text-white/25 bg-green-600 rounded-lg font-medium"
-              onClick={() => filterMinMaxPrice(minPrice, maxPrice)}
-            >
-              Filters Price
-            </button>
           </div>
         </div>
       </div>
