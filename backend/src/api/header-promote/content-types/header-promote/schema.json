@@ -4,7 +4,8 @@
   "info": {
     "singularName": "header-promote",
     "pluralName": "header-promotes",
-    "displayName": "HeaderPromote"
+    "displayName": "HeaderPromote",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -12,12 +13,12 @@
   "pluginOptions": {},
   "attributes": {
     "image": {
-      "allowedTypes": [
-        "images"
-      ],
       "type": "media",
       "multiple": false,
-      "required": true
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
     },
     "name": {
       "type": "string"
@@ -25,6 +26,12 @@
     "slug": {
       "type": "uid",
       "targetField": "name"
+    },
+    "category": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::category.category",
+      "inversedBy": "header_promote"
     }
   }
 }

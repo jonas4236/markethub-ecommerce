@@ -100,6 +100,8 @@ const Header = () => {
     fetchHeaderPromote();
   }, []);
 
+  // console.log("dataPromote:", dataPromote);
+
   return (
     <>
       <div className="flex w-[1200px] gap-8 mx-auto">
@@ -107,7 +109,7 @@ const Header = () => {
           <div className="p-[20px]">
             <ul className="">
               {dataCate.data?.map((cat) => (
-                <Link to={`/products/${cat.attributes.slug}`} key={cat.id}>
+                <Link to={`/product/${cat.attributes.slug}`} key={cat.id}>
                   <li
                     key={cat.id}
                     className="my-[15px] flex items-center hover:text-red-600"
@@ -133,7 +135,10 @@ const Header = () => {
               customDot={<CustomDot />}
             >
               {dataPromote.map((item, idx) => (
-                <Link  key={idx} to={`/product/${item?.attributes.slug}`}>
+                <Link
+                  key={idx}
+                  to={`/products/${item.attributes.category.data.attributes.slug}`}
+                >
                   <div className="w-auto h-full">
                     <img
                       className="flex flex-wrap h-full object-contain rounded-lg"

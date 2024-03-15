@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { getDiscountedPricePercentage } from "./discount";
 import { AuthContext } from "./Context/AuthContext";
 import { Rating } from "react-simple-star-rating";
+import axios from "axios";
 
 const FlashSaleProducts = ({ flash, slugCategory, wishlistData }) => {
   const [isHover, setIsHover] = useState(false);
@@ -76,6 +77,9 @@ const FlashSaleProducts = ({ flash, slugCategory, wishlistData }) => {
 
     getReviewData();
   }, [flash?.id, rating]);
+
+  // console.log("rating:", rating);
+  // console.log("dataReviewCount:", dataReviewCount);
 
   return (
     <Link to={`/product/${slugCategory}/${flash?.attributes.slug}`}>

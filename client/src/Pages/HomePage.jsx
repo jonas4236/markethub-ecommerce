@@ -22,12 +22,13 @@ const HomePage = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    setDataSession(params);
+    if (pathname.match(/^\/success=.*/)) {
+      setDataSession(params);
+    }
   }, []);
 
-  const getIdFromCart = cartData?.data?.map(
-    (value) => value.attributes.quantity
-  ) || null;
+  const getIdFromCart =
+    cartData?.data?.map((value) => value.attributes.quantity) || null;
   // console.log("getIdFromCart:", getIdFromCart);
   const updateNewStock = {
     dataStockQuantity: getIdFromCart,

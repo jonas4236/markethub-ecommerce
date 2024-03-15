@@ -834,6 +834,11 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
       'api::product.product'
     >;
     slug: Attribute.UID<'api::category.category', 'name'> & Attribute.Required;
+    header_promote: Attribute.Relation<
+      'api::category.category',
+      'oneToOne',
+      'api::header-promote.header-promote'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -927,6 +932,7 @@ export interface ApiHeaderPromoteHeaderPromote extends Schema.CollectionType {
     singularName: 'header-promote';
     pluralName: 'header-promotes';
     displayName: 'HeaderPromote';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -935,6 +941,11 @@ export interface ApiHeaderPromoteHeaderPromote extends Schema.CollectionType {
     image: Attribute.Media & Attribute.Required;
     name: Attribute.String;
     slug: Attribute.UID<'api::header-promote.header-promote', 'name'>;
+    category: Attribute.Relation<
+      'api::header-promote.header-promote',
+      'oneToOne',
+      'api::category.category'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

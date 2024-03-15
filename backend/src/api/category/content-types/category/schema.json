@@ -34,6 +34,12 @@
       "type": "uid",
       "targetField": "name",
       "required": true
+    },
+    "header_promote": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::header-promote.header-promote",
+      "mappedBy": "category"
     }
   }
 }
