@@ -48,23 +48,28 @@ const Wishlist = () => {
     initialSlide: 0,
     responsive: [
       {
-        breakpoint: 1024,
+        breakpoint: 1280,
         settings: {
           slidesToShow: 3,
-          slidesToScroll: 3,
-          infinite: true,
+          slidesToScroll: 1,
         },
       },
       {
-        breakpoint: 600,
+        breakpoint: 965,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 964,
         settings: {
           slidesToShow: 2,
-          slidesToScroll: 2,
-          initialSlide: 2,
+          slidesToScroll: 1,
         },
       },
       {
-        breakpoint: 480,
+        breakpoint: 685,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
@@ -75,9 +80,9 @@ const Wishlist = () => {
 
   return (
     <>
-      <div className="w-[1200px] h-[60vh] mx-auto">
+      <div className="2xl:w-[1200px] xl:w-[1200px] lg:w-full xl:px-0 h-[60vh] px-8 mx-auto">
         <>
-          <div className="w-[1200px] mx-auto">
+          <div className="2xl:w-[1200px] xl:w-[1200px] lg:w-full mx-auto">
             <div className="mt-16">
               <span className="mr-2 text-[16px] text-[#6B7280] font-medium">
                 Home
@@ -90,7 +95,7 @@ const Wishlist = () => {
               </span>
             </div>
           </div>
-          <div className="w-[1200px] mx-auto mt-[80px]">
+          <div className="2xl:w-[1200px] xl:w-[1200px] lg:w-full mx-auto mt-[80px]">
             <div className="flex items-center justify-between">
               <div className="flex justify-center items-center">
                 <div className="w-[20px] h-[40px] rounded-md bg-red-600 mr-2"></div>
@@ -117,15 +122,11 @@ const Wishlist = () => {
               </div>
             </div>
 
-            <div className="flex justify-between h-full">
-              <div className="flex"></div>
-              <div className=""></div>
-            </div>
             {/* -----------------End FlashSale ----------------------- */}
-            <div className="w-full h-full [40px] mt-[40px]">
+            <div className="w-full h-full flex-row mt-[40px]">
               <Slider
                 {...settings}
-                className="gap-4 w-[1200px]"
+                className="gap-4 2xl:w-[1200px] xl:w-[1200px] lg:w-full"
                 arrows={false}
                 ref={sliderRef}
               >

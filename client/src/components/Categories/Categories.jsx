@@ -22,19 +22,38 @@ const Categories = () => {
     initialSlide: 0,
     responsive: [
       {
-        breakpoint: 1024,
+        breakpoint: 1230,
+        settings: {
+          slidesToShow: 5,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 1060,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 870,
         settings: {
           slidesToShow: 3,
-          slidesToScroll: 3,
-          infinite: true,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 670,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
         },
       },
       {
         breakpoint: 600,
         settings: {
           slidesToShow: 2,
-          slidesToScroll: 2,
-          initialSlide: 2,
+          slidesToScroll: 1,
         },
       },
       {
@@ -61,31 +80,31 @@ const Categories = () => {
 
   return (
     <>
-      <div className="w-[1200px] mx-auto mt-[80px]">
+      <div className="2xl:w-[1200px] xl:w-[1200px] lg:w-full xl:px-0 px-8 mx-auto mt-[80px]">
         <div className="flex items-center">
           <div className="w-[20px] h-[40px] rounded-md bg-red-600 mr-2"></div>
           <span className="text-[#DB4444] font-semibold">Categories</span>
         </div>
 
-        <div className="flex justify-between h-full">
+        <div className="flex justify-between h-full xl:flex-row lg:flex-row md:flex-row sm:flex-row max-[639px]:flex-col">
           <div className="flex">
             <span className="text-3xl mt-[20px] font-semibold flex items-end text-[#DB4444]">
               Browse By Category
             </span>
           </div>
           <div className="">
-            <div className="flex gap-2 items-end h-full">
+            <div className="flex gap-2 items-end h-full max-[639px]:mt-2">
               <span>
                 <BsFillArrowLeftCircleFill
                   size={30}
-                  className="text-gray-700 cursor-pointer"
+                  className="text-[#DB4444] hover:text-gray-700 active:text-gray-950 transition-all cursor-pointer"
                   onClick={() => sliderRef.current.slickPrev()}
                 />
               </span>
               <span>
                 <BsFillArrowRightCircleFill
                   size={30}
-                  className="text-gray-700 cursor-pointer"
+                  className="text-[#DB4444] hover:text-gray-700 active:text-gray-950 transition-all cursor-pointer"
                   onClick={() => sliderRef.current.slickNext()}
                 />
               </span>
@@ -93,10 +112,10 @@ const Categories = () => {
           </div>
         </div>
         {/* -----------------End FlashSale ----------------------- */}
-        <div className="w-full h-full [40px] mt-[40px]">
+        <div className="mt-[40px]">
           <Slider
             {...settings}
-            className="gap-4 w-[1200px]"
+            className=""
             arrows={false}
             ref={sliderRef}
           >

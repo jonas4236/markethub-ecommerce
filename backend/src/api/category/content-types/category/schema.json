@@ -40,6 +40,12 @@
       "relation": "oneToOne",
       "target": "api::header-promote.header-promote",
       "mappedBy": "category"
+    },
+    "new_product": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::new-product.new-product",
+      "mappedBy": "category"
     }
   }
 }

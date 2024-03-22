@@ -79,10 +79,10 @@ const WriteComments = ({ token, productId, setRating, setIsProductUpdate }) => {
           </span>
         </div>
         <div className="">
-          <div className="py-4 px-64">
+          <div className="py-4 xl:px-64 lg:px-64 md:px-0">
             <form
               onSubmit={handleSubmit}
-              className="py-4 px-4 border-[1px]  border-gray-200 rounded-lg shadow-xl"
+              className="py-4 px-4 border-[1px] border-gray-200 rounded-lg shadow-xl"
             >
               <div className="mb-4 w-full flex justify-center">
                 <Rating

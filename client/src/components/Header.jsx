@@ -1,33 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { FaArrowRightLong } from "react-icons/fa6";
 import axios from "axios";
 
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { Link } from "react-router-dom";
-
-const data = [
-  {
-    img: "https://res.cloudinary.com/jonasdev/image/upload/v1698158479/6973xUBZFtvYeDmTUtuviF_y7pux5.jpg",
-    link: "/products/nike",
-  },
-  {
-    img: "https://res.cloudinary.com/jonasdev/image/upload/v1698158479/6973xUBZFtvYeDmTUtuviF_y7pux5.jpg",
-    link: "/products/nike2",
-  },
-  {
-    img: "https://res.cloudinary.com/jonasdev/image/upload/v1698158479/6973xUBZFtvYeDmTUtuviF_y7pux5.jpg",
-    link: "/products/nike3",
-  },
-  {
-    img: "https://res.cloudinary.com/jonasdev/image/upload/v1698158479/6973xUBZFtvYeDmTUtuviF_y7pux5.jpg",
-    link: "/products/nike4",
-  },
-  {
-    img: "https://res.cloudinary.com/jonasdev/image/upload/v1698158479/6973xUBZFtvYeDmTUtuviF_y7pux5.jpg",
-    link: "/products/nike5",
-  },
-];
 
 const CustomDot = ({ onClick, active }) => (
   <button
@@ -104,15 +80,15 @@ const Header = () => {
 
   return (
     <>
-      <div className="flex w-[1200px] gap-8 mx-auto">
-        <div className="flex-1 h-[416px] border-r-[1px] lg:flex md:hidden">
-          <div className="p-[20px]">
+      <div className="2xl:w-[1200px] flex xl:flex-row xl:w-[1200px] lg:flex-col lg:w-full md:w-full sm:w-full w-full md:flex-col sm:flex-col flex-col gap-8 mx-auto">
+        <div className="flex-1 h-[416px] w-full border-r-[1px] xl:flex lg:flex-row">
+          <div className="p-[20px] 2xl:px-0 xl:px-0 lg:px-8 md:px-8 sm:px-8 px-8 w-full">
             <ul className="">
               {dataCate.data?.map((cat) => (
-                <Link to={`/product/${cat.attributes.slug}`} key={cat.id}>
+                <Link to={`/products/${cat.attributes.slug}`} key={cat.id}>
                   <li
                     key={cat.id}
-                    className="my-[15px] flex items-center hover:text-red-600"
+                    className="my-[15px] xl:my-[4px] 2xl:p-0 xl:p-0 lg:p-2 md:p-2 sm:p-2 p-2 justify-center flex 2xl:justify-star xl:justify-star lg:justify-center md:justify-center sm:justify-center xl:justify-start hover:text-red-600 xl:bg-transparent xl:rounded-none lg:bg-[#F5F5F5] lg:rounded-md md:bg-[#F5F5F5] md:rounded-md sm:bg-[#F5F5F5] sm:rounded-md bg-[#F5F5F5] rounded-md"
                   >
                     {cat.attributes.name}
                   </li>
@@ -122,11 +98,11 @@ const Header = () => {
           </div>
         </div>
         {/* --------------------------------------------------------------------------------- */}
-        <div className="flex-[3.5] w-full mx-auto ">
+        <div className="flex-[3.5] w-full mx-auto px-8 2xl:px-0 xl:px-0 lg:px-8 md:px-8 sm:px-8">
           <div className="">
             <Carousel
               responsive={responsive}
-              className="w-[908px] mt-[30px] h-[385px] object-contain rounded-lg"
+              className="2xl:w-[908px] xl:w-[908px] lg:w-full md:w-full sm:w-full mt-[30px] xl:h-[385px] lg:h-[385px] md:h-[365px] sm:h-[285px] h-[185px] object-contain rounded-lg"
               autoPlay={true}
               autoPlaySpeed={3000}
               infinite={true}

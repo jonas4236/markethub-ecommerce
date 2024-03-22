@@ -59,7 +59,7 @@ const Product = () => {
   return (
     <>
       <div className="">
-        <div className="w-[1200px] mx-auto">
+        <div className="2xl:w-[1200px] xl:w-[1200px] lg:w-full xl:px-0 px-8 mx-auto">
           <div className="mt-16">
             <span className="text-[16px] font-medium text-gray-500">
               Product /{" "}
@@ -72,7 +72,7 @@ const Product = () => {
             </span>
           </div>
 
-          <div className="flex gap-16 mt-16">
+          <div className="flex gap-16 mt-16 flex-col xl:flex-row">
             <div className="flex-[3]">
               <div className="">
                 <Carousel
@@ -81,14 +81,14 @@ const Product = () => {
                   showIndicators={false}
                   showStatus={false}
                   thumbWidth={120}
-                  className="productCarousel w-[100%]"
+                  className="productCarousel w-full"
                 >
                   {Categorys?.map((images, idx) => (
                     <img
-                      className="h-[600px] object-contain bg-[#F5F5F5]"
+                      className="h-[600px] w-full object-contain bg-[#F5F5F5]"
                       src={images.attributes.url}
-                      key={""}
-                      alt=""
+                      key={idx}
+                      alt="IMAGE_DETAILS"
                     />
                   ))}
                 </Carousel>

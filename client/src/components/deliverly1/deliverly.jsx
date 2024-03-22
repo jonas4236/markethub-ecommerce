@@ -7,8 +7,8 @@ const deliverly = () => {
   return (
     <>
       <div className="py-[80px]">
-        <div className="w-[1200px] mx-auto">
-          <div className="grid grid-cols-3">
+        <div className="2xl:w-[1200px] xl:w-[1200px] lg:w-full xl:px-0 px-8 mx-auto">
+          <div className="xl:grid lg:grid md:flex-col grid-cols-3">
             <DeliverlyCompo />
             <DeliverlyCompo2 />
             <DeliverlyCompo3 />

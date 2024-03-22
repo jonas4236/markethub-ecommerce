@@ -280,7 +280,7 @@ const ProductDetails = ({ product, size }) => {
         <div key={DataProduct.id}>
           <>
             <div className="w-max">
-              <span className="text-[26px] font-medium text-[#DB4444]">
+              <span className="xl:text-[26px] lg:text-[26px] md:text-[26px] sm:text-[26px] max-[639px]:text-[16px] font-medium text-[#DB4444]">
                 {DataProduct.attributes.name}
               </span>
             </div>
@@ -311,7 +311,7 @@ const ProductDetails = ({ product, size }) => {
                 )}
               </div>
               <div className="mt-2 flex">
-                <span className="text-red-500 text-[24px] font-medium mt-2">
+                <span className="text-red-500 xl:text-[24px] lg:text-[24px] md:text-[24px] sm:text-[24px] max-[639px]:text-[16px] font-medium mt-2">
                   THB:{" "}
                   <span className="text-red-500 font-medium">
                     {DataProduct.attributes.originalPrice.toLocaleString()}
@@ -319,7 +319,7 @@ const ProductDetails = ({ product, size }) => {
                 </span>
                 {DataProduct.attributes.discountPrice && (
                   <div className="mt-2 ml-2">
-                    <span className="line-through text-[18px] text-gray-300 font-medium mt-2">
+                    <span className="line-through xl:text-[18px] lg:text-[18px] md:text-[18px] sm:text-[18px] max-[639px]:text-[16px] text-gray-300 font-medium mt-2">
                       {DataProduct.attributes.discountPrice.toLocaleString()}
                     </span>
                   </div>
@@ -353,7 +353,7 @@ const ProductDetails = ({ product, size }) => {
                   )}
                 </div>
               )}
-              <div className="flex w-[500px]  justify-between mt-4">
+              <div className="flex 2xl:w-[500px] xl:w-[500px] lg:w-[500px] md:w-[500px] max-[604px]:flex-col justify-between mt-4">
                 <div className="w-max">
                   <div className="flex h-full rounded-md border-black border-[1px]">
                     <button
@@ -398,7 +398,7 @@ const ProductDetails = ({ product, size }) => {
                     )}
                   </div>
                 </div>
-                <div className="flex">
+                <div className="flex max-[604px]:py-2">
                   {DataProduct.attributes.Stock >= 1 ? (
                     <>
                       {constantOfStockInCart === 0 ? (
@@ -691,7 +691,7 @@ const ProductDetails = ({ product, size }) => {
                   {isProductInWishlist ? (
                     <button
                       onClick={handleRemovedWishlist}
-                      className="w-12 h-full border-[#DB4444] flex justify-center items-center rounded-md border-[1px]"
+                      className="w-12 h-full border-[#DB4444] flex justify-center max-[605px]:py-2 items-center rounded-md border-[1px]"
                     >
                       <BiSolidHeart className="text-[#DB4444]" size={25} />
                     </button>
@@ -705,7 +705,7 @@ const ProductDetails = ({ product, size }) => {
                         }
                         // dispatch(getWishlistTotal());
                       }}
-                      className="w-12 h-full border-gray-400 flex justify-center items-center rounded-md border-[1px]"
+                      className="w-12 h-full max-[604px]:py-2 border-gray-400 flex justify-center items-center rounded-md border-[1px]"
                     >
                       <BiHeart className="text-gray-400" size={25} />
                     </button>

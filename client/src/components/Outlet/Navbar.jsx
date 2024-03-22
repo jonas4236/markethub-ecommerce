@@ -6,11 +6,19 @@ import Settings from "../Settings";
 import axios from "axios";
 import { AuthContext } from "../Context/AuthContext";
 
+// menu bar
+import { RiMenu3Line } from "react-icons/ri";
+import { RiMenuFoldFill } from "react-icons/ri";
+import ResponsiveNavbar from "./responsive/ResponsiveNavbar";
+import { Switch } from "@headlessui/react";
+
 const Navbar = () => {
   const [wishlistTotal, setWishlistTotal] = useState([]);
   const [cartTotal, setCartTotal] = useState([]);
   const { username, countdown, setCountdown, setNumberOfCate } =
     useContext(AuthContext);
+  const [openMenu, setOpenMenu] = useState(false);
+  const [enabled, setEnabled] = useState(false);
 
   useEffect(() => {
     const fetchTotalWishlist = async () => {
@@ -63,8 +71,8 @@ const Navbar = () => {
   }, [countdown, setCountdown]);
 
   return (
-    <div className="w-full h-[90px] items-center border-b-[1px] sticky top-[-10px] z-[99] bg-white">
-      <div className="h-full w-[1200px] mx-auto">
+    <div className="w-full h-[90px] items-center border-b-[1px] sticky xl:top-[-10px] lg:top-[-10px] md:top-[0px] sm:top-[0px] top-[0px] z-[99] bg-white">
+      <div className="h-full xl:w-[1200px] xl:p-0 lg:w-full lg:px-8 md:px-8 sm:px-8 mx-auto px-8">
         <div className=" flex justify-between h-full items-center">
           <Link to={"/"}>
             <div className="h-full">
@@ -77,7 +85,7 @@ const Navbar = () => {
           </Link>
 
           <div className="">
-            <ul className="flex lg:flex md:hidden">
+            <ul className="xl:flex lg:flex md:flex sm:hidden hidden">
               <li className="mr-4 cursor-pointer text-[16px] font-medium text-slate-950 hover:text-red-600 transition-all duration-300">
                 Home
               </li>
@@ -92,11 +100,12 @@ const Navbar = () => {
               </li>
             </ul>
           </div>
+          {openMenu && <ResponsiveNavbar />}
 
           <div className="">
             <div className="flex justify-center">
               <Link to={"/wishlist"}>
-                <div className="mr-4 cursor-pointer text-gray-700 lg:flex md:hidden relative h-full flex items-center">
+                <div className="mr-4 cursor-pointer text-gray-700 lg:flex relative h-full flex items-center">
                   <MdOutlineFavoriteBorder size={25} />
                   {username && (
                     <span className="absolute top-[-9px] right-[-7px] w-[20px] h-[20px] rounded-full items-center flex justify-center  bg-red-800 text-white text-[14px]">
@@ -118,6 +127,24 @@ const Navbar = () => {
               <div className="ml-4 h-full cursor-pointer text-blue-500">
                 <Settings />
               </div>
+              {openMenu ? (
+                <button
+                  onClick={() => setOpenMenu(!openMenu)}
+                  className="ml-4 h-full xl:hidden lg:hidden md:hidden sm:block cursor-pointer"
+                >
+                  <RiMenuFoldFill
+                    className="h-[25px] text-[#DB4444]"
+                    size={21}
+                  />
+                </button>
+              ) : (
+                <button
+                  onClick={() => setOpenMenu(!openMenu)}
+                  className="ml-4 h-full xl:hidden lg:hidden md:hidden sm:block cursor-pointer"
+                >
+                  <RiMenu3Line className="h-[25px] text-[#DB4444]" size={21} />
+                </button>
+              )}
             </div>
           </div>
         </div>

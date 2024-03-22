@@ -839,6 +839,11 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
       'oneToOne',
       'api::header-promote.header-promote'
     >;
+    new_product: Attribute.Relation<
+      'api::category.category',
+      'oneToOne',
+      'api::new-product.new-product'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -994,6 +999,44 @@ export interface ApiMainCategoryMainCategory extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::main-category.main-category',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiNewProductNewProduct extends Schema.CollectionType {
+  collectionName: 'new_products';
+  info: {
+    singularName: 'new-product';
+    pluralName: 'new-products';
+    displayName: 'newProduct';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    video_url: Attribute.Media;
+    category: Attribute.Relation<
+      'api::new-product.new-product',
+      'oneToOne',
+      'api::category.category'
+    >;
+    slug: Attribute.UID<'api::new-product.new-product', 'name'>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::new-product.new-product',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::new-product.new-product',
       'oneToOne',
       'admin::user'
     > &
@@ -1188,6 +1231,7 @@ declare module '@strapi/types' {
       'api::footer-category.footer-category': ApiFooterCategoryFooterCategory;
       'api::header-promote.header-promote': ApiHeaderPromoteHeaderPromote;
       'api::main-category.main-category': ApiMainCategoryMainCategory;
+      'api::new-product.new-product': ApiNewProductNewProduct;
       'api::order.order': ApiOrderOrder;
       'api::product.product': ApiProductProduct;
       'api::review.review': ApiReviewReview;

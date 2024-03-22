@@ -66,8 +66,8 @@ const ListItems = ({
   return (
     <>
       {data.data && (
-        <div>
-          <div className="grid grid-cols-4 h-full mt-8">
+        <div className="">
+          <div className="grid gap-4 grid-cols-4 max-[1600px]:grid-cols-3 max-[925px]:grid-cols-2 max-[670px]:grid-cols-1 h-full w-max mt-8">
             {[...filteredData].reverse().map((value) => (
               <div key={value.id}>
                 <ProductCard product={value} slugCategory={slugCategory} />

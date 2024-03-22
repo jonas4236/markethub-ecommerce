@@ -70,8 +70,8 @@ const Products = () => {
   return (
     <>
       <div className="">
-        <div className="w-[1600px] mx-auto flex gap-16">
-          <div className="flex-[1] w-full h-max bg-white shadow-xl p-4 mt-4 rounded-lg sticky top-[90px]">
+        <div className="2xl:w-[1600px] xl:w-full lg:w-full 2xl:px-0 xl:px-8 px-8 mx-auto flex lg:justify-center md:justify-center sm:justify-center max-[639px]:justify-center max-[639px]:items-center xl:items-baseline lg:items-center md:items-center sm:items-center xl:flex-row lg:flex-col md:flex-col sm:flex-col max-[639px]:flex-col gap-16">
+          <div className="flex-[1] xl:w-full lg:w-max h-max bg-white shadow-xl p-4 mt-4 rounded-lg xl:sticky top-[90px]">
             <div className="">
               <h2 className="text-[30px]">FILTERS 🔍</h2>
               <div className="w-full h-[1px] mt-2 mb-2 bg-black"></div>

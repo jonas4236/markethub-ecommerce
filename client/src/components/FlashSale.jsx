@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import Countdown from "react-countdown";
 import {
   BsFillArrowLeftCircleFill,
   BsFillArrowRightCircleFill,
@@ -93,23 +92,28 @@ const FlashSale = () => {
     initialSlide: 0,
     responsive: [
       {
+        breakpoint: 1280,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+        },
+      },
+      {
         breakpoint: 1024,
         settings: {
           slidesToShow: 3,
-          slidesToScroll: 3,
-          infinite: true,
+          slidesToScroll: 1,
         },
       },
       {
-        breakpoint: 600,
+        breakpoint: 1000,
         settings: {
           slidesToShow: 2,
-          slidesToScroll: 2,
-          initialSlide: 2,
+          slidesToScroll: 1,
         },
       },
       {
-        breakpoint: 480,
+        breakpoint: 690,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
@@ -120,37 +124,37 @@ const FlashSale = () => {
 
   return (
     <>
-      <div className="w-[1200px] mx-auto mt-[140px]">
+      <div className="2xl:w-[1200px] xl:w-[1200px] lg:w-full xl:px-0 px-8 mx-auto mt-[140px]">
         <div className="flex items-center">
           <div className="w-[20px] h-[40px] rounded-md bg-red-600 mr-2"></div>
           <span className="text-[#DB4444] font-semibold">Today's</span>
         </div>
 
-        <div className="flex justify-between h-full">
-          <div className="flex">
-            <span className="text-3xl font-semibold flex items-end text-[#DB4444]">
+        <div className="flex 2xl:flex-row xl:flex-row lg:flex-row md:flex-row sm:flex-col max-[639px]:flex-col justify-between h-full">
+          <div className="flex 2xl:flex-row xl:flex-row lg:flex-row md:flex-row sm:flex-col max-[639px]:flex-col">
+            <span className="text-3xl font-semibold flex items-end xl:mt-0 lg:mt-0 md:mt-0 sm:mt-2 max-[639px]:mt-2 text-[#DB4444]">
               Flash Sales
               <span className="text-[#DB4444] ml-2 mb-1">
                 <BsFillLightningFill />
               </span>
             </span>
-            <div className="ml-16">
+            <div className="ml-0 xl:py-0 lg:py-0 md:py-0 xl:mt-0 lg:mt-0 md:mt-0 sm:mt-2 xl:ml-16 lg:ml-16 md:ml-16 sm:ml-0 max-[639px]:mt-2">
               <CountdownTime time={countdown} />
             </div>
           </div>
-          <div className="">
+          <div className="xl:mt-0 lg:mt-0 md:mt-0 sm:mt-2 max-[639px]:mt-2">
             <div className="flex gap-2 items-end h-full">
               <span>
                 <BsFillArrowLeftCircleFill
                   size={30}
-                  className="text-gray-700 cursor-pointer"
+                  className="text-[#DB4444] hover:text-gray-700 active:text-gray-950 transition-all cursor-pointer"
                   onClick={() => sliderRef.current.slickPrev()}
                 />
               </span>
               <span>
                 <BsFillArrowRightCircleFill
                   size={30}
-                  className="text-gray-700 cursor-pointer"
+                  className="text-[#DB4444] hover:text-gray-700 active:text-gray-950 transition-all cursor-pointer"
                   onClick={() => sliderRef.current.slickNext()}
                 />
               </span>
@@ -161,7 +165,7 @@ const FlashSale = () => {
         <div className="w-full h-full mt-[40px]">
           <Slider
             {...settings}
-            className="gap-4 h-[406px] w-[1200px]"
+            className="gap-4 h-[406px] 2xl:w-[1200px] xl:w-[1200px] lg:w-full xl:px-0"
             arrows={false}
             ref={sliderRef}
           >

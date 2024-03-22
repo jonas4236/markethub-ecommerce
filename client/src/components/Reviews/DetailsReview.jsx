@@ -4,10 +4,10 @@ import { Rating } from "react-simple-star-rating";
 const DetailsReview = ({ review }) => {
   return (
     <>
-      <div className="">
-        <div className="px-2">
-          <div className="">
-            <div className="bg-[#F5F5F5] p-2 rounded-lg">
+      <div className="w-full">
+        <div className="px-2 w-full">
+          <div className="w-full">
+            <div className="bg-[#F5F5F5] p-2 rounded-lg w-full">
               <div className="flex items-center justify-center ">
                 <img
                   className="size-12 p-1 rounded-full border-2 border-[#DB4444]"

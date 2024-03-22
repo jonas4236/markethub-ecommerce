@@ -9,19 +9,19 @@ const ProductReview = ({ token, productId, setRating, setIsProductUpdate }) => {
   const [dataReview, setDataReview] = useState([]);
   const responsive = {
     superLargeDesktop: {
-      breakpoint: { max: 4000, min: 3000 },
+      breakpoint: { max: 4000, min: 1150 },
       items: 4,
     },
     desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 4,
+      breakpoint: { max: 1160, min: 1150 },
+      items: 3,
     },
     tablet: {
-      breakpoint: { max: 1024, min: 464 },
+      breakpoint: { max: 1149, min: 640 },
       items: 2,
     },
     mobile: {
-      breakpoint: { max: 464, min: 0 },
+      breakpoint: { max: 639, min: 0 },
       items: 1,
     },
   };
@@ -54,17 +54,17 @@ const ProductReview = ({ token, productId, setRating, setIsProductUpdate }) => {
           <div className="w-[20px] h-[40px] rounded-md bg-red-600 mr-2"></div>
           <span className="text-[#DB4444] font-semibold">Customer reviews</span>
         </div>
-        <Carousel
-          responsive={responsive}
-          className={`object-contain rounded-lg flex ${
-            dataReview.length <= 3 ? "justify-center" : ""
-          }`}
-        >
-          {/* make data reverse for make new users comments to first slide */}
-          {[...dataReview].reverse().map((item) => (
-            <DetailsReview key={item.id} review={item} />
-          ))}
-        </Carousel>
+        <div className="">
+          <Carousel
+            responsive={responsive}
+            className={`w-full object-contain rounded-lg flex`}
+          >
+            {/* make data reverse for make new users comments to first slide */}
+            {[...dataReview].reverse().map((item) => (
+              <DetailsReview key={item.id} review={item} />
+            ))}
+          </Carousel>
+        </div>
 
         {token && (
           <WriteComments

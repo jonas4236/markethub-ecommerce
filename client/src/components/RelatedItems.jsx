@@ -21,23 +21,28 @@ const RelatedItems = ({ product, slug }) => {
     initialSlide: 0,
     responsive: [
       {
+        breakpoint: 1280,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+        },
+      },
+      {
         breakpoint: 1024,
         settings: {
           slidesToShow: 3,
-          slidesToScroll: 3,
-          infinite: true,
+          slidesToScroll: 1,
         },
       },
       {
-        breakpoint: 600,
+        breakpoint: 1000,
         settings: {
           slidesToShow: 2,
-          slidesToScroll: 2,
-          initialSlide: 2,
+          slidesToScroll: 1,
         },
       },
       {
-        breakpoint: 480,
+        breakpoint: 768,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
@@ -48,7 +53,7 @@ const RelatedItems = ({ product, slug }) => {
 
   return (
     <>
-      <div className="w-[1200px] mx-auto mt-[140px]">
+      <div className="2xl:w-[1200px] xl:w-[1200px] lg:w-full xl:px-0 px-8 mx-auto mt-[140px]">
         <div className="flex items-center justify-between">
           <div className="flex justify-center items-center">
             <div className="w-[20px] h-[40px] rounded-md bg-red-600 mr-2"></div>
@@ -78,15 +83,15 @@ const RelatedItems = ({ product, slug }) => {
           <div className=""></div>
         </div>
         {/* -----------------End FlashSale ----------------------- */}
-        <div className="w-full h-full [40px] mt-[40px]">
+        <div className="w-full h-full mt-[40px]">
           <Slider
             {...settings}
-            className="gap-4 w-[1200px]"
+            className="gap-4 2xl:w-[1200px] xl:w-[1200px] lg:w-full"
             arrows={false}
             ref={sliderRef}
           >
             {product.data?.map((data) => (
-              <div key={data.id} className="ml-4">
+              <div key={data.id} className="">
                 <ProductCard key={data.id} product={data} slug={slug} />
               </div>
             ))}

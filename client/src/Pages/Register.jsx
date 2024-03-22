@@ -25,18 +25,18 @@ const Register = () => {
 
   return (
     <>
-      <div className="w-[1305px] h-[80vh] mb-[140px] mx-auto mt-16 flex">
-        <div className="flex-1 mr-[129px] h-full">
+      <div className="2xl:w-[1305px] xl:w-[1305px] lg:w-full xl:px-0 px-8 h-full mb-[140px] mx-auto mt-16 flex xl:flex-row lg:flex-row md:flex-col sm:flex-col max-[639px]:flex-col">
+        <div className="flex-1 xl:mr-[129px] lg:mr-[129px] md:mr-[0px] sm:mr-[0px] max-[639px]:mr-[0px] h-full">
           <img
-            className="w-[805] h-full object-cover rounded-lg"
+            className="w-full h-full object-cover rounded-lg"
             src="https://res.cloudinary.com/jonasdev/image/upload/v1698466741/Side_Image_vqrz7y.png"
             alt=""
           />
         </div>
         <div className="flex-1">
           <div className="flex flex-col h-full justify-center">
-            <div className="flex flex-col w-[371px] mx-auto">
-              <span className="text-[31px] text-slate-950 font-medium mx-4 tracking-[.3rem]">
+            <div className="flex flex-col w-[371px] mx-auto xl:mt-0 lg:mt-0 md:mt-8 sm:mt-8 max-[639px]:mt-8">
+              <span className="text-[31px] text-slate-950 font-medium tracking-[.3rem]">
                 Create an account
               </span>
               <span className="text-base mt-4 mx-4 text-slate-950">

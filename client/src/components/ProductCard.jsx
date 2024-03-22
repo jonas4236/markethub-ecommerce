@@ -109,76 +109,81 @@ const ProductCard = ({ product, slugCategory }) => {
 
   return (
     <>
-      <Link to={`/product/${slugCategory}/${product.attributes.slug}`}>
-        <div className="hover:scale-110 transition-all mt-[20px] w-max">
-          <div
-            className="relative"
-            onMouseEnter={() => setIsHover(true)}
-            onMouseLeave={() => setIsHover(false)}
-          >
-            <img
-              className="w-[270px] h-[250px] bg-[#F5F5F5] rounded-md object-contain"
-              src={img.url}
-              alt=""
-            />
-            {discounted && (
-              <span className="absolute top-[15px] left-[15px] py-[5px] px-[15px] text-sm bg-[#DB4444] text-white rounded-md">
-                - {getDiscountedPricePercentage(discounted, original)}%
-              </span>
-            )}
-            {isHover && (
-              <Link>
-                <span className="transition-all">
-                  <AddToCart
-                    thumbnail={img.url}
-                    name={product.attributes.name}
-                    wlId={wlId}
-                    username={username}
-                    title={title}
-                    slug={slug}
-                    category={category}
-                    priceperpiece={priceperpiece}
-                    image={image}
-                    discount={discount}
-                    isExist={isProductInWishlist}
-                  />
-                </span>
-              </Link>
-            )}
-          </div>
-          <div className="p-[16px_16px_16px_0] w-[270px]">
-            <span className="font-semibold">
-              {formattedText(product.attributes.name)}
-            </span>
-            <div className="flex w-full h-full py-1">
-              <span className="text-[#DB4444] mr-[8px] text-base font-semibold">
-                THB: {product.attributes.originalPrice.toLocaleString()}
-              </span>
+      <div className="flex justify-center items-center py-4">
+        <Link
+          className="w-max h-max"
+          to={`/product/${slugCategory}/${product.attributes.slug}`}
+        >
+          <div className="hover:scale-110 max-[455px]:hover:scale-100 transition-all w-max">
+            <div
+              className="relative"
+              onMouseEnter={() => setIsHover(true)}
+              onMouseLeave={() => setIsHover(false)}
+            >
+              <img
+                className="w-[270px] h-[250px] bg-[#F5F5F5] rounded-md object-contain"
+                src={img.url}
+                alt=""
+              />
               {discounted && (
-                <span className="line-through text-gray-500 text-sm font-semibold">
-                  {product.attributes.discountPrice.toLocaleString()}
+                <span className="absolute top-[15px] left-[15px] py-[5px] px-[15px] text-sm bg-[#DB4444] text-white rounded-md">
+                  - {getDiscountedPricePercentage(discounted, original)}%
                 </span>
               )}
+              {isHover && (
+                <Link>
+                  <span className="transition-all">
+                    <AddToCart
+                      thumbnail={img.url}
+                      name={product.attributes.name}
+                      wlId={wlId}
+                      username={username}
+                      title={title}
+                      slug={slug}
+                      category={category}
+                      priceperpiece={priceperpiece}
+                      image={image}
+                      discount={discount}
+                      isExist={isProductInWishlist}
+                    />
+                  </span>
+                </Link>
+              )}
             </div>
-            <div className="flex gap-[4px] items-center">
-              <Rating
-                SVGclassName="inline-block"
-                initialValue={rating ? rating : 0}
-                readonly
-                size={20}
-              />
-
-              <span className="ml-2 text-slate-600 font-semibold text-sm">
-                (
-                {`${dataReviewCount.length ? dataReviewCount.length : 0} ${
-                  dataReviewCount.length === 1 ? "Review" : "Reviews"
-                }`}
-                )
+            <div className="p-[16px_16px_16px_0] w-[270px]">
+              <span className="font-semibold">
+                {formattedText(product.attributes.name)}
               </span>
+              <div className="flex w-full h-full py-1">
+                <span className="text-[#DB4444] mr-[8px] text-base font-semibold">
+                  THB: {product.attributes.originalPrice.toLocaleString()}
+                </span>
+                {discounted && (
+                  <span className="line-through text-gray-500 text-sm font-semibold">
+                    {product.attributes.discountPrice.toLocaleString()}
+                  </span>
+                )}
+              </div>
+              <div className="flex gap-[4px] items-center">
+                <Rating
+                  SVGclassName="inline-block"
+                  initialValue={rating ? rating : 0}
+                  readonly
+                  size={20}
+                />
+
+                <span className="ml-2 text-slate-600 font-semibold text-sm">
+                  (
+                  {`${dataReviewCount.length ? dataReviewCount.length : 0} ${
+                    dataReviewCount.length === 1 ? "Review" : "Reviews"
+                  }`}
+                  )
+                </span>
+              </div>
             </div>
           </div>
-        </div>
-      </Link>
+        </Link>
+      </div>
     </>
   );
 };

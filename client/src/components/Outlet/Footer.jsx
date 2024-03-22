@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <>
       <div className="w-full bg-black text-white">
-        <div className="flex w-[1200px] mx-auto mt-[80px] py-8  gap-8">
+        <div className="flex xl:flex-row lg:flex-row md:flex-col sm:flex-col max-[639px]:flex-col 2xl:w-[1200px] xl:w-[1200px] lg:w-full xl:px-0 px-8 mx-auto mt-[80px] py-8 gap-8">
           <div className="flex-1">
             <ul>
               <span className="text-[24px] font-medium">Exclusive</span>

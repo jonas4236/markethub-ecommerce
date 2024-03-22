@@ -15,7 +15,7 @@ const Featured = () => {
           "http://localhost:1337/api/footer-categories?populate=*"
         );
 
-        setFootcat(res.data)
+        setFootcat(res.data);
       } catch (err) {
         console.log("error: ", err);
       }
@@ -33,18 +33,18 @@ const Featured = () => {
 
   return (
     <>
-      <div className="w-[1200px] mx-auto mt-[80px]">
-        <div className="grid grid-cols-6 grid-rows-6 gap-4 h-[600px]">
-          <div className="col-span-2 row-span-6">
+      <div className="2xl:w-[1200px] xl:w-[1200px] lg:w-full xl:px-0 px-8 mx-auto mt-[80px]">
+        <div className="xl:grid lg:grid md:flex-col grid-cols-6 grid-rows-6 gap-4 xl:h-[650px] lg:h-[650px] md:h-full mb-4">
+          <div className="col-span-2 row-span-6 my-2">
             <Featured5 cate={data1} />
           </div>
-          <div className="col-span-4 row-span-3 col-start-3">
+          <div className="col-span-4 row-span-3 col-start-3 my-2">
             <Featured2 cate={data2} />
           </div>
-          <div className="col-span-2 row-span-3 col-start-3 row-start-4">
+          <div className="col-span-2 row-span-3 col-start-3 row-start-4 my-2">
             <Featured3 cate={data3} />
           </div>
-          <div className="col-span-2 row-span-3 col-start-5 row-start-4">
+          <div className="col-span-2 row-span-3 col-start-5 row-start-4 my-2">
             <Featured4 cate={data4} />
           </div>
         </div>

@@ -82,76 +82,81 @@ const FlashSaleProducts = ({ flash, slugCategory, wishlistData }) => {
   // console.log("dataReviewCount:", dataReviewCount);
 
   return (
-    <Link to={`/product/${slugCategory}/${flash?.attributes.slug}`}>
-      <div className="hover:scale-110 transition-all mt-[20px] ml-[15px] w-max">
-        <div
-          className="relative h-[250px]"
-          onMouseEnter={() => setIsHover(true)}
-          onMouseLeave={() => setIsHover(false)}
-        >
-          <img
-            className="w-[270px] h-[250px] bg-[#F5F5F5] rounded-md object-contain"
-            src={flash?.attributes.thumbnail.data.attributes.url}
-            alt=""
-          />
-          <span className="absolute top-[15px] left-[15px] py-[5px] px-[15px] text-sm bg-[#DB4444] text-white rounded-md">
-            -{" "}
-            {getDiscountedPricePercentage(
-              flash?.attributes.discountPrice,
-              flash?.attributes.originalPrice
-            )}
-            %
-          </span>
-          {isHover && (
-            <Link to={""}>
-              <button className="transition-all">
-                <AddToCart
-                  thumbnail={flash?.attributes.thumbnail.data.attributes.url}
-                  name={flash?.attributes.name}
-                  wlId={wlId}
-                  username={username}
-                  title={title}
-                  slug={slug}
-                  category={category}
-                  priceperpiece={priceperpiece}
-                  image={image}
-                  discount={discount}
-                  isExist={isProductInWishlist}
-                />
-              </button>
-            </Link>
-          )}
-        </div>
-        <div className="p-[16px_16px_16px_0] w-[270px]">
-          <span className="font-semibold">
-            {formattedText(flash?.attributes.name)}
-          </span>
-          <div className="flex w-full h-full py-1">
-            <span className="text-[#DB4444] mr-[8px] text-base font-semibold">
-              THB: {flash?.attributes.originalPrice.toLocaleString()}
-            </span>
-            <span className="line-through text-gray-500 text-sm font-semibold">
-              {flash?.attributes.discountPrice.toLocaleString()}
-            </span>
-          </div>
-          <div className="flex gap-[4px] items-center">
-            <Rating
-              SVGclassName="inline-block"
-              initialValue={rating ? rating : 0}
-              readonly
-              size={20}
+    <div className="flex justify-center items-center py-4">
+      <Link
+        className="w-max"
+        to={`/product/${slugCategory}/${flash?.attributes.slug}`}
+      >
+        <div className="hover:scale-110 transition-all w-max">
+          <div
+            className="relative h-[250px]"
+            onMouseEnter={() => setIsHover(true)}
+            onMouseLeave={() => setIsHover(false)}
+          >
+            <img
+              className="w-[270px] h-[250px] bg-[#F5F5F5] rounded-md object-contain"
+              src={flash?.attributes.thumbnail.data.attributes.url}
+              alt=""
             />
-            <span className="ml-2 text-slate-600 font-semibold text-sm">
-              (
-              {`${dataReviewCount.length ? dataReviewCount.length : 0} ${
-                dataReviewCount.length === 1 ? "Review" : "Reviews"
-              }`}
-              )
+            <span className="absolute top-[15px] left-[15px] py-[5px] px-[15px] text-sm bg-[#DB4444] text-white rounded-md">
+              -{" "}
+              {getDiscountedPricePercentage(
+                flash?.attributes.discountPrice,
+                flash?.attributes.originalPrice
+              )}
+              %
             </span>
+            {isHover && (
+              <Link to={""}>
+                <button className="transition-all">
+                  <AddToCart
+                    thumbnail={flash?.attributes.thumbnail.data.attributes.url}
+                    name={flash?.attributes.name}
+                    wlId={wlId}
+                    username={username}
+                    title={title}
+                    slug={slug}
+                    category={category}
+                    priceperpiece={priceperpiece}
+                    image={image}
+                    discount={discount}
+                    isExist={isProductInWishlist}
+                  />
+                </button>
+              </Link>
+            )}
+          </div>
+          <div className="p-[16px_16px_16px_0] w-[270px]">
+            <span className="font-semibold">
+              {formattedText(flash?.attributes.name)}
+            </span>
+            <div className="flex w-full h-full py-1">
+              <span className="text-[#DB4444] mr-[8px] text-base font-semibold">
+                THB: {flash?.attributes.originalPrice.toLocaleString()}
+              </span>
+              <span className="line-through text-gray-500 text-sm font-semibold">
+                {flash?.attributes.discountPrice.toLocaleString()}
+              </span>
+            </div>
+            <div className="flex gap-[4px] items-center">
+              <Rating
+                SVGclassName="inline-block"
+                initialValue={rating ? rating : 0}
+                readonly
+                size={20}
+              />
+              <span className="ml-2 text-slate-600 font-semibold text-sm">
+                (
+                {`${dataReviewCount.length ? dataReviewCount.length : 0} ${
+                  dataReviewCount.length === 1 ? "Review" : "Reviews"
+                }`}
+                )
+              </span>
+            </div>
           </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </div>
   );
 };
 

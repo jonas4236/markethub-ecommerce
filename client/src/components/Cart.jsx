@@ -43,14 +43,14 @@ const Cart = () => {
   return (
     <>
       <div className="">
-        <div className="w-[1200px] mx-auto">
+        <div className="2xl:w-[1200px] xl:w-[1200px] lg:w-full xl:px-0 px-8 mx-auto">
           <div className="mt-16 mb-16">
             <span className="text-[#6B7280] font-medium mr-2">Home</span>
             <span className="text-[#6B7280] font-medium">/</span>
             <span className="text-[#DB4444] font-medium ml-2">Cart</span>
           </div>
           <div className="">
-            <div className="flex gap-10 px-12 py-4 shadow-xl mb-8">
+            <div className="flex xl:gap-[0px] lg:gap-[0px] md:gap-[0px] sm:gap-4 max-[639px]:gap-4 xl:px-12 lg:px-12 md:px-12 sm:px-4 max-[639px]:px-4 py-4 shadow-xl mb-8">
               <div className="flex-[1]">
                 <span className="text-black font-medium flex items-center justify-center">
                   Product
@@ -107,8 +107,8 @@ const Cart = () => {
               )}
             </div>
 
-            <div className="flex gap-64 mt-8">
-              <div className="flex-[1]">
+            <div className="flex xl:flex-row lg:flex-row md:flex-col sm:flex-col max-[639px]:flex-col xl:gap-64 lg:gap-64 md:gap-0 sm:gap-0 mt-8">
+              <div className="flex-[1] xl:mb-0 lg:mb-0 md:mb-2 sm:mb-2 max-[639px]:mb-2">
                 <div className="flex">
                   <input
                     className="px-2 mr-4 rounded-md border-[1px] bg-white border-[#DB4444] text-[#DB4444] outline-none font-medium"

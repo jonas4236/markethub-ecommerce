@@ -478,7 +478,7 @@ const manage = () => {
 
   return (
     <div className="py-16">
-      <div className="w-[1170px] mx-auto">
+      <div className="2xl:w-[1170px] xl:w-[1170px] lg:w-full max-[639px]:w-full xl:px-0 px-8 mx-auto">
         <div className="flex justify-between">
           <div className="">
             <span className="text-gray-500">Home</span>
@@ -493,7 +493,7 @@ const manage = () => {
           </div>
         </div>
 
-        <div className="flex mt-16">
+        <div className="flex xl:flex-row lg:flex-row md:flex-row max-[639px]:flex-col mt-16 max-[639px]:w-full">
           <div className="flex-[1] mr-16">
             <div className="">
               <span className="font-semibold">Manage My Account</span>
@@ -503,11 +503,11 @@ const manage = () => {
             </div>
           </div>
           <div className="flex-[2.5]">
-            <div className="p-8">
+            <div className="p-8 max-[639px]:w-full">
               <span className="text-[20px] text-[#DB4444] font-medium">
                 Edit Your Profile
               </span>
-              <div className="mt-4 flex w-full justify-center flex-col items-center">
+              <div className="mt-4 flex w-full justify-center flex-col max-[639px]:w-full items-center">
                 <span className="text-[#DB4444] font-semibold mb-2">
                   Avatar
                 </span>
@@ -539,10 +539,10 @@ const manage = () => {
             </div>
 
             <div className="">
-              <div>
+              <div className="max-[639px]:w-full">
                 {/*  */}
-                <div className="flex">
-                  <div className="flex-[1] flex flex-col mr-16">
+                <div className="flex xl:flex-row lg:flex-row md:flex-row sm:flex-col max-[639px]:flex-col">
+                  <div className="flex-[1] flex flex-col mr-16 w-full max-[639px]:w-full">
                     <label htmlFor="FullName" className="font-medium">
                       Full Name
                     </label>
@@ -567,8 +567,8 @@ const manage = () => {
                   </div>
                 </div>
 
-                <div className="flex mt-4">
-                  <div className="flex-[1] flex flex-col mr-16">
+                <div className="flex xl:flex-row lg:flex-row md:flex-row sm:flex-col max-[639px]:flex-col mt-4">
+                  <div className="flex-[1] flex flex-col mr-16 w-full">
                     <label htmlFor="FullName" className="font-medium">
                       Email
                     </label>

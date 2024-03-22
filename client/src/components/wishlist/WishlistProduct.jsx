@@ -15,9 +15,12 @@ const WishlistProduct = ({ item }) => {
   };
 
   return (
-    <div className="">
-      <Link to={`/product/${item.attributes.category}/${item.attributes.slug}`}>
-        <div className="hover:scale-110 transition-all mt-[20px] ml-[15px] w-max">
+    <div className="flex justify-center py-4 w-full">
+      <Link
+        className="w-max"
+        to={`/product/${item.attributes.category}/${item.attributes.slug}`}
+      >
+        <div className="hover:scale-110 transition-all w-max">
           <div
             className="relative"
             onMouseEnter={() => setIsHover(true)}
