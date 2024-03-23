@@ -279,7 +279,7 @@ const ProductDetails = ({ product, size }) => {
       {product.data?.map((DataProduct) => (
         <div key={DataProduct.id}>
           <>
-            <div className="w-max">
+            <div className="w-[500px]">
               <span className="xl:text-[26px] lg:text-[26px] md:text-[26px] sm:text-[26px] max-[639px]:text-[16px] font-medium text-[#DB4444]">
                 {DataProduct.attributes.name}
               </span>
