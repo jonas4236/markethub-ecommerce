@@ -64,14 +64,14 @@ const RelatedItems = ({ product, slug }) => {
             <span>
               <BsFillArrowLeftCircleFill
                 size={30}
-                className="text-gray-700 cursor-pointer"
+                className="text-[#DB4444] hover:text-gray-700 active:text-gray-950 transition-all cursor-pointer"
                 onClick={() => sliderRef.current.slickPrev()}
               />
             </span>
             <span>
               <BsFillArrowRightCircleFill
                 size={30}
-                className="text-gray-700 cursor-pointer"
+                className="text-[#DB4444] hover:text-gray-700 active:text-gray-950 transition-all cursor-pointer"
                 onClick={() => sliderRef.current.slickNext()}
               />
             </span>
