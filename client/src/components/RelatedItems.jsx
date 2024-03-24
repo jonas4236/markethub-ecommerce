@@ -57,7 +57,7 @@ const RelatedItems = ({ product, slug }) => {
         <div className="flex items-center justify-between">
           <div className="flex justify-center items-center">
             <div className="w-[20px] h-[40px] rounded-md bg-red-600 mr-2"></div>
-            <span className="text-[#DB4444] font-semibold">Related Item</span>
+            <span className="text-[#DB4444] font-semibold">Related Items</span>
           </div>
 
           <div className="flex gap-2 items-end h-full">
@@ -92,7 +92,7 @@ const RelatedItems = ({ product, slug }) => {
           >
             {product.data?.map((data) => (
               <div key={data.id} className="">
-                <ProductCard key={data.id} product={data} slug={slug} />
+                <ProductCard key={data.id} product={data} slugCategory={slug} />
               </div>
             ))}
           </Slider>

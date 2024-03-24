@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import Header from "../components/Header";
 import FlashSale from "../components/FlashSale";
 import Categories from "../components/Categories/Categories";
-import Month from "../components/Month/Month";
 import AdsCategories from "../components/AdsCategories";
 import Featured from "../components/Featured";
 import Deliverly from "../components/deliverly1/deliverly";
@@ -10,6 +9,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../components/Context/AuthContext";
 import Swal from "sweetalert2";
+import RecommendedProducts from "../components/RecommendedProducts/RecommendedProducts";
 
 const HomePage = () => {
   const [dataSession, setDataSession] = useState(null);
@@ -65,7 +65,7 @@ const HomePage = () => {
       <Header />
       <FlashSale />
       <Categories />
-      <Month />
+      <RecommendedProducts />
       <AdsCategories />
       <Featured />
       <Deliverly />

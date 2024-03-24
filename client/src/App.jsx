@@ -12,10 +12,12 @@ import Product from "./Pages/Product";
 import Cart from "./components/Cart";
 import Wishlist from "./components/wishlist/Wishlist";
 import Manage from "./Pages/manage-account/manage";
+import ScrollToTop from "./components/ScrollToTop";
 
 const Layout = () => {
   return (
     <>
+      <ScrollToTop />
       <Navbar />
       <Outlet />
       <Footer />
