@@ -506,7 +506,7 @@ const manage = () => {
                       <img
                         className="size-[164px] object-cover rounded-full"
                         src={
-                          "https:cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                          "https://res.cloudinary.com/jonasdev/image/upload/v1711905368/default-profile_jzlexm.png"
                         }
                         alt={`${user.username} avatar`}
                       />

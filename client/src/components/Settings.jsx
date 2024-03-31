@@ -42,7 +42,7 @@ export default function Settings() {
             ) : (
               <img
                 className="w-[25px] h-[25px] object-cover rounded-full"
-                src="https:cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                src="https://res.cloudinary.com/jonasdev/image/upload/v1711905368/default-profile_jzlexm.png"
                 alt="default avatar"
               />
             )}

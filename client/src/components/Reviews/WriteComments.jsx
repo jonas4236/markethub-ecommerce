@@ -47,7 +47,7 @@ const WriteComments = ({ token, productId, setRating, setIsProductUpdate }) => {
             email,
             avatarURL:
               avatarURL ||
-              "https:cdn-icons-png.flaticon.com/512/3135/3135715.png",
+              "https://res.cloudinary.com/jonasdev/image/upload/v1711905368/default-profile_jzlexm.png",
           },
           {
             headers: {
