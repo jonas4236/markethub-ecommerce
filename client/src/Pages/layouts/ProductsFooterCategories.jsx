@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import ListItems from "../components/ListItems";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import SortBy from "../components/filters/SortBy";
-import Stars from "../components/filters/Stars";
-import PriceSubCate from "../components/filters/PriceSubCate";
+import PriceSubCate from "../../components/filters/PriceSubCate";
+import SortBy from "../../components/filters/SortBy";
+import Stars from "../../components/filters/Stars";
+import ListItems from "../../components/ListItems";
 
-const Products = () => {
+const ProductsFooterCategories = () => {
   const { slug } = useParams();
+  // console.log("slug:", slug)
 
   const [products, setProducts] = useState([]);
 
@@ -28,7 +29,7 @@ const Products = () => {
     const fetchData = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:1337/api/products?populate=*&filters[categories][slug][$eq]=${slug}`
+          `http://localhost:1337/api/products?populate=*&filters[footer_category][slug][$eq]=${slug}`
         );
 
         setProducts(res.data);
@@ -38,6 +39,8 @@ const Products = () => {
     };
     fetchData();
   }, [slug]);
+//   console.log("products:", products);
+
 
   // -------------------- filter min/max price --------------------------
   const filterMinMaxPrice = (min, max) => {
@@ -108,7 +111,7 @@ const Products = () => {
                   )
                 </span>
               </span>
-              <div>
+              <div className="flex xl:justify-normal lg:justify-normal md:justify-center sm:justify-center max-[639px]:justify-center">
                 <ListItems
                   data={products}
                   sorted={sorted}
@@ -129,4 +132,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default ProductsFooterCategories;

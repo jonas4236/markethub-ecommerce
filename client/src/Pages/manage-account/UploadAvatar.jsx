@@ -58,6 +58,13 @@ const UploadAvatar = ({
           },
         }
       );
+
+      const { data } = await axios.get(`http://localhost:1337/api/users/me`, {
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      });
+      localStorage.setItem("infoUser", JSON.stringify(data));
       setisUserUpdated(true);
       window.location.reload(true);
     } catch (error) {
@@ -129,7 +136,7 @@ const UploadAvatar = ({
             <div className="modal-action">
               <form method="dialog">
                 <button
-                  className="btn mr-2 bg-white outline-none border-2 border-[#DB4444]"
+                  className="btn mr-2 bg-white outline-none border-2 text-[#DB4444] border-[#DB4444]"
                   onClick={closeModal}
                 >
                   Close

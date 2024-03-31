@@ -32,6 +32,9 @@
     "slug": {
       "type": "uid",
       "targetField": "name"
+    },
+    "details": {
+      "type": "text"
     }
   }
 }

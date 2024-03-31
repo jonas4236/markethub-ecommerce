@@ -1,7 +1,7 @@
 import React from "react";
 import { RiCustomerServiceLine } from "react-icons/ri";
 
-const DeliverlyCompo2 = () => {
+const Service3 = () => {
   return (
     <div className="flex flex-col w-full items-center">
       <span className="my-4 rounded-full p-4 bg-[#2F2E30] text-white">
@@ -20,4 +20,4 @@ const DeliverlyCompo2 = () => {
   );
 };
 
-export default DeliverlyCompo2;
+export default Service3;

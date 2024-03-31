@@ -78,13 +78,15 @@ const AddToCart = ({
         />
         <AiOutlineEye className="hover:bg-black hover:text-[#DB4444]" />
       </span>
-      {!isExist && (
+      {!isExist && username ? (
         <span
           onClick={handleAddedWishlist}
           className="absolute bottom-[0px] w-full bg-black text-white rounded-[0_0_6px_6px] flex justify-center items-center font-medium h-[40px]"
         >
           Add To Wishlist
         </span>
+      ) : (
+        ""
       )}
     </>
   );

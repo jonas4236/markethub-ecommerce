@@ -35,8 +35,8 @@ const Register = () => {
         </div>
         <div className="flex-1">
           <div className="flex flex-col h-full justify-center">
-            <div className="flex flex-col w-[371px] mx-auto xl:mt-0 lg:mt-0 md:mt-8 sm:mt-8 max-[639px]:mt-8">
-              <span className="text-[31px] text-slate-950 font-medium tracking-[.3rem]">
+            <div className="flex flex-col xl:w-[371px] lg:w-[371px] md:w-full sm:w-full max-[639px]:w-full mx-auto xl:mt-0 lg:mt-0 md:mt-8 sm:mt-8 max-[639px]:mt-8">
+              <span className="text-[31px] text-slate-950 font-medium max-[639px]:text-[24px] tracking-[.3rem]">
                 Create an account
               </span>
               <span className="text-base mt-4 mx-4 text-slate-950">
@@ -46,7 +46,7 @@ const Register = () => {
 
             <form
               onSubmit={handleSubmit}
-              className="flex flex-col gap-4 mt-[48px] w-[371px] mx-auto"
+              className="flex flex-col gap-4 mt-[48px] xl:w-[371px] lg:w-[371px] md:w-full sm:w-full max-[639px]:w-full mx-auto"
             >
               <input
                 className="mx-4 py-2 px-4 outline-none border-gray border-b-[2px] focus:border-slate-950"

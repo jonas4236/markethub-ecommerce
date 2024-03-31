@@ -180,7 +180,7 @@ const FlashSale = () => {
           </Slider>
         </div>
         <div className="w-full flex justify-center">
-          <button className="my-[60px]  bg-[#DB4444] py-[14px] px-[34px] text-white rounded-md font-semibold">
+          <button className="my-[60px]  bg-[#DB4444] hover:bg-[#701f1f] transition-all py-[14px] px-[34px] text-white rounded-md font-semibold">
             View All Products
           </button>
         </div>

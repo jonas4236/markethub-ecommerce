@@ -13,6 +13,8 @@ import Cart from "./components/Cart";
 import Wishlist from "./components/wishlist/Wishlist";
 import Manage from "./Pages/manage-account/manage";
 import ScrollToTop from "./components/ScrollToTop";
+import ProductsMainCategories from "./Pages/layouts/ProductsMainCategories"
+import ProductsFooterCategories from "./Pages/layouts/ProductsFooterCategories";
 
 const Layout = () => {
   return (
@@ -37,6 +39,14 @@ const router = createBrowserRouter([
       {
         path: "/:params",
         element: <HomePage />,
+      },
+      {
+        path: "/products/main-categories/:slug",
+        element: <ProductsMainCategories />,
+      },
+      {
+        path: "/products/footer-categories/:slug",
+        element: <ProductsFooterCategories />,
       },
       {
         path: "/products/:slug",

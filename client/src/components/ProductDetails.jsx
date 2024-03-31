@@ -169,13 +169,17 @@ const ProductDetails = ({ product, size }) => {
       const productSlug = pd?.[0]?.attributes.slug;
       const productCate =
         pd?.[0]?.attributes.categories.data?.[0]?.attributes.slug;
+      const productMainCate =
+        pd?.[0]?.attributes.main_category?.data?.attributes.slug;
+      const productFooterCate =
+        pd?.[0]?.attributes.footer_category?.data?.attributes.slug;
 
       SetWlId(singleProductId);
       setPdId(Number(singleProductId));
       setStock(pd?.[0]?.attributes.Stock);
       SetTitle(pd?.[0]?.attributes.name);
       SetSlug(productSlug);
-      SetCategory(productCate);
+      SetCategory(productCate || productMainCate || productFooterCate);
       SetPricePerPiece(String(pd?.[0]?.attributes.originalPrice));
       SetDiscount(pd?.[0]?.attributes.discountPrice || "");
       SetImage(productThumbnail);

@@ -12,7 +12,7 @@ const Featured3 = ({ cate }) => {
       <div className="absolute bottom-4 left-4 flex flex-col text-white">
         <span className="text-[24px]">{cate?.attributes.name}</span>
         <span className="mt-2 mb-4">{cate?.attributes.Desc}</span>
-        <Link className="w-max" to={`/products/${cate?.attributes.slug}`}>
+        <Link className="w-max" to={`/products/footer-categories/${cate?.attributes.slug}`}>
           <button className="w-max py-2 px-4 bg-white rounded-md text-black hover:bg-black hover:text-white transition-all duration-300 font-medium">
             Shop Now
           </button>

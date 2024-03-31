@@ -30,8 +30,17 @@
     "category": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "api::category.category",
-      "inversedBy": "header_promote"
+      "target": "api::category.category"
+    },
+    "main_category": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::main-category.main-category"
+    },
+    "footer_category": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::footer-category.footer-category"
     }
   }
 }

@@ -85,27 +85,22 @@ export const AuthContextProvider = ({ children }) => {
 
     try {
       const { data } = await axios.post(url, regis);
+      console.log("DATA:", data);
 
       if (data.jwt) {
-        setInfoUser(data);
-        setUsername(data.user.username);
-        localStorage.setItem("username", JSON.stringify(username));
         Swal.fire({
           title: "Register Successfully!",
-          text: `Welcome ${username} to MarketHub! If you love shopping we are family!`,
+          text: `Welcome ${username} to MarketHub! Let's login for shopping!`,
           icon: "success",
+        }).then(() => {
+          window.location.href = "/login";
         });
-      } else {
-        setInfoUser(null);
-        setUsername(null);
       }
     } catch (err) {
-      setInfoUser(null);
-      setUsername(null);
       console.log("err can't not register: ", err);
       Swal.fire({
         title: "Register Failed!",
-        text: `Have something went wrong!`,
+        text: `Have something went wrong your username or password incorrect!`,
         icon: "error",
       });
     }

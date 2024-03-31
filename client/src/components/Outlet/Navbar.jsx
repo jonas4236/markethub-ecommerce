@@ -71,7 +71,7 @@ const Navbar = () => {
   }, [countdown, setCountdown]);
 
   return (
-    <div className="w-full h-[90px] items-center border-b-[1px] sticky xl:top-[-10px] lg:top-[-10px] md:top-[0px] sm:top-[0px] top-[0px] z-[99] bg-white">
+    <div className="w-full h-[90px] items-center border-b-[1px] sticky xl:top-[-10px] lg:top-[-10px] md:top-[-5px] sm:top-[-5px] top-[-5px] z-[99] bg-white">
       <div className="h-full xl:w-[1200px] xl:p-0 lg:w-full lg:px-8 md:px-8 sm:px-8 mx-auto px-8">
         <div className=" flex justify-between h-full items-center">
           <Link to={"/"}>

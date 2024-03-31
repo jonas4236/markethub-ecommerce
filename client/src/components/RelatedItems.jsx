@@ -42,7 +42,7 @@ const RelatedItems = ({ product, slug }) => {
         },
       },
       {
-        breakpoint: 768,
+        breakpoint: 690,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,

@@ -63,8 +63,8 @@ const Stars = ({ filterSortedByStars, clearStarFilter }) => {
             className="flex items-center ml-2 hover:cursor-pointer"
           >
             {renderStars(value)}
-            <span className="ml-2 text-slate-900 font-medium hover:cursor-pointer">
-              "ขึ้นไป"
+            <span className={`${value >= 5 ? "ml-0" : "ml-2"} text-slate-900 font-medium hover:cursor-pointer`}>
+              {value >= 5 ? "" : '"ขึ้นไป"'}
             </span>
           </label>
         </label>

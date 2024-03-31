@@ -16,7 +16,7 @@ const SizeSelected = ({
                 setSelectedSize(sp.size);
                 setRequireSize(false);
               }}
-              className={`w-full h-16 mr-4 border-[1.5px] border-slate-600 font-medium rounded-md ${
+              className={`w-full h-16 border-[1.5px] border-slate-600 font-medium rounded-md ${
                 selectedSize === sp.size
                   ? "bg-[#DB4444] text-white border-none"
                   : ""

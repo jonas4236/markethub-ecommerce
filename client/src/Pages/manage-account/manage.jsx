@@ -62,11 +62,11 @@ const manage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (newPassword !== confirmPassword) {
+    if (newPassword != confirmPassword) {
       setPasswordWarn(true);
     }
 
-    if (newPassword === confirmPassword) {
+    if (newPassword == confirmPassword) {
       setPasswordWarn(false);
       try {
         const response = await axios.post(
@@ -82,15 +82,15 @@ const manage = () => {
             },
           }
         );
-        // if (response.status === 200) {
-        //   Swal.fire({
-        //     title: "Changed Password Successfully!",
-        //     text: `You have changed the password!`,
-        //     icon: "success",
-        //   }).then(() => {
-        //     logout();
-        //   });
-        // }
+        if (response.status === 200) {
+          Swal.fire({
+            title: "Changed Password Successfully!",
+            text: `You have changed the password!`,
+            icon: "success",
+          }).then(() => {
+            logout();
+          });
+        }
       } catch (error) {
         console.log("can't change password:", error);
       }
@@ -357,14 +357,6 @@ const manage = () => {
       }).then(() => {
         window.location.reload();
       });
-    } else {
-      Swal.fire({
-        title: "Changed info successfully!",
-        text: `You have changed the info profile!`,
-        icon: "success",
-      }).then(() => {
-        logout();
-      });
     }
 
     if (
@@ -446,34 +438,10 @@ const manage = () => {
             },
           }
         );
-
-        // Swal.fire({
-        //   title: "Changed info and password successfully!",
-        //   text: `Changed the info and password in your account!`,
-        //   icon: "success",
-        // }).then(() => {
-        //   logout();
-        // });
       } catch (error) {
         console.log("can't change all info profile:", error);
       }
     }
-
-    // if (
-    //   newFullName &&
-    //   newEmail &&
-    //   newAddress &&
-    //   currentPassword &&
-    //   newPassword === confirmPassword
-    // ) {
-    //   Swal.fire({
-    //     title: "Changed info and password successfully!",
-    //     text: `Changed the info and password in your account!`,
-    //     icon: "success",
-    //   }).then(() => {
-    //     logout();
-    //   });
-    // }
   };
 
   return (
@@ -516,11 +484,30 @@ const manage = () => {
                   onMouseEnter={() => setIsHover(true)}
                   onMouseLeave={() => setIsHover(false)}
                 >
-                  {user.avatarURL && (
+                  {user.avatarURL ? (
                     <div className="relative">
                       <img
                         className="size-[164px] object-cover rounded-full"
                         src={`${user.avatarURL}`}
+                        alt={`${user.username} avatar`}
+                      />
+                      {ishover && (
+                        <UploadAvatar
+                          token={token}
+                          userId={user.id}
+                          avatarURL={user.avatarURL}
+                          setisUserUpdated={setisUserUpdated}
+                          setIsHover={setIsHover}
+                        />
+                      )}
+                    </div>
+                  ) : (
+                    <div className="relative">
+                      <img
+                        className="size-[164px] object-cover rounded-full"
+                        src={
+                          "https:cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                        }
                         alt={`${user.username} avatar`}
                       />
                       {ishover && (

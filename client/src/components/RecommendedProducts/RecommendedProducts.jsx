@@ -68,6 +68,9 @@ const RecommendedProducts = () => {
     fetchFindData();
   }, []);
 
+  // console.log("TEST:", recommendProduct.data?.map((val) => val.attributes.categories?.data[0]?.attributes.slug));
+  // console.log("TEST2:", recommendProduct.data?.map((val) => val.attributes.main_category?.data?.attributes.slug));
+
   return (
     <>
       <div className="2xl:w-[1200px] xl:w-[1200px] lg:w-full xl:px-0 px-8 mx-auto mt-[140px]">
@@ -79,7 +82,7 @@ const RecommendedProducts = () => {
         <div className="flex justify-between h-full max-[639px]:flex-col">
           <div className="flex">
             <span className="text-3xl font-semibold mt-[20px] flex items-end text-[#DB4444]">
-              Recommended Products
+              Recommended Product
             </span>
           </div>
           <div className="xl:mt-0 lg:mt-0 md:mt-0 sm:mt-2 max-[639px]:mt-2">
@@ -112,7 +115,11 @@ const RecommendedProducts = () => {
             {recommendProduct.data?.map((val) => (
               <ProductCard
                 product={val}
-                slugCategory={val.attributes.categories.data[0].attributes.slug}
+                slugCategory={
+                  val.attributes.categories?.data[0]?.attributes.slug ||
+                  val.attributes.main_category?.data?.attributes.slug ||
+                  val.attributes.footer_category?.data?.attributes.slug
+                }
                 key={val.id}
               />
             ))}

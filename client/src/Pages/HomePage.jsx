@@ -4,7 +4,7 @@ import FlashSale from "../components/FlashSale";
 import Categories from "../components/Categories/Categories";
 import AdsCategories from "../components/AdsCategories";
 import Featured from "../components/Featured";
-import Deliverly from "../components/deliverly1/deliverly";
+import Service from "../components/Service/MainServiceComponents";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../components/Context/AuthContext";
@@ -68,7 +68,7 @@ const HomePage = () => {
       <RecommendedProducts />
       <AdsCategories />
       <Featured />
-      <Deliverly />
+      <Service />
     </>
   );
 };

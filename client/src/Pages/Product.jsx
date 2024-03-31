@@ -18,6 +18,8 @@ const Product = () => {
 
   const { slug } = useParams();
 
+  // console.log("slug:", slug);
+
   useEffect(() => {
     const fetchPd = async () => {
       const res = await axios.get(
@@ -33,28 +35,51 @@ const Product = () => {
 
   const id = product.data?.[0]?.id;
 
-  // console.log("productId:", id);
+  // console.log("product:", product);
   // console.log("token:", token);
 
-  const pd = product.data?.[0]?.attributes?.name;
+  const productName = product.data?.[0]?.attributes?.name;
+  const productMainCategoryName = product.data?.attributes?.name;
   const categoryy = product.data?.[0]?.attributes;
   const size = product.data?.[0]?.attributes.size;
   const slugRelated =
-    product.data?.[0]?.attributes.categories.data[0].attributes.slug;
-  const test = product.data;
-  const Categorys = test?.[0]?.attributes.Images.data;
+    product.data?.[0]?.attributes.categories.data[0]?.attributes?.slug || "";
+  const slugMainCategory =
+    product.data?.[0]?.attributes.main_category.data?.attributes?.slug;
+  const slugFooterCategory =
+    product.data?.[0]?.attributes.footer_category.data?.attributes?.slug;
+  const productData = product.data;
+  const Categorys = productData?.[0]?.attributes.Images.data;
+
+  const findProductRelated =
+    slugRelated || slugMainCategory || slugFooterCategory;
+  const findCategories = slugRelated
+    ? "categories"
+    : slugMainCategory
+    ? "main_category"
+    : slugFooterCategory
+    ? "footer_category"
+    : null;
 
   useEffect(() => {
+    if (!findCategories || !findProductRelated || !slug) {
+      return;
+    }
+
+    const apiUrl = `http://localhost:1337/api/products?populate=*&filters[${findCategories}][slug][$eq]=${findProductRelated}&filters[slug][$ne]=${slug}`;
+    // console.log("API URL:", apiUrl);
     const fetchRelated = async () => {
-      const res = await axios.get(
-        `http://localhost:1337/api/products?populate=*&filters[categories][slug][$eq]=${slugRelated}&filters[slug][$ne]=${slug}`
-      );
+      const res = await axios.get(apiUrl);
 
       setRelatedProduct(res.data);
     };
 
     fetchRelated();
-  }, [slugRelated, slug]);
+  }, [findProductRelated, findCategories, setRelatedProduct, slug]);
+
+  // console.log("findCategories:", findCategories);
+  // console.log("findProductRelated:", findProductRelated);
+  // console.log("relatedProduct:", relatedProduct);
 
   return (
     <>
@@ -64,9 +89,12 @@ const Product = () => {
             <span className="text-[16px] font-medium text-gray-500">
               Product /{" "}
               <span className="text-[16px] font-medium text-[#DB4444]">
-                {categoryy?.categories.data[0].attributes.name} /{" "}
+                {categoryy?.categories.data[0]?.attributes.name ||
+                  categoryy?.main_category.data?.attributes.name ||
+                  categoryy?.footer_category.data?.attributes.name}{" "}
+                /{" "}
                 <span className="text-[16px] font-medium text-[#DB4444]">
-                  {pd}
+                  {productName || productMainCategoryName}
                 </span>
               </span>
             </span>
@@ -80,8 +108,13 @@ const Product = () => {
                   infiniteLoop={true}
                   showIndicators={false}
                   showStatus={false}
+                  swipeable={true}
+                  emulateTouch={true}
+                  swipeScrollTolerance={100}
                   thumbWidth={120}
+                  swipe={true}
                   className="productCarousel w-full"
+                  axis="horizontal"
                 >
                   {Categorys?.map((images, idx) => (
                     <img
@@ -107,7 +140,7 @@ const Product = () => {
             />
           </div>
           <div className="">
-            <RelatedItems product={relatedProduct} slug={slugRelated} />
+            <RelatedItems product={relatedProduct} slug={findProductRelated} />
           </div>
         </div>
       </div>

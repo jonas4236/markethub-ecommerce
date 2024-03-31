@@ -11,7 +11,7 @@ const WriteComments = ({ token, productId, setRating, setIsProductUpdate }) => {
 
   const { username, email, infoUser } = useContext(AuthContext);
 
-  const { avatarURL } = infoUser.user;
+  const { avatarURL } = infoUser.user || infoUser;
 
   const giveRating = (newRating) => {
     setReview({ ...review, stars: newRating });
@@ -45,7 +45,9 @@ const WriteComments = ({ token, productId, setRating, setIsProductUpdate }) => {
             productId,
             username,
             email,
-            avatarURL,
+            avatarURL:
+              avatarURL ||
+              "https:cdn-icons-png.flaticon.com/512/3135/3135715.png",
           },
           {
             headers: {

@@ -77,6 +77,8 @@ const Header = () => {
   }, []);
 
   // console.log("dataPromote:", dataPromote);
+  // const itemCategories = dataPromote.map((val) => val?.attributes.footer_category?.data?.attributes.slug);
+  // console.log("itemCategories:", itemCategories);
 
   return (
     <>
@@ -85,7 +87,10 @@ const Header = () => {
           <div className="p-[20px] 2xl:px-0 xl:px-0 lg:px-8 md:px-8 sm:px-8 px-8 w-full">
             <ul className="">
               {dataCate.data?.map((cat) => (
-                <Link to={`/products/${cat.attributes.slug}`} key={cat.id}>
+                <Link
+                  to={`/products/main-categories/${cat.attributes.slug}`}
+                  key={cat.id}
+                >
                   <li
                     key={cat.id}
                     className="my-[15px] xl:my-[4px] 2xl:p-0 xl:p-0 lg:p-2 md:p-2 sm:p-2 p-2 justify-center flex 2xl:justify-star xl:justify-star lg:justify-center md:justify-center sm:justify-center xl:justify-start hover:text-red-600 xl:bg-transparent xl:rounded-none lg:bg-[#F5F5F5] lg:rounded-md md:bg-[#F5F5F5] md:rounded-md sm:bg-[#F5F5F5] sm:rounded-md bg-[#F5F5F5] rounded-md"
@@ -102,7 +107,7 @@ const Header = () => {
           <div className="">
             <Carousel
               responsive={responsive}
-              className="2xl:w-[908px] xl:w-[908px] lg:w-full md:w-full sm:w-full mt-[30px] xl:h-[385px] lg:h-[385px] md:h-[365px] sm:h-[285px] h-[185px] object-contain rounded-lg"
+              className="2xl:w-[908px] xl:w-[908px] lg:w-full md:w-full sm:w-full mt-[30px] xl:h-[385px] lg:h-[385px] md:h-[365px] sm:h-[285px] h-[185px] rounded-lg"
               autoPlay={true}
               autoPlaySpeed={3000}
               infinite={true}
@@ -113,9 +118,13 @@ const Header = () => {
               {dataPromote.map((item, idx) => (
                 <Link
                   key={idx}
-                  to={`/products/${item.attributes.category.data.attributes.slug}`}
+                  to={`/product/${
+                    item.attributes.categories?.data?.attributes.slug ||
+                    item.attributes.main_category?.data?.attributes.slug ||
+                    item.attributes.footer_category?.data?.attributes.slug
+                  }/${item.attributes.slug}`}
                 >
-                  <div className="w-auto h-full">
+                  <div className="w-full h-full">
                     <img
                       className="flex flex-wrap h-full object-contain rounded-lg"
                       src={item.attributes.image.data.attributes.url}

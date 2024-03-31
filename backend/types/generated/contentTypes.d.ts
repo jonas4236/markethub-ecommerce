@@ -834,11 +834,6 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
       'api::product.product'
     >;
     slug: Attribute.UID<'api::category.category', 'name'> & Attribute.Required;
-    header_promote: Attribute.Relation<
-      'api::category.category',
-      'oneToOne',
-      'api::header-promote.header-promote'
-    >;
     new_product: Attribute.Relation<
       'api::category.category',
       'oneToOne',
@@ -951,6 +946,16 @@ export interface ApiHeaderPromoteHeaderPromote extends Schema.CollectionType {
       'oneToOne',
       'api::category.category'
     >;
+    main_category: Attribute.Relation<
+      'api::header-promote.header-promote',
+      'oneToOne',
+      'api::main-category.main-category'
+    >;
+    footer_category: Attribute.Relation<
+      'api::header-promote.header-promote',
+      'oneToOne',
+      'api::footer-category.footer-category'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1026,6 +1031,7 @@ export interface ApiNewProductNewProduct extends Schema.CollectionType {
       'api::category.category'
     >;
     slug: Attribute.UID<'api::new-product.new-product', 'name'>;
+    details: Attribute.Text;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
