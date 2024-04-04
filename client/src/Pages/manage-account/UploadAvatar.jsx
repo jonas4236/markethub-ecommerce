@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+import  secureLocalStorage  from  "react-secure-storage";
 
 import {
   Button,
@@ -64,7 +65,7 @@ const UploadAvatar = ({
           Authorization: `bearer ${token}`,
         },
       });
-      localStorage.setItem("infoUser", JSON.stringify(data));
+      secureLocalStorage.setItem("infoUser", JSON.stringify(data));
       setisUserUpdated(true);
       window.location.reload(true);
     } catch (error) {

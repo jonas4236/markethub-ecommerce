@@ -1,40 +1,41 @@
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import  secureLocalStorage  from  "react-secure-storage";
 
 export const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [infoUser, setInfoUser] = useState(
-    JSON.parse(localStorage.getItem("infoUser") || null)
+    JSON.parse(secureLocalStorage.getItem("infoUser") || null)
   );
 
   const [username, setUsername] = useState(
-    JSON.parse(localStorage.getItem("username") || null)
+    JSON.parse(secureLocalStorage.getItem("username") || null)
   );
 
   const [email, setEmail] = useState(
-    JSON.parse(localStorage.getItem("email") || null)
+    JSON.parse(secureLocalStorage.getItem("email") || null)
   );
 
   const [cartData, setCartData] = useState(
-    JSON.parse(localStorage.getItem("cartData") || null)
+    JSON.parse(secureLocalStorage.getItem("cartData") || null)
   );
 
   const [overAllSubtotal, setOverAllSubtotal] = useState(
-    JSON.parse(localStorage.getItem("overAllSubtotal") || null)
+    JSON.parse(secureLocalStorage.getItem("overAllSubtotal") || null)
   );
 
   const [token, setToken] = useState(
-    JSON.parse(localStorage.getItem("token") || null)
+    JSON.parse(secureLocalStorage.getItem("token") || null)
   );
 
   const [countdown, setCountdown] = useState(
-    parseInt(localStorage.getItem("countdown")) || 10800
+    parseInt(secureLocalStorage.getItem("countdown")) || 10800
   );
 
   const [numberOfCate, setNumberOfCate] = useState(
-    parseInt(localStorage.getItem("numberOfCate")) || 1
+    parseInt(secureLocalStorage.getItem("numberOfCate")) || 1
   );
 
   const subtotal = (price, quantity) => {
@@ -53,7 +54,7 @@ export const AuthContextProvider = ({ children }) => {
           setUsername(data.user.username);
           setEmail(data.user.email);
           setToken(data.jwt);
-          localStorage.setItem("username", JSON.stringify(username));
+          secureLocalStorage.setItem("username", JSON.stringify(username));
           Swal.fire({
             title: "Login Successfully!",
             text: `Welcome ${data.user.username} to MarketHub! If you love shopping we are family!`,
@@ -317,35 +318,35 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    localStorage.setItem("countdown", countdown.toString());
+    secureLocalStorage.setItem("countdown", countdown.toString());
   }, [countdown]);
 
   useEffect(() => {
-    localStorage.setItem("numberOfCate", numberOfCate.toString());
+    secureLocalStorage.setItem("numberOfCate", numberOfCate.toString());
   }, [numberOfCate]);
 
   useEffect(() => {
-    localStorage.setItem("infoUser", JSON.stringify(infoUser));
+    secureLocalStorage.setItem("infoUser", JSON.stringify(infoUser));
   }, [infoUser]);
 
   useEffect(() => {
-    localStorage.setItem("username", JSON.stringify(username));
+    secureLocalStorage.setItem("username", JSON.stringify(username));
   }, [username]);
 
   useEffect(() => {
-    localStorage.setItem("email", JSON.stringify(email));
+    secureLocalStorage.setItem("email", JSON.stringify(email));
   }, [email]);
 
   useEffect(() => {
-    localStorage.setItem("cartData", JSON.stringify(cartData));
+    secureLocalStorage.setItem("cartData", JSON.stringify(cartData));
   }, [cartData]);
 
   useEffect(() => {
-    localStorage.setItem("token", JSON.stringify(token));
+    secureLocalStorage.setItem("token", JSON.stringify(token));
   }, [token]);
 
   useEffect(() => {
-    localStorage.setItem(
+    secureLocalStorage.setItem(
       "overAllSubtotal",
       JSON.stringify(overAllSubtotal) || 0
     );

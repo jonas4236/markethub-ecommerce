@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import UploadAvatar from "./UploadAvatar";
 import Swal from "sweetalert2";
+import  secureLocalStorage  from  "react-secure-storage";
 
 const manage = () => {
   const [user, setUser] = useState({});
@@ -130,7 +131,7 @@ const manage = () => {
         );
 
         if (response.status === 200) {
-          localStorage.setItem("username", JSON.stringify(newFullName));
+          secureLocalStorage.setItem("username", JSON.stringify(newFullName));
         }
       } catch (error) {
         console.log("can't change password:", error);
@@ -197,7 +198,7 @@ const manage = () => {
         );
 
         if (response.status === 200) {
-          localStorage.setItem("username", JSON.stringify(newFullName));
+          secureLocalStorage.setItem("username", JSON.stringify(newFullName));
         }
 
         await axios.put(
@@ -248,7 +249,7 @@ const manage = () => {
         );
 
         if (response.status === 200) {
-          localStorage.setItem("username", JSON.stringify(newFullName));
+          secureLocalStorage.setItem("username", JSON.stringify(newFullName));
         }
 
         if (newEmail) {
@@ -313,7 +314,7 @@ const manage = () => {
         );
 
         if (response.status === 200) {
-          localStorage.setItem("username", JSON.stringify(newFullName));
+          secureLocalStorage.setItem("username", JSON.stringify(newFullName));
         }
 
         await axios.put(
@@ -398,7 +399,7 @@ const manage = () => {
         );
 
         if (response.status === 200) {
-          localStorage.setItem("username", JSON.stringify(newFullName));
+          secureLocalStorage.setItem("username", JSON.stringify(newFullName));
         }
 
         axios.put(

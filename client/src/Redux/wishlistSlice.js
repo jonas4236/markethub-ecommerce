@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
+import  secureLocalStorage  from  "react-secure-storage";
 
 const initialState = {
-  wishlist: JSON.parse(localStorage.getItem("wishlist")) || [],
+  wishlist: JSON.parse(secureLocalStorage.getItem("wishlist")) || [],
   totalQuantity: 0,
   totalPrice: 0,
 };
@@ -22,7 +23,7 @@ const wishlistSlice = createSlice({
         state.wishlist.push({ ...action.payload });
       }
 
-      localStorage.setItem("wishlist", JSON.stringify(state.wishlist));
+      secureLocalStorage.setItem("wishlist", JSON.stringify(state.wishlist));
     },
 
     removeWishlist: (state, action) => {
@@ -30,7 +31,7 @@ const wishlistSlice = createSlice({
         (itemWishlist) => itemWishlist.wlId !== action.payload
       );
 
-      localStorage.setItem("wishlist", JSON.stringify(state.wishlist));
+      secureLocalStorage.setItem("wishlist", JSON.stringify(state.wishlist));
     },
 
     getWishlistTotal: (state) => {
