@@ -13,8 +13,9 @@ import Cart from "./components/Cart";
 import Wishlist from "./components/wishlist/Wishlist";
 import Manage from "./Pages/manage-account/manage";
 import ScrollToTop from "./components/ScrollToTop";
-import ProductsMainCategories from "./Pages/layouts/ProductsMainCategories"
+import ProductsMainCategories from "./Pages/layouts/ProductsMainCategories";
 import ProductsFooterCategories from "./Pages/layouts/ProductsFooterCategories";
+import ErrorPage from "./components/ErrorPage";
 
 const Layout = () => {
   return (
@@ -34,10 +35,6 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <HomePage />,
-      },
-      {
-        path: "/:params",
         element: <HomePage />,
       },
       {
@@ -79,6 +76,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
+      },
+      {
+        path: "*",
+        element: <ErrorPage />,
       },
     ],
   },
