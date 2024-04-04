@@ -27,7 +27,7 @@ const FlashSale = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       const res = await axios.get(
-        `http://localhost:1337/api/categories?populate=*&filters[id][$eq]=${numberOfCate}`
+        `${process.env.API_STRAPI}/api/categories?populate=*&filters[id][$eq]=${numberOfCate}`
       );
 
       setCategories(res.data);
@@ -45,7 +45,7 @@ const FlashSale = () => {
   useEffect(() => {
     const fetchFlashSale = async () => {
       const res = await axios.get(
-        `http://localhost:1337/api/products?populate=*&filters[categories][slug][$eq]=${slugCate}&filters[discountPrice][$gt]=1`
+        `${process.env.API_STRAPI}/api/products?populate=*&filters[categories][slug][$eq]=${slugCate}&filters[discountPrice][$gt]=1`
       );
 
       setFlashProducts(res.data);
@@ -56,7 +56,7 @@ const FlashSale = () => {
 
   useEffect(() => {
     const fetchFindData = async () => {
-      const urlFindData = `http://localhost:1337/api/wishlists?&filters[username]=${username}`;
+      const urlFindData = `${process.env.API_STRAPI}/api/wishlists?&filters[username]=${username}`;
       try {
         const res = await axios.get(urlFindData);
 

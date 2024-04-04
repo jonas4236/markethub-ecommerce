@@ -12,7 +12,7 @@ const Featured = () => {
     const fetchFootcate = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:1337/api/footer-categories?populate=*"
+          `${process.env.API_STRAPI}/api/footer-categories?populate=*`
         );
 
         setFootcat(res.data);

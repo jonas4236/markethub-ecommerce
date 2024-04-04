@@ -32,7 +32,7 @@ const ProductReview = ({ token, productId, setRating, setIsProductUpdate }) => {
         const {
           data: { data },
         } = await axios.get(
-          `http://localhost:1337/api/reviews?&filters[productId][$eq]=${productId}`
+          `${process.env.API_STRAPI}/api/reviews?&filters[productId][$eq]=${productId}`
         );
 
         setDataReview(data);

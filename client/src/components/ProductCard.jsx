@@ -16,7 +16,7 @@ const ProductCard = ({ product, slugCategory }) => {
 
   useEffect(() => {
     const fetchFindData = async () => {
-      const urlFindData = `http://localhost:1337/api/wishlists?&filters[username]=${username}`;
+      const urlFindData = `${process.env.API_STRAPI}/api/wishlists?&filters[username]=${username}`;
       try {
         const res = await axios.get(urlFindData);
 
@@ -83,7 +83,7 @@ const ProductCard = ({ product, slugCategory }) => {
         const {
           data: { data },
         } = await axios.get(
-          `http://localhost:1337/api/reviews?&filters[productId][$eq]=${product.id}`
+          `${process.env.API_STRAPI}/api/reviews?&filters[productId][$eq]=${product.id}`
         );
 
         setDataReviewCount(data);

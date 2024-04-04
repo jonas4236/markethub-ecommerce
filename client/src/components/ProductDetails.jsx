@@ -11,9 +11,7 @@ import { AuthContext } from "./Context/AuthContext";
 import axios from "axios";
 
 const ProductDetails = ({ product, size }) => {
-  const stripePromise = loadStripe(
-    "pk_test_51NVUEHLFltWlQvC86UqP91MMR28Z5dAgC1cNFuUbnOd46qo0bRb6QPdtRzBzF3aMupjF7Pe2KenKD95bmASjIWxg00geOIMSk8"
-  );
+  const stripePromise = loadStripe(process.env.STRIPE_PUBLIC_KEY);
   const [wlId, SetWlId] = useState(null);
   const [title, SetTitle] = useState(null);
   const [slug, SetSlug] = useState(null);
@@ -43,7 +41,7 @@ const ProductDetails = ({ product, size }) => {
 
   useEffect(() => {
     const fetchDataFromCart = async () => {
-      const urlFindCartId = `http://localhost:1337/api/carts?&filters[username]=${username}`;
+      const urlFindCartId = `${process.env.API_STRAPI}/api/carts?&filters[username]=${username}`;
       try {
         const res = await axios.get(urlFindCartId);
 
@@ -58,7 +56,7 @@ const ProductDetails = ({ product, size }) => {
 
   useEffect(() => {
     const fetchFindData = async () => {
-      const urlFindData = `http://localhost:1337/api/wishlists?&filters[username]=${username}`;
+      const urlFindData = `${process.env.API_STRAPI}/api/wishlists?&filters[username]=${username}`;
       try {
         const res = await axios.get(urlFindData);
 
@@ -111,7 +109,7 @@ const ProductDetails = ({ product, size }) => {
         const {
           data: { data },
         } = await axios.get(
-          `http://localhost:1337/api/reviews?&filters[productId][$eq]=${singleProductId}`
+          `${process.env.API_STRAPI}/api/reviews?&filters[productId][$eq]=${singleProductId}`
         );
 
         setDataReviewCount(data);
@@ -260,7 +258,7 @@ const ProductDetails = ({ product, size }) => {
       };
       const stripe = await stripePromise;
       setLoading(true);
-      const { data } = await axios.post("http://localhost:1337/api/orders", {
+      const { data } = await axios.post("${process.env.API_STRAPI}/api/orders", {
         cartData: cartDataBuyNow,
         total: priceperpiece * productQuantity,
         email: email,

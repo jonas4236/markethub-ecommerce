@@ -13,7 +13,7 @@ export default function Settings() {
   useEffect(() => {
     const getProfileData = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:1337/api/users/me`, {
+        const { data } = await axios.get(`${process.env.API_STRAPI}/api/users/me`, {
           headers: {
             Authorization: `bearer ${token}`,
           },

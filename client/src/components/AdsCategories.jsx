@@ -10,7 +10,7 @@ const AdsCategories = () => {
     const getVideoNewProduct = async () => {
       const {
         data: { data },
-      } = await axios.get("http://localhost:1337/api/new-products?populate=*");
+      } = await axios.get(`${process.env.API_STRAPI}/api/new-products?populate=*`);
 
       setVideo(data);
     };

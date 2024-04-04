@@ -29,7 +29,7 @@ const Products = () => {
     const fetchData = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:1337/api/products?populate=*&filters[main_category][slug][$eq]=${slug}`
+          `${process.env.API_STRAPI}/api/products?populate=*&filters[main_category][slug][$eq]=${slug}`
         );
 
         setProducts(res.data);

@@ -38,6 +38,10 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
+        path: "/:params",
+        element: <HomePage />,
+      },
+      {
         path: "/products/main-categories/:slug",
         element: <ProductsMainCategories />,
       },

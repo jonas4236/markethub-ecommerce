@@ -69,7 +69,7 @@ const Categories = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       const res = await axios.get(
-        "http://localhost:1337/api/categories?populate=*"
+        `${process.env.API_STRAPI}/api/categories?populate=*`
       );
 
       setCategories(res.data);

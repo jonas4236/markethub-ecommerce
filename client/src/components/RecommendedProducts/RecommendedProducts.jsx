@@ -55,7 +55,7 @@ const RecommendedProducts = () => {
 
   useEffect(() => {
     const fetchFindData = async () => {
-      const urlFindData = `http://localhost:1337/api/products?populate=*&filters[stars][$gte]=5`;
+      const urlFindData = `${process.env.API_STRAPI}/api/products?populate=*&filters[stars][$gte]=5`;
       try {
         const res = await axios.get(urlFindData);
 

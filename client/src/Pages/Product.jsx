@@ -23,7 +23,7 @@ const Product = () => {
   useEffect(() => {
     const fetchPd = async () => {
       const res = await axios.get(
-        `http://localhost:1337/api/products?populate=*&filters[slug][$eq]=${slug}`
+        `${process.env.API_STRAPI}/api/products?populate=*&filters[slug][$eq]=${slug}`
       );
 
       setProduct(res.data);
@@ -66,7 +66,7 @@ const Product = () => {
       return;
     }
 
-    const apiUrl = `http://localhost:1337/api/products?populate=*&filters[${findCategories}][slug][$eq]=${findProductRelated}&filters[slug][$ne]=${slug}`;
+    const apiUrl = `${process.env.API_STRAPI}/api/products?populate=*&filters[${findCategories}][slug][$eq]=${findProductRelated}&filters[slug][$ne]=${slug}`;
     // console.log("API URL:", apiUrl);
     const fetchRelated = async () => {
       const res = await axios.get(apiUrl);

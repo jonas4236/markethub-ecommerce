@@ -41,9 +41,9 @@ const HomePage = () => {
     } else if (dataSession && !detected) {
       setDetected(true);
       axios
-        .put(`http://localhost:1337/api/stock/${username}`, updateNewStock)
+        .put(`${process.env.API_STRAPI}/api/stock/${username}`, updateNewStock)
         .then(() => {
-          axios.delete(`http://localhost:1337/api/cart/${username}`);
+          axios.delete(`${process.env.API_STRAPI}/api/cart/${username}`);
           Swal.fire({
             title: "Purchase successfully!",
             text: "Thank you for your interest in our products!",

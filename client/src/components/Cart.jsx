@@ -5,9 +5,7 @@ import { AuthContext } from "./Context/AuthContext";
 import { loadStripe } from "@stripe/stripe-js";
 
 const Cart = () => {
-  const stripePromise = loadStripe(
-    "pk_test_51NVUEHLFltWlQvC86UqP91MMR28Z5dAgC1cNFuUbnOd46qo0bRb6QPdtRzBzF3aMupjF7Pe2KenKD95bmASjIWxg00geOIMSk8"
-  );
+  const stripePromise = loadStripe(process.env.STRIPE_PUBLIC_KEY);
 
   const [loading, setLoading] = useState(false);
   const { username, overAllSubtotal, cartData, email } =
@@ -25,7 +23,7 @@ const Cart = () => {
     try {
       const stripe = await stripePromise;
       setLoading(true);
-      const { data } = await axios.post("http://localhost:1337/api/orders", {
+      const { data } = await axios.post(`${process.env.API_STRAPI}/api/orders`, {
         cartData: cartData,
         total: overAllSubtotal,
         email: email,

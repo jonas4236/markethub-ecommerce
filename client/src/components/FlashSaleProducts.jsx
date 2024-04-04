@@ -56,7 +56,7 @@ const FlashSaleProducts = ({ flash, slugCategory, wishlistData }) => {
         const {
           data: { data },
         } = await axios.get(
-          `http://localhost:1337/api/reviews?&filters[productId][$eq]=${FlashId}`
+          `${process.env.API_STRAPI}/api/reviews?&filters[productId][$eq]=${FlashId}`
         );
 
         setDataReviewCount(data);

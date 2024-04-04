@@ -28,7 +28,7 @@ const manage = () => {
   useEffect(() => {
     const getProfileData = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:1337/api/users/me`, {
+        const { data } = await axios.get(`${process.env.API_STRAPI}/api/users/me`, {
           headers: {
             Authorization: `bearer ${token}`,
           },
@@ -70,7 +70,7 @@ const manage = () => {
       setPasswordWarn(false);
       try {
         const response = await axios.post(
-          "http://localhost:1337/api/auth/change-password",
+          `${process.env.API_STRAPI}/api/auth/change-password`,
           {
             currentPassword: currentPassword,
             password: newPassword,
@@ -101,7 +101,7 @@ const manage = () => {
     if (newFullName) {
       try {
         const response = await axios.put(
-          `http://localhost:1337/api/users/${user.id}`,
+          `${process.env.API_STRAPI}/api/users/${user.id}`,
           {
             username: String(newFullName),
           },
@@ -121,11 +121,11 @@ const manage = () => {
         };
 
         await axios.put(
-          `http://localhost:1337/api/new-username/${username}`,
+          `${process.env.API_STRAPI}/api/new-username/${username}`,
           updateUsername
         );
         await axios.put(
-          `http://localhost:1337/api/wishlist/new-username/${username}`,
+          `${process.env.API_STRAPI}/api/wishlist/new-username/${username}`,
           updateWishlistUsername
         );
 
@@ -139,7 +139,7 @@ const manage = () => {
 
     if (newEmail) {
       axios.put(
-        `http://localhost:1337/api/users/${user.id}`,
+        `${process.env.API_STRAPI}/api/users/${user.id}`,
         {
           email: String(newEmail),
         },
@@ -153,7 +153,7 @@ const manage = () => {
 
     if (newAddress) {
       axios.put(
-        `http://localhost:1337/api/users/${user.id}`,
+        `${process.env.API_STRAPI}/api/users/${user.id}`,
         {
           address: String(newAddress),
         },
@@ -168,7 +168,7 @@ const manage = () => {
     if (newFullName && newEmail) {
       try {
         const response = await axios.put(
-          `http://localhost:1337/api/users/${user.id}`,
+          `${process.env.API_STRAPI}/api/users/${user.id}`,
           {
             username: String(newFullName),
           },
@@ -188,11 +188,11 @@ const manage = () => {
         };
 
         await axios.put(
-          `http://localhost:1337/api/new-username/${username}`,
+          `${process.env.API_STRAPI}/api/new-username/${username}`,
           updateUsername
         );
         await axios.put(
-          `http://localhost:1337/api/wishlist/new-username/${username}`,
+          `${process.env.API_STRAPI}/api/wishlist/new-username/${username}`,
           updateWishlistUsername
         );
 
@@ -201,7 +201,7 @@ const manage = () => {
         }
 
         await axios.put(
-          `http://localhost:1337/api/users/${user.id}`,
+          `${process.env.API_STRAPI}/api/users/${user.id}`,
           {
             email: String(newEmail),
           },
@@ -219,7 +219,7 @@ const manage = () => {
     if ((newFullName && newEmail) || newAddress) {
       try {
         const response = await axios.put(
-          `http://localhost:1337/api/users/${user.id}`,
+          `${process.env.API_STRAPI}/api/users/${user.id}`,
           {
             username: String(newFullName),
           },
@@ -239,11 +239,11 @@ const manage = () => {
         };
 
         await axios.put(
-          `http://localhost:1337/api/new-username/${username}`,
+          `${process.env.API_STRAPI}/api/new-username/${username}`,
           updateUsername
         );
         await axios.put(
-          `http://localhost:1337/api/wishlist/new-username/${username}`,
+          `${process.env.API_STRAPI}/api/wishlist/new-username/${username}`,
           updateWishlistUsername
         );
 
@@ -253,7 +253,7 @@ const manage = () => {
 
         if (newEmail) {
           await axios.put(
-            `http://localhost:1337/api/users/${user.id}`,
+            `${process.env.API_STRAPI}/api/users/${user.id}`,
             {
               email: String(newEmail),
             },
@@ -265,7 +265,7 @@ const manage = () => {
           );
         } else if (newAddress) {
           await axios.put(
-            `http://localhost:1337/api/users/${user.id}`,
+            `${process.env.API_STRAPI}/api/users/${user.id}`,
             {
               address: String(newAddress),
             },
@@ -284,7 +284,7 @@ const manage = () => {
     if (newFullName && newEmail && newAddress) {
       try {
         const response = await axios.put(
-          `http://localhost:1337/api/users/${user.id}`,
+          `${process.env.API_STRAPI}/api/users/${user.id}`,
           {
             username: String(newFullName),
           },
@@ -304,11 +304,11 @@ const manage = () => {
         };
 
         await axios.put(
-          `http://localhost:1337/api/new-username/${username}`,
+          `${process.env.API_STRAPI}/api/new-username/${username}`,
           updateUsername
         );
         await axios.put(
-          `http://localhost:1337/api/wishlist/new-username/${username}`,
+          `${process.env.API_STRAPI}/api/wishlist/new-username/${username}`,
           updateWishlistUsername
         );
 
@@ -317,7 +317,7 @@ const manage = () => {
         }
 
         await axios.put(
-          `http://localhost:1337/api/users/${user.id}`,
+          `${process.env.API_STRAPI}/api/users/${user.id}`,
           {
             email: String(newEmail),
           },
@@ -329,7 +329,7 @@ const manage = () => {
         );
 
         await axios.put(
-          `http://localhost:1337/api/users/${user.id}`,
+          `${process.env.API_STRAPI}/api/users/${user.id}`,
           {
             address: String(newAddress),
           },
@@ -369,7 +369,7 @@ const manage = () => {
     ) {
       try {
         const response = await axios.put(
-          `http://localhost:1337/api/users/${user.id}`,
+          `${process.env.API_STRAPI}/api/users/${user.id}`,
           {
             username: String(newFullName),
           },
@@ -389,11 +389,11 @@ const manage = () => {
         };
 
         await axios.put(
-          `http://localhost:1337/api/new-username/${username}`,
+          `${process.env.API_STRAPI}/api/new-username/${username}`,
           updateUsername
         );
         await axios.put(
-          `http://localhost:1337/api/wishlist/new-username/${username}`,
+          `${process.env.API_STRAPI}/api/wishlist/new-username/${username}`,
           updateWishlistUsername
         );
 
@@ -402,7 +402,7 @@ const manage = () => {
         }
 
         axios.put(
-          `http://localhost:1337/api/users/${user.id}`,
+          `${process.env.API_STRAPI}/api/users/${user.id}`,
           {
             email: String(newEmail),
           },
@@ -414,7 +414,7 @@ const manage = () => {
         );
 
         axios.put(
-          `http://localhost:1337/api/users/${user.id}`,
+          `${process.env.API_STRAPI}/api/users/${user.id}`,
           {
             address: String(newAddress),
           },
@@ -426,7 +426,7 @@ const manage = () => {
         );
 
         await axios.post(
-          "http://localhost:1337/api/auth/change-password",
+          `${process.env.API_STRAPI}/api/auth/change-password`,
           {
             currentPassword: currentPassword,
             password: newPassword,

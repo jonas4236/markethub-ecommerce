@@ -23,7 +23,7 @@ const Navbar = () => {
   useEffect(() => {
     const fetchTotalWishlist = async () => {
       try {
-        const urlWishlists = `http://localhost:1337/api/wishlists?&filters[username]=${username}`;
+        const urlWishlists = `${process.env.API_STRAPI}/api/wishlists?&filters[username]=${username}`;
         const res = await axios.get(urlWishlists);
 
         setWishlistTotal(res.data.meta?.pagination.total);
@@ -38,7 +38,7 @@ const Navbar = () => {
   useEffect(() => {
     const fetchTotalCart = async () => {
       try {
-        const urlCart = `http://localhost:1337/api/carts?&filters[username]=${username}`;
+        const urlCart = `${process.env.API_STRAPI}/api/carts?&filters[username]=${username}`;
         const res = await axios.get(urlCart);
 
         setCartTotal(res.data.meta?.pagination.total);

@@ -29,7 +29,7 @@ const Wishlist = () => {
   useEffect(() => {
     const fetchWishlist = async () => {
       try {
-        const urlWishlists = `http://localhost:1337/api/wishlists?&filters[username]=${username}`;
+        const urlWishlists = `${process.env.API_STRAPI}/api/wishlists?&filters[username]=${username}`;
         const res = await axios.get(urlWishlists);
 
         setDataWishlist(res.data);

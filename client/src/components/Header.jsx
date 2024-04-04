@@ -48,7 +48,7 @@ const Header = () => {
     const fetchMainCategories = async () => {
       try {
         const info = await axios.get(
-          "http://localhost:1337/api/main-categories?populate=*"
+          `${process.env.API_STRAPI}/api/main-categories?populate=*`
         );
 
         setDataCate(info.data);
@@ -64,7 +64,7 @@ const Header = () => {
     const fetchHeaderPromote = async () => {
       try {
         const promo = await axios.get(
-          "http://localhost:1337/api/header-promotes?populate=*"
+          `${process.env.API_STRAPI}/api/header-promotes?populate=*`
         );
 
         setDataPromote(promo.data.data);

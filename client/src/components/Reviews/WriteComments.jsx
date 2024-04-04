@@ -39,7 +39,7 @@ const WriteComments = ({ token, productId, setRating, setIsProductUpdate }) => {
     if (review.stars && review.text) {
       try {
         axios.post(
-          "http://localhost:1337/api/reviews",
+          `${process.env.API_STRAPI}/api/reviews`,
           {
             ...review,
             productId,

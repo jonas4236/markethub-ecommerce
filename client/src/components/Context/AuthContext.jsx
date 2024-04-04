@@ -42,7 +42,7 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   const login = async (user) => {
-    const url = "http://localhost:1337/api/auth/local";
+    const url = `${process.env.API_STRAPI}/api/auth/local`;
 
     try {
       if (user.identifier && user.password) {
@@ -75,7 +75,7 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   const register = async (username, email, password) => {
-    const url = "http://localhost:1337/api/auth/local/register";
+    const url = `${process.env.API_STRAPI}/api/auth/local/register`;
 
     const regis = {
       username: username,
@@ -107,7 +107,7 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   const addWishlist = async (wishlistData) => {
-    const urlWishlist = "http://localhost:1337/api/wishlists";
+    const urlWishlist = `${process.env.API_STRAPI}/api/wishlists`;
     const stringWlId = String(wishlistData.wlId);
     const stringPricePerPiece = String(wishlistData.priceperpiece);
     const stringDiscount = String(wishlistData.discount);
@@ -150,7 +150,7 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   const addCart = async (Cart) => {
-    const urlCart = "http://localhost:1337/api/carts";
+    const urlCart = `${process.env.API_STRAPI}/api/carts`;
     const NumberPrice = Number(Cart.priceperpiece);
 
     const cartItems = {
@@ -192,7 +192,7 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   const removeWishlist = async (id) => {
-    const urlRemoveWishlist = `http://localhost:1337/api/wishlists/${id}`;
+    const urlRemoveWishlist = `${process.env.API_STRAPI}/api/wishlists/${id}`;
     const { data } = await axios.delete(urlRemoveWishlist);
     if (data) {
       Swal.fire({
@@ -206,7 +206,7 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   const removeCart = async (id) => {
-    const urlRemoveCart = `http://localhost:1337/api/carts/${id}`;
+    const urlRemoveCart = `${process.env.API_STRAPI}/api/carts/${id}`;
     const { data } = await axios.delete(urlRemoveCart);
     if (data) {
       Swal.fire({
@@ -220,7 +220,7 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   const updateCart = async (cartItemId, updatedData, updatedTitle) => {
-    const urlUpdateCart = `http://localhost:1337/api/carts/${cartItemId}`;
+    const urlUpdateCart = `${process.env.API_STRAPI}/api/carts/${cartItemId}`;
 
     // regex / non-greedy เปลี่ยนค่า(replace) อะไรก็ตามที่อยู่ใน "[]" bracket example: Air Jordan 1 Mid SE [UK 9] to ตามด้วยค่าปัจจุบันที่ทำการอัพเดตไป(Air Jordan 1 Mid SE [updatedData]) หรือ exmaple = Air Jordan 1 Mid SE [UK 10] / "UK 10" คือค่าไหม่ที่ทำการ updated จาก frontend.
     const updatedTitleWithSize = updatedTitle.replace(
@@ -253,7 +253,7 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   const updateQuantiy = async (ProductId, updatedQuan) => {
-    const urlUpdateQuantity = `http://localhost:1337/api/carts/${ProductId}`;
+    const urlUpdateQuantity = `${process.env.API_STRAPI}/api/carts/${ProductId}`;
 
     const updateQuan = {
       data: {
@@ -287,7 +287,7 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   const updateStars = async (id, receiveStars) => {
-    const urlUpdateStars = `http://localhost:1337/api/products/${id}`;
+    const urlUpdateStars = `${process.env.API_STRAPI}/api/products/${id}`;
 
     const updateStar = {
       data: {
@@ -356,7 +356,7 @@ export const AuthContextProvider = ({ children }) => {
       const fetchTotal = async () => {
         try {
           const res = await axios.get(
-            `http://localhost:1337/api/carts?populate=*&filters[username][$eq]=${username}`
+            `${process.env.API_STRAPI}/api/carts?populate=*&filters[username][$eq]=${username}`
           );
           setCartData(res.data);
 

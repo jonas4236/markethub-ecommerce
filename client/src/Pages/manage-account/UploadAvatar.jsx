@@ -15,7 +15,7 @@ import {
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:1337/api";
+const API_BASE_URL = `${process.env.API_STRAPI}/api`;
 
 const UploadAvatar = ({
   token,
@@ -59,7 +59,7 @@ const UploadAvatar = ({
         }
       );
 
-      const { data } = await axios.get(`http://localhost:1337/api/users/me`, {
+      const { data } = await axios.get(`${process.env.API_STRAPI}/api/users/me`, {
         headers: {
           Authorization: `bearer ${token}`,
         },
